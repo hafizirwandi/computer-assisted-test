@@ -1,0 +1,84 @@
+ @extends('layouts.main-layout.app')
+ @section('title', 'Create Butir Soal')
+ @section('css')
+     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+ @endsection
+ @section('content')
+
+
+
+
+     <div class="card mb-4">
+         <div class="card-body">
+
+             <form class="row g-3" method="post" action="{{ route('soal.butirsoal.update', $data->id) }}">
+                 @csrf
+                 @method('PUT')
+                 <input type="hidden" name="soal_id" value="{{ $data->soal_id }}">
+                 <div class="col-12 col-md-12">
+                     <label class="form-label">Soal</label>
+                     <textarea name="soal" class="form-control summernote" required>{{ $data->soal }}</textarea>
+                 </div>
+                 <div class="col-12 col-md-12">
+                     <label class="form-label">Jawaban A</label>
+                     <textarea name="jawaban_a" class="form-control summernote" required>{{ $data->jawaban_a }}</textarea>
+                 </div>
+                 <div class="col-12 col-md-12">
+                     <label class="form-label">Jawaban B</label>
+                     <textarea name="jawaban_b" class="form-control summernote" required>{{ $data->jawaban_b }}</textarea>
+                 </div>
+
+                 <div class="col-12 col-md-12">
+                     <label class="form-label">Jawaban C</label>
+                     <textarea name="jawaban_c" class="form-control summernote" required>{{ $data->jawaban_c }}</textarea>
+                 </div>
+                 <div class="col-12 col-md-12">
+                     <label class="form-label">Jawaban D</label>
+                     <textarea name="jawaban_d" class="form-control summernote" required>{{ $data->jawaban_d }}</textarea>
+                 </div>
+                 <div class="col-12 col-md-12">
+                     <label class="form-label">Jawaban E</label>
+                     <textarea name="jawaban_e" class="form-control summernote" required>{{ $data->jawaban_e }}</textarea>
+                 </div>
+                 <div class="col-12 col-md-6">
+                     <label class="form-label">Jawaban Benar</label>
+                     <select name="jawaban_benar" class="form-control" placeholder="Enter Text" required>
+                         <option value="">-- Pilih --</option>
+                         @php $const = ['A','B','C','D','E'] ;@endphp
+                         @foreach ($const as $r)
+                             <option value="{{ $r }}" {{ $data->jawaban_benar == $r ? 'selected' : '' }}>
+                                 {{ $r }}</option>
+                         @endforeach
+
+                     </select>
+                 </div>
+                 <div class="col-12 col-md-6">
+                     <label class="form-label">Poin Benar</label>
+                     <input type="text" name="poin_benar" class="form-control" placeholder="Enter Text"
+                         value="{{ $data->poin_benar }}" required />
+                 </div>
+
+
+                 <div class="col-12 text-center">
+                     <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                     <button type="reset" class="btn btn-label-secondary">
+                         Cancel
+                     </button>
+                 </div>
+             </form>
+
+         </div>
+     </div>
+ @endsection
+
+ @section('script')
+
+     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+     <script>
+         $(document).ready(function() {
+             $('.summernote').summernote({
+                 height: 300
+             });
+         });
+     </script>
+ @endsection
