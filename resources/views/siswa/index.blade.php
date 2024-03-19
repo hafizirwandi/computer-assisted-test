@@ -7,6 +7,42 @@
          <i class="ti ti-plus ti-sm me-2"></i>Tambah Siswa
      </button>
 
+     <button onclick="importData()" class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
+         <i class="ti ti-transfer-in ti-sm me-2"></i>Import Siswa
+     </button>
+
+     <div class="alert alert-primary" role="alert">
+         <form action="">
+             <div class="row g-3">
+                 <div class="col-md-5">
+                     <select id="sekolah" name="sekolah" class="form-control" placeholder="Enter Text">
+                         <option value="">-- Pilih Sekolah--</option>
+                         @foreach ($sekolah as $r)
+                             <option value="{{ $r->id }}"
+                                 {{ $r->id == request()->get('sekolah') ? 'selected' : '' }}>{{ $r->nama }}
+                             </option>
+                         @endforeach
+                     </select>
+                 </div>
+
+                 <div class="col-md-6">
+                     <select id="kelas" name="kelas" class="form-control" placeholder="Enter Text">
+                         <option value="">-- Pilih Kelas--</option>
+                         @if (request()->get('kelas'))
+                             <option value="{{ request()->get('kelas') }}" selected>{{ request()->get('kelas') }}
+                             </option>
+                         @endif
+
+                     </select>
+                 </div>
+                 <div class="col-md-1">
+                     <button type="submit" class="btn btn-warning  text-nowrap  btn-sm waves-effect waves-light">
+                         <i class="ti ti-search ti-sm me-2"></i>Cari
+                     </button>
+                 </div>
+             </div>
+         </form>
+     </div>
      <div class="card mb-4">
          <div class="card-body">
 
@@ -17,6 +53,7 @@
                          <tr>
                              <th>NIS</th>
                              <th>Nama</th>
+                             <th>Username</th>
                              <th>Sekolah</th>
                              <th>Kelas</th>
                              <th>Status</th>
@@ -29,6 +66,7 @@
                              <tr>
                                  <td>{{ $r->nis }}</td>
                                  <td>{{ $r->nama }}</td>
+                                 <td>{{ $r->username }}</td>
                                  <td>{{ $r->sekolah->nama }}</td>
                                  <td>{{ $r->kelas }}</td>
                                  <td> {!! statusUser($r->status) !!} </td>
@@ -86,6 +124,41 @@
              $("#myModal").modal("show");
 
          }
-     </script>
 
+         function importData() {
+
+             $("#myModal .modal-body").load("{{ route('siswa.import') }}");
+             $("#myModal").modal("show");
+
+         }
+     </script>
+     <script>
+         // Event listener untuk perubahan pada dropdown sekolah
+         $('#sekolah').change(function() {
+             var sekolah_id = $(this).val(); // Mendapatkan nilai ID sekolah yang dipilih
+
+             // Mengirim permintaan Ajax untuk mendapatkan data kelas berdasarkan sekolah
+             $.ajax({
+                 url: "{{ route('siswa.getKelas') }}",
+                 method: 'POST',
+                 data: {
+                     _token: '{{ csrf_token() }}',
+                     sekolah_id: sekolah_id
+                 },
+                 success: function(response) {
+                     // Menghapus semua opsi pada dropdown kelas
+                     $('#kelas').empty();
+                     // Menambahkan opsi untuk setiap kelas yang diterima dari server
+                     $.each(response, function(index, kelas) {
+                         $('#kelas').append('<option value="' + kelas.kelas + '">' + kelas
+                             .kelas +
+                             '</option>');
+                     });
+                 },
+                 error: function(xhr) {
+                     console.log(xhr.responseText);
+                 }
+             });
+         });
+     </script>
  @endsection

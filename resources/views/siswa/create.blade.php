@@ -14,6 +14,10 @@
           <input type="text" name="nama" class="form-control" placeholder="Enter Text" required />
       </div>
       <div class="col-12 col-md-6">
+          <label class="form-label">Username</label>
+          <input type="text" name="username" class="form-control" placeholder="Enter Text" required />
+      </div>
+      <div class="col-12 col-md-6">
           <label class="form-label">Sekolah</label>
           <select name="sekolah_id" class="form-control" placeholder="Enter Text" required>
               <option value="">-- Pilih --</option>

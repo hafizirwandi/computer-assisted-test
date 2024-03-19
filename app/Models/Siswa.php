@@ -14,8 +14,11 @@ class Siswa extends Model
     protected $fillable = [
         'nis',
         'nama',
+        'username',
         'sekolah_id',
         'kelas',
+        'password',
+        'status',
     ];
     protected $hidden = [
         'password',

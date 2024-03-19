@@ -69,11 +69,16 @@ Breadcrumbs::for('soal.butirsoal.edit', function (BreadcrumbTrail $trail, $id) {
 Breadcrumbs::for('siswa', function (BreadcrumbTrail $trail) {
     $trail->push('Siswa', route('siswa'));
 });
+// Breadcrumbs::for('siswa.import', function (BreadcrumbTrail $trail) {
+//     $trail->parent('siswa');
+//     $trail->push('Import', route('siswa.import'));
+// });
 
 //Cat
 Breadcrumbs::for('cat', function (BreadcrumbTrail $trail) {
     $trail->push('Computer Assisted Test', route('cat'));
 });
+
 
 // // Home > Blog
 // Breadcrumbs::for('blog', function (BreadcrumbTrail $trail) {

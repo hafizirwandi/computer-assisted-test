@@ -98,6 +98,9 @@ Route::middleware('auth:web')->group(function () {
     Route::post('/siswa', [SiswaController::class, 'saveOrUpdate'])->name('siswa.store');
     Route::put('/siswa/{id}', [SiswaController::class, 'saveOrUpdate'])->name('siswa.update');
     Route::delete('/siswa/delete', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+    Route::get('/siswa/import', [SiswaController::class, 'import'])->name('siswa.import');
+    Route::post('/siswa/uploadImportFile', [SiswaController::class, 'uploadImportFile'])->name('siswa.uploadImportFile');
+    Route::post('/siswa/getKelas', [SiswaController::class, 'getKelas'])->name('siswa.getKelas');
 
     Route::get('/cat', [CatController::class, 'index'])->name('cat');
 });

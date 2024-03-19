@@ -1,5 +1,14 @@
  @extends('layouts.main-layout.app')
  @section('title', 'Butir Soal')
+ @section('css')
+     <style>
+         .box-jwb {
+             border: 1px solid #dbdade;
+             border-radius: 10px;
+             margin-bottom: 10px;
+         }
+     </style>
+ @endsection
  @section('content')
 
 
@@ -15,7 +24,6 @@
                  <thead>
                      <tr>
                          <th>Soal</th>
-                         <th>Action</th>
                      </tr>
                  </thead>
                  <tbody>
@@ -26,23 +34,23 @@
                              <td>{!! $r->soal !!}
                                  <br>
                                  <div class="row">
-                                     <div class="col-md-6">
+                                     <div class="col-md-12 box-jwb">
                                          (A)
                                          <br> {!! $r->jawaban_a !!}
                                      </div>
-                                     <div class="col-md-6">
+                                     <div class="col-md-12 box-jwb">
                                          (B)
                                          <br> {!! $r->jawaban_b !!}
                                      </div>
-                                     <div class="col-md-6">
+                                     <div class="col-md-12 box-jwb">
                                          (C)
                                          <br> {!! $r->jawaban_c !!}
                                      </div>
-                                     <div class="col-md-6">
+                                     <div class="col-md-12 box-jwb">
                                          (D)
                                          <br> {!! $r->jawaban_d !!}
                                      </div>
-                                     <div class="col-md-6">
+                                     <div class="col-md-12 box-jwb">
                                          (E)
                                          <br> {!! $r->jawaban_e !!}
                                      </div>
@@ -50,8 +58,6 @@
 
                                  <h6>Jawaban : {{ $r->jawaban_benar }}</h6>
                                  <h6>Poin : {{ $r->poin_benar }} </h6>
-                             </td>
-                             <td>
                                  <div class="d-flex align-items-center">
                                      <a href="{{ route('soal.butirsoal.edit', $r->id) }}" class="text-body">
                                          <i class="ti ti-edit ti-sm me-2"></i>

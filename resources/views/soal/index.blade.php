@@ -18,7 +18,7 @@
                              <th>Nama</th>
                              <th>Matapelajaran</th>
                              <th>Kode Soal</th>
-
+                             <th>Jlh Soal</th>
                              <th>Created at</th>
                              <th>Action</th>
                          </tr>
@@ -29,8 +29,10 @@
                                  <td>{{ $r->nama }}</td>
                                  <td>{{ $r->matapelajaran->nama }}</td>
                                  <td>{{ $r->kode_soal }}</td>
+                                 <td>{{ count($r->butirsoal) }}</td>
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
+
                                  <td>
                                      <div class="d-flex align-items-center">
                                          <a href="{{ route('soal.detail', $r->id) }}" class="text-body">

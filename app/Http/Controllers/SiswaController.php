@@ -10,9 +10,19 @@ use Illuminate\Support\Facades\Hash;
 
 class SiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data['data'] = Siswa::with('sekolah')->get();
+
+        $siswa = Siswa::query();
+        if ($request->query('sekolah')) {
+            $siswa->where('sekolah_id', $request->query('sekolah'));
+        }
+        if ($request->query('kelas')) {
+            $siswa->where('kelas', $request->query('kelas'));
+        }
+        $data['sekolah'] = Sekolah::all();
+
+        $data['data'] = $siswa->get();
         return view('siswa.index', $data);
     }
 
@@ -21,6 +31,7 @@ class SiswaController extends Controller
         $data['sekolah'] = Sekolah::all();
         return view('siswa.create', $data);
     }
+
     public function edit($id)
     {
         $data['sekolah'] = Sekolah::all();
@@ -34,6 +45,7 @@ class SiswaController extends Controller
         try {
             $rules = [
                 'nama' => 'required',
+                'username' => 'required',
                 'sekolah_id' => 'required',
                 'kelas' => 'required',
                 'status' => 'required|in:0,1,2',
@@ -78,5 +90,69 @@ class SiswaController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
+    }
+    public function import()
+    {
+        $data['sekolah'] = Sekolah::all();
+        return view('siswa.import', $data);
+    }
+
+    public function uploadImportFile(Request $request)
+    {
+        try {
+            $request->validate([
+                'sekolah_id' => 'required',
+                'excel_file' => 'required|mimes:xls,xlsx|max:10048', // Memeriksa bahwa file adalah Excel dengan maksimum ukuran 10MB
+            ]);
+
+            $file = $request->file('excel_file');
+
+            $importedData = uploadAndReadExcel($file);
+
+            for ($i = 1; $i < count($importedData); $i++) {
+                $data = $importedData[$i];
+                try {
+                    $newStudent = [
+                        'nis' => $data[1],
+                        'nama' => $data[2],
+                        'username' => $data[3],
+                        'password' => Hash::make($data[3]),
+                        'status' => '1',
+                        'kelas' => $data[4],
+                        'sekolah_id' => $request->input('sekolah_id'),
+                    ];
+
+                    Siswa::create($newStudent);
+                } catch (\Exception $e) {
+                    // Menangkap kesalahan dan menyimpannya dalam array
+                    $errors[] = [
+                        'row' => $i + 1, // Nomor baris (ditambah 1 karena array dimulai dari 0)
+                        'message' => $e->getMessage(), // Pesan kesalahan
+                    ];
+                }
+            }
+            // Lakukan sesuatu dengan array $errors, misalnya tampilkan atau simpan ke log
+            // if (!empty($errors)) {
+            //     return back()->with('error', 'Ada Duplikat NIS');
+            // } else {
+            //     return back()->with('success', 'Data Berhasil di Import');
+            // }
+
+            return back()->with('success', 'Data Berhasil di Import');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+            return back()->with('error', $e->getMessage());
+        }
+    }
+    public function getKelas(Request $request)
+    {
+        $sekolah_id = $request->input('sekolah_id');
+
+        $kelas = Siswa::select('kelas')
+            ->where('sekolah_id', $sekolah_id)
+            ->groupBy('kelas')
+            ->get();
+
+        return response()->json($kelas);
     }
 }
