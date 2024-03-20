@@ -24,7 +24,14 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             // Authentication passed...
-            return redirect()->intended('/home');
+            // Periksa status pengguna
+            $user = Auth::user();
+            if ($user->status == 1) {
+                return redirect()->intended('/home');
+            } else {
+                Auth::logout(); // Logout jika status pengguna bukan 1
+                return redirect()->back()->withErrors(['username' => 'Your account is not active']);
+            }
         }
 
         return redirect()->back()->withInput()->withErrors(['username' => 'Invalid username or password']);

@@ -13,7 +13,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('vuexy/assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon-tutwurihandayani.png') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -78,7 +78,18 @@
             <div class="d-flex col-12 col-lg-5 align-items-center p-sm-5 p-4">
                 <div class="w-px-400 mx-auto">
 
+                    <!-- Logo -->
+                    <div class="app-brand justify-content-center mb-4 mt-2">
+                        <a href="{{ route('login') }}" class="app-brand-link gap-2">
+                            <span class="app-brand-logo">
+                                <img style="height:68px" src="{{ asset('logo-tutwurihandayani.png') }}" alt="">
 
+                            </span>
+
+                            <span class="app-brand-text demo text-body fw-bold ms-1">Computer Assisted Test</span>
+                        </a>
+                    </div>
+                    <!-- /Logo -->
                     <form id="formAuthentication" class="mb-3" action="index.html" method="GET">
                         <div class="mb-3">
                             <label class="form-label">NIS</label>
