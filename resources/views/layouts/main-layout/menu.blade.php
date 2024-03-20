@@ -76,10 +76,23 @@
                   <div data-i18n="User">Siswa</div>
               </a>
           </li>
+
+          <li class="menu-item {{ request()->routeIs('pengaturan-ujian*') ? 'active' : '' }}">
+              <a href="{{ route('pengaturan-ujian') }}" class="menu-link">
+                  <i class="menu-icon tf-icons ti ti-forms"></i>
+                  <div data-i18n="User">Pengaturan Ujian</div>
+              </a>
+          </li>
           <li class="menu-item {{ request()->routeIs('cat*') ? 'active' : '' }}">
               <a href="{{ route('cat') }}" class="menu-link">
                   <i class="menu-icon tf-icons ti ti-device-desktop"></i>
                   <div data-i18n="User">CAT</div>
+              </a>
+          </li>
+          <li class="menu-item">
+              <a href="" class="menu-link">
+                  <i class="menu-icon tf-icons ti ti-file-description"></i>
+                  <div data-i18n="User">Dokumentasi</div>
               </a>
           </li>
       </ul>

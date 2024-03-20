@@ -12,6 +12,7 @@ use App\Http\Controllers\MatapelajaranController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\CatController;
+use App\Http\Controllers\PengaturanUjianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,14 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/siswa/import', [SiswaController::class, 'import'])->name('siswa.import');
     Route::post('/siswa/uploadImportFile', [SiswaController::class, 'uploadImportFile'])->name('siswa.uploadImportFile');
     Route::post('/siswa/getKelas', [SiswaController::class, 'getKelas'])->name('siswa.getKelas');
+
+    Route::get('/pengaturan-ujian', [PengaturanUjianController::class, 'index'])->name('pengaturan-ujian');
+    Route::get('/pengaturan-ujian/create', [PengaturanUjianController::class, 'create'])->name('pengaturan-ujian.create');
+    Route::get('/pengaturan-ujian/edit/{id}', [PengaturanUjianController::class, 'edit'])->name('pengaturan-ujian.edit');
+    Route::post('/pengaturan-ujian', [PengaturanUjianController::class, 'saveOrUpdate'])->name('pengaturan-ujian.store');
+    Route::put('/pengaturan-ujian/{id}', [PengaturanUjianController::class, 'saveOrUpdate'])->name('pengaturan-ujian.update');
+    Route::delete('/pengaturan-ujian/delete', [PengaturanUjianController::class, 'destroy'])->name('pengaturan-ujian.destroy');
+
 
     Route::get('/cat', [CatController::class, 'index'])->name('cat');
 });

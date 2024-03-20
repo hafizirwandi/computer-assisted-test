@@ -21,6 +21,40 @@ if (!function_exists('statusUser')) {
         }
     }
 }
+if (!function_exists('statusIsRandomSoal')) {
+    function statusIsRandomSoal($status)
+    {
+        switch ($status) {
+            case 1:
+                return '<span class="badge bg-label-success" text-capitalized="">Active</span>';
+
+            case 0:
+                return '<span class="badge bg-label-secondary" text-capitalized="">Pending</span>';
+
+
+
+            default:
+                return '';
+        }
+    }
+}
+if (!function_exists('statusGeneral')) {
+    function statusGeneral($status)
+    {
+        switch ($status) {
+            case 1:
+                return '<span class="badge bg-label-success" text-capitalized="">Active</span>';
+
+            case 0:
+                return '<span class="badge bg-label-secondary" text-capitalized="">Pending</span>';
+
+
+
+            default:
+                return '';
+        }
+    }
+}
 if (!function_exists('uploadAndReadExcel')) {
     function uploadAndReadExcel($file)
     {
