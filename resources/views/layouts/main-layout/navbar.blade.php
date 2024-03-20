@@ -37,7 +37,7 @@
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar">
-                        <span class="avatar-initial rounded-circle bg-label-info">A</span>
+                        <img src="{{ asset('avatar.jpg') }}" alt class="h-auto rounded-circle" />
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
@@ -46,7 +46,7 @@
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar">
-                                        <span class="avatar-initial rounded-circle bg-label-info">A</span>
+                                        <img src="{{ asset('avatar.jpg') }}" alt class="h-auto rounded-circle" />
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
@@ -58,6 +58,12 @@
                                     </small>
                                 </div>
                             </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ route('ganti-password') }}">
+                            <i class="ti ti-lock me-2 ti-sm"></i>
+                            <span class="align-middle">Ganti Password</span>
                         </a>
                     </li>
                     <li>

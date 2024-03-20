@@ -74,6 +74,10 @@ Breadcrumbs::for('siswa', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('pengaturan-ujian', function (BreadcrumbTrail $trail) {
     $trail->push('Pengaturan Ujian', route('pengaturan-ujian'));
 });
+//Ganti Password
+Breadcrumbs::for('ganti-password', function (BreadcrumbTrail $trail) {
+    $trail->push('Ganti Password', route('ganti-password'));
+});
 //Cat
 Breadcrumbs::for('cat', function (BreadcrumbTrail $trail) {
     $trail->push('Computer Assisted Test', route('cat'));
