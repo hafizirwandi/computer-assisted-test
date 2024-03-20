@@ -110,6 +110,8 @@ Route::middleware('auth:web')->group(function () {
     Route::put('/pengaturan-ujian/{id}', [PengaturanUjianController::class, 'saveOrUpdate'])->name('pengaturan-ujian.update');
     Route::delete('/pengaturan-ujian/delete', [PengaturanUjianController::class, 'destroy'])->name('pengaturan-ujian.destroy');
 
+    Route::get('/ganti-password', [AuthController::class, 'gantiPassword'])->name('ganti-password');
+    Route::post('/ganti-password', [AuthController::class, 'saveGantiPassword'])->name('ganti-password.save');
 
     Route::get('/cat', [CatController::class, 'index'])->name('cat');
 });
