@@ -5,26 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ButirSoal extends Model
+class PemetaanSoal extends Model
 {
     use HasFactory;
-    protected $table = 'butir_soal';
+    protected $table = 'pemetaan_soal';
     protected $fillable = [
+        'nomor',
+        'butirsoal_id',
         'soal_id',
-        'soal',
-        'jawaban_a',
-        'jawaban_b',
-        'jawaban_c',
-        'jawaban_d',
-        'jawaban_e',
         'jawaban_benar',
+        'jawaban',
         'poin_benar',
+        'kode_ujian',
+        'nis',
     ];
     protected $hidden = [
         'jawaban_benar',
     ];
-    public function soal()
+    public function butirSoal()
     {
-        return $this->belongsTo(Soal::class, 'soal_id', 'id');
+        return $this->belongsTo(ButirSoal::class, 'butirsoal_id', 'id');
     }
 }

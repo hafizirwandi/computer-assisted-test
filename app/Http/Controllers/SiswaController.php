@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Siswa;
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
@@ -154,5 +155,11 @@ class SiswaController extends Controller
             ->get();
 
         return response()->json($kelas);
+    }
+    public function profileSiswa()
+    {
+        $data['data'] = Siswa::with('sekolah')->find(Auth::guard('siswa')->id());
+        //dd($data);
+        return view('siswa.profile', $data);
     }
 }

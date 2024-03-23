@@ -18,12 +18,16 @@ class AuthController extends Controller
     }
     public function auth(Request $request)
     {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
 
         //dd($request->all());
         $credentials = $request->only('username', 'password');
-        $remember = $request->has('remember'); // Memeriksa apakah opsi Remember Me dicentang
 
-        if (Auth::attempt($credentials, $remember)) {
+
+        if (Auth::attempt($credentials)) {
             // Authentication passed...
             // Periksa status pengguna
             $user = Auth::user();
@@ -40,7 +44,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $guard = Auth::getDefaultDriver();
+        $guard = 'web';
+        if (Auth::guard('siswa')->check()) $guard = 'siswa';
+
 
         Auth::logout();
 
@@ -86,5 +92,30 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
+    }
+    public function authSiswa(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        //dd($request->all());
+        $credentials = $request->only('nis', 'password');
+
+
+        if (Auth::guard('siswa')->attempt($credentials)) {
+            // Authentication passed...
+            // Periksa status pengguna
+            $siswa = Auth::guard('siswa')->user();
+
+            if ($siswa->status == 1) {
+                return redirect()->intended('/home-siswa');
+            } else {
+                Auth::logout(); // Logout jika status pengguna bukan 1
+                return redirect()->back()->withErrors(['username' => 'Your account is not active']);
+            }
+        }
+
+        return redirect()->back()->withInput()->withErrors(['username' => 'Invalid username or password']);
     }
 }

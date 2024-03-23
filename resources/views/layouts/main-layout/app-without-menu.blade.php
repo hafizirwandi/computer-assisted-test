@@ -9,12 +9,9 @@
 
 <body>
     <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar ">
+    <div class="layout-wrapper layout-content-navbar layout-without-menu">
         <div class="layout-container">
-            <!-- Menu -->
 
-            @include('layouts.main-layout.menu')
-            <!-- / Menu -->
 
             <!-- Layout container -->
             <div class="layout-page">
@@ -29,7 +26,8 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
-                        {{ Breadcrumbs::render() }}
+                        {{-- {{ Breadcrumbs::render() }} --}}
+                        <div class="mb-5"></div>
                         @yield('content')
                     </div>
                     <!-- / Content -->

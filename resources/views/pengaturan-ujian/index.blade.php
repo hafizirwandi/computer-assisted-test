@@ -17,7 +17,9 @@
                          <tr>
                              <th>Kode Ujian</th>
                              <th>Tanggal Ujian</th>
+                             <th>Waktu</th>
                              <th>Soal</th>
+                             <th>Jlh Soal</th>
                              <th>Is Random</th>
                              <th>Status</th>
                              <th>Created at</th>
@@ -30,7 +32,9 @@
                                  <td>{{ $r->kode_ujian }}</td>
                                  <td>{{ \Carbon\Carbon::parse($r->tanggal_ujian)->isoFormat('dddd, D MMM YYYY') }}
                                  </td>
+                                 <td>{{ $r->waktu }} Menit</td>
                                  <td>{{ $r->soal->kode_soal . ' - ' . $r->soal->nama }}</td>
+                                 <td>{{ $r->jlh_soal }}</td>
                                  <td>{!! statusIsRandomSoal($r->is_random) !!}</td>
                                  <td>{!! statusGeneral($r->status) !!}</td>
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}

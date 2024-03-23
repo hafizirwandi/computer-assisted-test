@@ -28,6 +28,7 @@ use App\Http\Controllers\PengaturanUjianController;
 Route::get('/login-admin', [AuthController::class, 'loginFormAdmin'])->name('login');
 Route::get('/login', [AuthController::class, 'loginFormSiswa'])->name('login-siswa');
 Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
+Route::post('/auth-siswa', [AuthController::class, 'authSiswa'])->name('auth.siswa');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
@@ -40,6 +41,7 @@ Route::get('/', function () {
 
 Route::middleware('auth:web')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+
     Route::get('/user', [UserController::class, 'index'])->name('user');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
@@ -112,6 +114,14 @@ Route::middleware('auth:web')->group(function () {
 
     Route::get('/ganti-password', [AuthController::class, 'gantiPassword'])->name('ganti-password');
     Route::post('/ganti-password', [AuthController::class, 'saveGantiPassword'])->name('ganti-password.save');
+});
 
+Route::middleware('auth:siswa')->group(function () {
+    Route::get('/profile', [SiswaController::class, 'profileSiswa'])->name('profile');
+    Route::get('/home-siswa', [HomeController::class, 'siswa'])->name('home.siswa');
     Route::get('/cat', [CatController::class, 'index'])->name('cat');
+    Route::post('/cat/check-kode-ujian', [CatController::class, 'checkKodeUjian'])->name('cat.checkKodeUjian');
+    Route::get('/cat/mulai/{id}', [CatController::class, 'mulai'])->name('cat.mulai');
+    Route::post('/cat/get-soal', [CatController::class, 'getSoal'])->name('cat.getSoal');
+    Route::post('/cat/update-jawaban', [CatController::class, 'updateJawaban'])->name('cat.updateJawaban');
 });

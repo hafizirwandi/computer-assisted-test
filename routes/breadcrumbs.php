@@ -78,11 +78,24 @@ Breadcrumbs::for('pengaturan-ujian', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('ganti-password', function (BreadcrumbTrail $trail) {
     $trail->push('Ganti Password', route('ganti-password'));
 });
+
+
+// Auth::siswa
+Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {
+    $trail->push('Home', route('home.siswa'));
+});
+//Profile
+Breadcrumbs::for('profile', function (BreadcrumbTrail $trail) {
+    $trail->push('Profile', route('profile'));
+});
 //Cat
 Breadcrumbs::for('cat', function (BreadcrumbTrail $trail) {
     $trail->push('Computer Assisted Test', route('cat'));
 });
-
+Breadcrumbs::for('cat.mulai', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('cat');
+    $trail->push('Mulai', route('cat.mulai', $id));
+});
 
 
 // // Home > Blog

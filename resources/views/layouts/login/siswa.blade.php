@@ -90,7 +90,11 @@
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <form id="formAuthentication" class="mb-3" action="index.html" method="GET">
+                    @if ($errors->any())
+                        <center><small class="text-danger">{{ $errors->first() }}</small></center>
+                    @endif
+                    <form class="mb-3" action="{{ route('auth.siswa') }}" method="POST">
+                        @csrf
                         <div class="mb-3">
                             <label class="form-label">NIS</label>
                             <input type="text" class="form-control" name="nis" placeholder="Masukkan NIS"
@@ -102,14 +106,14 @@
 
                             </div>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="password"
+                                <input type="password" class="form-control" name="password"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                     aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                             </div>
                         </div>
 
-                        <button class="btn btn-primary d-grid w-100">Sign in</button>
+                        <button type="submit" class="btn btn-primary d-grid w-100">Sign in</button>
                     </form>
 
 

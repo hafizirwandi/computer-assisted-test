@@ -11,10 +11,12 @@ class PengaturanUjian extends Model
     protected $table = 'pengaturan_ujian';
     protected $fillable = [
         'kode_ujian',
+        'waktu',
         'tanggal_ujian',
         'is_random',
         'status',
         'soal_id',
+        'jlh_soal',
     ];
     public function soal()
     {

@@ -7,7 +7,7 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Siswa extends Model
+class Siswa extends Model implements AuthenticatableContract
 {
     use HasFactory, Authenticatable;
     protected $table = 'siswa';

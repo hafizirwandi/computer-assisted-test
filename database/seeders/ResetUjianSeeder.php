@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\ButirSoal;
 
-class ButirSoalSeeder extends Seeder
+class ResetUjianSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +15,5 @@ class ButirSoalSeeder extends Seeder
     public function run()
     {
         //
-        ButirSoal::factory()->count(50)->create();
     }
 }
