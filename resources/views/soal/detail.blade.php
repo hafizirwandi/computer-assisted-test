@@ -7,6 +7,15 @@
              border-radius: 10px;
              margin-bottom: 10px;
          }
+
+         .styled-list {
+             list-style-type: lower-alpha;
+             margin-left: 10px;
+         }
+
+         .styled-list li {
+             margin-left: 10px;
+         }
      </style>
  @endsection
  @section('content')
@@ -19,65 +28,56 @@
 
      <div class="card mb-4">
          <div class="card-body">
-
-             <table class="table">
-                 <thead>
-                     <tr>
-                         <th>Soal</th>
-                     </tr>
-                 </thead>
-                 <tbody>
-
-                     @foreach ($data->butirSoal as $r)
+             <div class="table-responsive">
+                 <table class="table datatable">
+                     <thead>
                          <tr>
-
-                             <td>{!! $r->soal !!}
-                                 <br>
-                                 <div class="row">
-                                     <div class="col-md-12 box-jwb">
-                                         (A)
-                                         <br> {!! $r->jawaban_a !!}
-                                     </div>
-                                     <div class="col-md-12 box-jwb">
-                                         (B)
-                                         <br> {!! $r->jawaban_b !!}
-                                     </div>
-                                     <div class="col-md-12 box-jwb">
-                                         (C)
-                                         <br> {!! $r->jawaban_c !!}
-                                     </div>
-                                     <div class="col-md-12 box-jwb">
-                                         (D)
-                                         <br> {!! $r->jawaban_d !!}
-                                     </div>
-                                     <div class="col-md-12 box-jwb">
-                                         (E)
-                                         <br> {!! $r->jawaban_e !!}
-                                     </div>
-                                 </div>
-
-                                 <h6>Jawaban : {{ $r->jawaban_benar }}</h6>
-                                 <h6>Poin : {{ $r->poin_benar }} </h6>
-                                 <div class="d-flex align-items-center">
-                                     <a href="{{ route('soal.butirsoal.edit', $r->id) }}" class="text-body">
-                                         <i class="ti ti-edit ti-sm me-2"></i>
-                                     </a>
-                                     <form method="post" action="{{ route('soal.butirsoal.destroy') }}">
-                                         @csrf
-                                         @method('delete')
-                                         <input type="hidden" name="id" value="{{ $r->id }}">
-                                         <button type="submit"
-                                             onclick="return confirm('Are you sure you want to proceed?')"
-                                             class="text-body no-style">
-                                             <i class="ti ti-trash ti-sm me-2"></i>
-                                         </button>
-                                     </form>
-                                 </div>
-                             </td>
+                             <th>Soal</th>
+                             <th style="width: 10px">Action</th>
                          </tr>
-                     @endforeach
-                 </tbody>
-             </table>
+                     </thead>
+                     <tbody>
+
+                         @foreach ($data->butirSoal as $r)
+                             <tr>
+
+                                 <td>{!! $r->soal !!}
+                                     <br>
+                                     <ol class="styled-list">
+                                         @php $const = ['a','b','c','d','e'] ;@endphp
+                                         @foreach ($const as $j)
+                                             <li {!! $r->jawaban_benar == $j ? 'class="bg-label-primary"' : '' !!}>
+                                                 {!! $r->{'jawaban_' . $j} !!}</li>
+                                         @endforeach
+                                     </ol>
+
+
+                                     <h6>Jawaban : {{ $r->jawaban_benar }}</h6>
+                                     <h6>Poin : {{ $r->poin_benar }} </h6>
+
+                                 </td>
+                                 <td>
+                                     <div class="d-flex align-items-center">
+                                         <a href="{{ route('soal.butirsoal.edit', $r->id) }}" class="text-body">
+                                             <i class="ti ti-edit ti-sm me-2"></i>
+                                         </a>
+                                         <form method="post" action="{{ route('soal.butirsoal.destroy') }}">
+                                             @csrf
+                                             @method('delete')
+                                             <input type="hidden" name="id" value="{{ $r->id }}">
+                                             <button type="submit"
+                                                 onclick="return confirm('Are you sure you want to proceed?')"
+                                                 class="text-body no-style">
+                                                 <i class="ti ti-trash ti-sm me-2"></i>
+                                             </button>
+                                         </form>
+                                     </div>
+                                 </td>
+                             </tr>
+                         @endforeach
+                     </tbody>
+                 </table>
+             </div>
          </div>
      </div>
 

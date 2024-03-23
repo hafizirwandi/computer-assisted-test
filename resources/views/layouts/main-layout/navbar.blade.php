@@ -49,12 +49,26 @@
                                         <img src="{{ asset('avatar.jpg') }}" alt class="h-auto rounded-circle" />
                                     </div>
                                 </div>
+
                                 <div class="flex-grow-1">
-                                    <span class="fw-medium d-block">{{ auth()->user()->name }}</span>
+                                    <span class="fw-medium d-block">
+                                        @if (auth()->guard('web')->check())
+                                            {{ auth()->user()->name }}
+                                        @endif
+
+                                        @if (auth()->guard('siswa')->check())
+                                            {{ auth()->guard('siswa')->user()->nama }}
+                                        @endif
+                                    </span>
                                     <small class="text-muted">
-                                        @foreach (auth()->user()->roles as $role)
-                                            {{ $role->name }}
-                                        @endforeach
+                                        @if (auth()->guard('web')->check())
+                                            @foreach (auth()->user()->roles as $role)
+                                                {{ $role->name }}
+                                            @endforeach
+                                        @endif
+                                        @if (auth()->guard('siswa')->check())
+                                            Siswa
+                                        @endif
                                     </small>
                                 </div>
                             </div>

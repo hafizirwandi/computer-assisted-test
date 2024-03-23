@@ -44,7 +44,7 @@
                      <label class="form-label">Jawaban Benar</label>
                      <select name="jawaban_benar" class="form-control" placeholder="Enter Text" required>
                          <option value="">-- Pilih --</option>
-                         @php $const = ['A','B','C','D','E'] ;@endphp
+                         @php $const = ['a','b','c','d','e'] ;@endphp
                          @foreach ($const as $r)
                              <option value="{{ $r }}" {{ $data->jawaban_benar == $r ? 'selected' : '' }}>
                                  {{ $r }}</option>

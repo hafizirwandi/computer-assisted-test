@@ -14,6 +14,13 @@
           <input type="date" name="tanggal_ujian" class="form-control" placeholder="Enter Text" required />
       </div>
       <div class="col-12 col-md-6">
+          <label class="form-label">Waktu</label>
+          <div class="input-group input-group-merge">
+              <input type="number" name="waktu" class="form-control" placeholder="Enter Text" required>
+              <span class="input-group-text">menit</span>
+          </div>
+      </div>
+      <div class="col-12 col-md-6">
           <label class="form-label">Soal</label>
           <select name="soal_id" class="form-control" required>
               <option value="">-- Pilih --</option>
@@ -23,6 +30,10 @@
               @endforeach
 
           </select>
+      </div>
+      <div class="col-12 col-md-6">
+          <label class="form-label">Jlh Soal</label>
+          <input type="number" name="jlh_soal" class="form-control" placeholder="Enter Text" required />
       </div>
       <div class="col-12 col-md-6">
           <label class="form-label">Soal Random</label>

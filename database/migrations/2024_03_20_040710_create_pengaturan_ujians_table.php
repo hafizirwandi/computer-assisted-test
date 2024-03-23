@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('pengaturan_ujian', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('soal_id');
+            $table->integer('waktu');
+            $table->integer('jlh_soal');
             $table->foreign('soal_id')->references('id')->on('soal');
             $table->string('kode_ujian')->unique();
             $table->date('tanggal_ujian')->nullable();

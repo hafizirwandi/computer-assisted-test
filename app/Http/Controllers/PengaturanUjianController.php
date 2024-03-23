@@ -31,7 +31,9 @@ class PengaturanUjianController extends Controller
     {
         try {
             $rules = [
-                'soal_id' => 'required',
+                'soal_id' => 'required|exists:soal,id',
+                'jlh_soal' => 'required|numeric',
+                'waktu' => 'required|numeric',
                 'tanggal_ujian' => 'required|date',
                 'status' => 'required|in:0,1',
                 'is_random' => 'required|in:0,1',
