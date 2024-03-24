@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reset_ujians', function (Blueprint $table) {
+        Schema::create('reset_ujian', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_ujian')->nullable();
+            $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
+            $table->string('nis')->nullable();
+            $table->foreign('nis')->references('nis')->on('siswa');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reset_ujians');
+        Schema::dropIfExists('reset_ujian');
     }
 };

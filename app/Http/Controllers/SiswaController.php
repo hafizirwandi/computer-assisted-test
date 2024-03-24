@@ -156,6 +156,15 @@ class SiswaController extends Controller
 
         return response()->json($kelas);
     }
+    public function getSiswa(Request $request)
+    {
+        $sekolah_id = $request->input('sekolah_id');
+
+        $siswa = Siswa::where('sekolah_id', $sekolah_id)
+            ->get();
+
+        return response()->json($siswa);
+    }
     public function profileSiswa()
     {
         $data['data'] = Siswa::with('sekolah')->find(Auth::guard('siswa')->id());

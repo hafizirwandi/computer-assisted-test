@@ -78,6 +78,10 @@ Breadcrumbs::for('pengaturan-ujian', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('ganti-password', function (BreadcrumbTrail $trail) {
     $trail->push('Ganti Password', route('ganti-password'));
 });
+//Reset Ujian
+Breadcrumbs::for('reset-ujian', function (BreadcrumbTrail $trail) {
+    $trail->push('Reset Ujian', route('reset-ujian'));
+});
 
 
 // Auth::siswa

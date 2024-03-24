@@ -84,8 +84,8 @@
                   </a>
               </li>
 
-              <li class="menu-item {{ request()->routeIs('pengaturan-ujian*') ? 'active' : '' }}">
-                  <a href="{{ route('pengaturan-ujian') }}" class="menu-link">
+              <li class="menu-item {{ request()->routeIs('reset-ujian*') ? 'active' : '' }}">
+                  <a href="{{ route('reset-ujian') }}" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-refresh"></i>
                       <div data-i18n="User">Reset Ujian</div>
                   </a>

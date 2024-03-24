@@ -2,6 +2,12 @@
  @section('title', 'CAT')
 
  @section('content')
+     @if ($hu)
+         <center class="mb-5">
+             <h5>Anda sudah melakukan ujian! Jika ini adalah kesalahan, <br> Silahkan hubungi operator sekolah untuk mereset
+                 ujian anda!</h5>
+         </center>
+     @endif
 
      <div class="row">
          <div class="col-sm-6 col-lg-3 mb-4">
@@ -67,10 +73,11 @@
                  @csrf
                  <input type="hidden" name="kode_ujian" value="{{ $ujian->kode_ujian }}">
                  <button onclick="return confirm('Apakah anda sudah yakin ?')" type="submit"
-                     class="btn btn-lg btn-primary ">Mulai Ujian</button>
+                     class="btn btn-lg btn-primary " {{ $hu ? 'disabled' : '' }}>Mulai Ujian</button>
              </form>
          </div>
      </div>
+
 
 
  @endsection

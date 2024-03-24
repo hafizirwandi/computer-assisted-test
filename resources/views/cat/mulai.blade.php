@@ -79,7 +79,7 @@
                          <span id="countdown">00:00</span>
 
                          <div class="card-header-elements ms-auto">
-                             <button type="button"
+                             <button type="button" id="btnSelesai"
                                  class="btn btn-outline-warning waves-effect waves-light">Selesai</button>
                          </div>
                      </div>
@@ -111,13 +111,10 @@
                          </span>
                      </div>
                      <div class="wrap-nomor">
-
                          @foreach ($ps as $s)
                              <button class="btn-nomor {{ $s->jawaban != null ? 'active' : '' }}" value="{{ $s->nomor }}"
                                  data-id="{{ $s->id }}">{{ $s->nomor }}</button>
                          @endforeach
-
-
                      </div>
                  </div>
              </div>
@@ -134,14 +131,15 @@
          $(function() {
              // Fungsi untuk memulai atau melanjutkan hitung mundur
              function startCountdown() {
+                 //  localStorage.removeItem(
+                 //      'remainingTime');
                  // Cek apakah ada waktu yang tersimpan di localStorage
                  const storedTime = localStorage.getItem('remainingTime');
                  if (storedTime) {
-                     const endTime = parseInt(storedTime, 10);
+                     const endTime = parseInt(storedTime);
                      updateCountdown(endTime);
                  } else {
-                     // Jika tidak ada waktu tersimpan, mulai hitung mundur dari awal (contoh: 10 menit)
-                     const endTime = new Date().getTime() + (10 * 60 * 1000); // 10 menit dalam milidetik
+                     const endTime = new Date().getTime() + (20 * 60 * 1000);
                      updateCountdown(endTime);
                  }
              }
@@ -162,30 +160,33 @@
                      // Simpan sisa waktu ke dalam localStorage
                      localStorage.setItem('remainingTime', endTime.toString());
 
+                     if (minutes < 2) {
+                         $("#countdown").addClass('text-danger').css('font-size',
+                             '25pt');
+                     }
+
                      // Hentikan hitung mundur jika waktu telah habis
                      if (remainingTime < 0) {
                          clearInterval(countdownInterval);
                          $("#countdown").text('Waktu habis!');
-                         localStorage.removeItem(
-                             'remainingTime'); // Hapus waktu yang tersimpan di localStorage
+                         localStorage.removeItem('remainingTime');
+                         Swal.fire({
+                             title: 'Ups!',
+                             text: 'Waktu Anda sudah habis',
+                             icon: 'error',
+                             customClass: {
+                                 confirmButton: 'btn btn-primary waves-effect waves-light',
+
+                             },
+                             buttonsStyling: false,
+                         }).then((result) => {
+                             hitungHasil();
+                         });
+
                      }
                  }, 1000); // Setiap detik
              }
-
-             // Fungsi untuk memulai sesi baru
-             function startNewSession() {
-                 // Hapus nilai yang disimpan di localStorage
-                 localStorage.removeItem('remainingTime');
-
-                 // Memulai sesi baru dengan hitungan mundur dari awal
-                 const endTime = new Date().getTime() + (10 * 60 * 1000); // Contoh: 10 menit
-                 updateCountdown(endTime);
-             }
-
-             // Contoh penggunaan untuk memulai sesi baru
-             startNewSession();
-             // Mulai atau lanjutkan hitung mundur saat halaman dimuat
-             // startCountdown();
+             startCountdown();
 
 
              fetchSoal(nomor_pub);
@@ -225,9 +226,27 @@
 
 
              });
+             $('#btnSelesai').click(function() {
 
+                 Swal.fire({
+                     title: 'Apakah Anda yakin?',
+                     icon: 'warning',
+                     customClass: {
+                         confirmButton: 'btn btn-primary waves-effect waves-light',
+                         cancelButton: 'btn btn-label-secondary waves-effect waves-light',
 
+                     },
+                     showCancelButton: true,
+                     buttonsStyling: false
 
+                 }).then((result) => {
+                     if (result.isConfirmed) {
+                         localStorage.removeItem('remainingTime');
+                         hitungHasil();
+                     }
+
+                 });
+             });
          });
 
          function fetchSoal(nomor) {
@@ -293,12 +312,9 @@
          }
 
          function hitungRasioActive() {
-             // Hitung jumlah elemen dengan kelas .btn-nomor yang memiliki kelas .active
+
              var jumlahActive = $('.btn-nomor.active').length;
-
-             // Hitung jumlah total elemen dengan kelas .btn-nomor
              var jumlahTotal = $('.btn-nomor').length;
-
              // Hitung rasio
              var rasio = jumlahActive / jumlahTotal;
 
@@ -306,6 +322,40 @@
              var widthValue = rasio * 100 + '%';
 
              $('.progress-bar').css('width', widthValue);
+         }
+
+         function hitungHasil() {
+             $.ajax({
+                 url: "{{ route('cat.hitungHasil') }}",
+                 method: 'POST',
+                 data: {
+                     _token: '{{ csrf_token() }}',
+                     kode_ujian: '{{ $pu->kode_ujian }}'
+                 },
+                 success: function(response) {
+                     Swal.fire({
+                         title: 'Berhasil!',
+                         text: 'Data anda berhasil disimpan',
+                         icon: 'success',
+                         timer: 3000, // Waktu dalam milidetik (misalnya 3000ms = 3 detik)
+                         timerProgressBar: true,
+                         customClass: {
+                             confirmButton: 'btn btn-primary waves-effect waves-light',
+
+                         },
+                         buttonsStyling: false
+                     }).then((result) => {
+                         window.location.href = "{{ route('cat.hasil', $ku_en) }}";
+                     });
+
+                 },
+                 error: function(xhr) {
+                     console.log(xhr.responseText);
+                 }
+             });
+             setTimeout(function() {
+                 window.location.href = "{{ route('cat.hasil', $ku_en) }}";
+             }, 4000);
          }
      </script>
  @endsection

@@ -41,6 +41,7 @@
         href="{{ asset('vuexy/assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}" />
     <link rel="stylesheet" href="{{ asset('vuexy/assets/vendor/libs/flatpickr/flatpickr.css') }}" />
     <link rel="stylesheet" href="{{ asset('vuexy/assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vuexy/assets/vendor/libs/select2/select2.css') }}" />
     <!-- Row Group CSS -->
     <link rel="stylesheet"
         href="{{ asset('vuexy/assets/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}" />
