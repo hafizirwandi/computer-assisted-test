@@ -3,19 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\ButirSoal;
+use App\Models\HasilUjian;
 use App\Models\PemetaanSoal;
 use Illuminate\Http\Request;
 use App\Models\PengaturanUjian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
+use function PHPUnit\Framework\isEmpty;
+
 class CatController extends Controller
 {
 
     public function index()
     {
-        $data['ujian'] = PengaturanUjian::with('soal')->where('status', '1')->first();
 
+        $data['ujian'] = PengaturanUjian::with('soal')->where('status', '1')->first();
+        $nis = Auth::guard('siswa')->user()->nis;
+        $hu = HasilUjian::where('nis', $nis)
+            ->where('kode_ujian', $data['ujian']->kode_ujian)->first();
+        $data['hu'] = $hu;
         return view('cat.index', $data);
     }
     public function checkKodeUjian(Request $request)
@@ -24,29 +31,32 @@ class CatController extends Controller
             'kode_ujian' => 'required',
         ];
         $request->validate($rules);
-        $pj = PengaturanUjian::where('kode_ujian', $request->input('kode_ujian'))
+        $pu = PengaturanUjian::where('kode_ujian', $request->input('kode_ujian'))
             ->where('status', '1')
             ->first();
-        if ($pj) {
-            $this->pemetaanSoal($pj);
-            $crypt = Crypt::encryptString($pj->kode_ujian);
+
+        if ($pu) {
+            $this->pemetaanSoal($pu);
+
+            $crypt = Crypt::encryptString($pu->kode_ujian);
             return redirect(route('cat.mulai', $crypt));
         } else {
             return back()->with('error', 'Kode Ujian tidak valid!!');
         }
     }
-    public function pemetaanSoal($pj)
+    public function pemetaanSoal($pu)
     {
         $nis = Auth::guard('siswa')->user()->nis;
         $ps = PemetaanSoal::where('nis', $nis)
-            ->where('kode_ujian', $pj->kode_ujian)
+            ->where('kode_ujian', $pu->kode_ujian)
             ->get();
-        if (!$ps) {
 
-            if (!$pj->is_random) {
-                $butirSoal  = ButirSoal::where('soal_id', $pj->soal_id)->limit($pj->jlh_soal)->get();
+        if ($ps->isEmpty()) {
+
+            if (!$pu->is_random) {
+                $butirSoal  = ButirSoal::where('soal_id', $pu->soal_id)->limit($pu->jlh_soal)->get();
             } else {
-                $butirSoal  = ButirSoal::where('soal_id', $pj->soal_id)->inRandomOrder()->limit($pj->jlh_soal)->get();
+                $butirSoal  = ButirSoal::where('soal_id', $pu->soal_id)->inRandomOrder()->limit($pu->jlh_soal)->get();
             }
             $i = 1;
             foreach ($butirSoal as $r) {
@@ -56,7 +66,7 @@ class CatController extends Controller
                     'butirsoal_id' => $r->id,
                     'jawaban_benar' =>  $r->jawaban_benar,
                     'poin_benar' => $r->poin_benar,
-                    'kode_ujian' => $pj->kode_ujian,
+                    'kode_ujian' => $pu->kode_ujian,
                     'nis' => $nis,
                 ];
                 PemetaanSoal::create($data);
@@ -67,8 +77,18 @@ class CatController extends Controller
     {
         try {
             $kode_ujian = Crypt::decryptString($encryptedData);
-            $data['pu'] = PengaturanUjian::where('kode_ujian', $kode_ujian)->first();
             $nis = Auth::guard('siswa')->user()->nis;
+            //cek apakah sudah ujian
+            $hu = HasilUjian::where('nis', $nis)
+                ->where('kode_ujian', $kode_ujian)->first();
+
+            if ($hu) {
+                return redirect(route('cat.hasil', $encryptedData));
+            }
+            $data['hu'] = $hu;
+            $data['ku_en'] = $encryptedData;
+            $data['pu'] = PengaturanUjian::where('kode_ujian', $kode_ujian)->first();
+
             $ps = PemetaanSoal::where('nis', $nis)
                 ->where('kode_ujian', $kode_ujian)->get();
             $ps_jwb = PemetaanSoal::where('nis', $nis)
@@ -97,5 +117,59 @@ class CatController extends Controller
         $pemetaanSoal->update();
 
         return response()->json(['message' => 'Jawaban berhasil diperbarui']);
+    }
+    public function hitungHasil(Request $request)
+    {
+
+        $nis = Auth::guard('siswa')->user()->nis;
+        $ps = PemetaanSoal::where('nis', $nis)
+            ->where('kode_ujian', $request->input('kode_ujian'))
+            ->get();
+
+        $jlh_soal = count($ps);
+        $jlh_jawab_benar = 0;
+        $jlh_jawab_salah = 0;
+        $jlh_tidak_jawab = 0;
+        $nilai = 0;
+        foreach ($ps as $r) {
+            if ($r->jawaban != null) {
+                if ($r->jawaban == $r->jawaban_benar) {
+                    $jlh_jawab_benar++;
+                    $nilai += $r->poin_benar;
+                } else {
+                    $jlh_jawab_salah++;
+                }
+            } else {
+                $jlh_tidak_jawab++;
+            }
+        }
+
+        $where = ['nis' => $nis, 'kode_ujian' => $request->input('kode_ujian')];
+        $data = [
+            'nis' => $nis,
+            'kode_ujian' => $request->input('kode_ujian'),
+            'jlh_soal' => $jlh_soal,
+            'jlh_jawab_benar' => $jlh_jawab_benar,
+            'jlh_jawab_salah' => $jlh_jawab_salah,
+            'jlh_tidak_jawab' => $jlh_tidak_jawab,
+            'nilai' => $nilai,
+        ];
+        HasilUjian::updateOrCreate($where, $data);
+        return response()->json(['message' => 'Jawaban berhasil disimpan']);
+    }
+    public function hasil($encryptedData)
+    {
+        try {
+            $kode_ujian = Crypt::decryptString($encryptedData);
+            $data['pu'] = PengaturanUjian::where('kode_ujian', $kode_ujian)->first();
+            $nis = Auth::guard('siswa')->user()->nis;
+
+            $data['hu'] = HasilUjian::where('nis', $nis)
+                ->where('kode_ujian', $kode_ujian)->first();
+            return view('cat.hasil', $data);
+        } catch (\Exception $e) {
+            $e->getMessage();
+            abort('404');
+        }
     }
 }

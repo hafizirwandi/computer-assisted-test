@@ -13,6 +13,7 @@ use App\Http\Controllers\SoalController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\PengaturanUjianController;
+use App\Http\Controllers\ResetUjianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,6 +105,7 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/siswa/import', [SiswaController::class, 'import'])->name('siswa.import');
     Route::post('/siswa/uploadImportFile', [SiswaController::class, 'uploadImportFile'])->name('siswa.uploadImportFile');
     Route::post('/siswa/getKelas', [SiswaController::class, 'getKelas'])->name('siswa.getKelas');
+    Route::post('/siswa/getSiswa', [SiswaController::class, 'getSiswa'])->name('siswa.getSiswa');
 
     Route::get('/pengaturan-ujian', [PengaturanUjianController::class, 'index'])->name('pengaturan-ujian');
     Route::get('/pengaturan-ujian/create', [PengaturanUjianController::class, 'create'])->name('pengaturan-ujian.create');
@@ -114,6 +116,10 @@ Route::middleware('auth:web')->group(function () {
 
     Route::get('/ganti-password', [AuthController::class, 'gantiPassword'])->name('ganti-password');
     Route::post('/ganti-password', [AuthController::class, 'saveGantiPassword'])->name('ganti-password.save');
+
+    Route::get('/reset-ujian', [ResetUjianController::class, 'index'])->name('reset-ujian');
+    Route::get('/reset-ujian/create', [ResetUjianController::class, 'create'])->name('reset-ujian.create');
+    Route::post('/reset-ujian', [ResetUjianController::class, 'store'])->name('reset-ujian.store');
 });
 
 Route::middleware('auth:siswa')->group(function () {
@@ -124,4 +130,6 @@ Route::middleware('auth:siswa')->group(function () {
     Route::get('/cat/mulai/{id}', [CatController::class, 'mulai'])->name('cat.mulai');
     Route::post('/cat/get-soal', [CatController::class, 'getSoal'])->name('cat.getSoal');
     Route::post('/cat/update-jawaban', [CatController::class, 'updateJawaban'])->name('cat.updateJawaban');
+    Route::post('/cat/hitung-hasil', [CatController::class, 'hitungHasil'])->name('cat.hitungHasil');
+    Route::get('/cat/hasil/{id}', [CatController::class, 'hasil'])->name('cat.hasil');
 });

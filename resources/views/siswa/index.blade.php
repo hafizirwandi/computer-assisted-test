@@ -15,7 +15,7 @@
          <form action="">
              <div class="row g-3">
                  <div class="col-md-5">
-                     <select id="sekolah" name="sekolah" class="form-control" placeholder="Enter Text">
+                     <select id="sekolah" name="sekolah" class="form-control " placeholder="Enter Text">
                          <option value="">-- Pilih Sekolah--</option>
                          @foreach ($sekolah as $r)
                              <option value="{{ $r->id }}"

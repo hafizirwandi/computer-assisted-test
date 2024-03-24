@@ -15,11 +15,14 @@
  <!-- Vendors JS -->
  <script src="{{ asset('vuexy/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
  <script src="{{ asset('vuexy/assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+ <script src="{{ asset('vuexy/assets/vendor/libs/select2/select2.js') }}"></script>
 
  <!-- Main JS -->
  <script src="{{ asset('vuexy/assets/js/main.js') }}"></script>
+ <script src="{{ asset('vuexy/assets/js/forms-selects.js') }}"></script>
  <script>
      $(document).ready(function() {
+         $(".select2").select2();
          $(".datatable").DataTable({
 
              dom: '<<"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
