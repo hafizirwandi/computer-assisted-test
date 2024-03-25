@@ -18,4 +18,12 @@ class HasilUjian extends Model
         'jlh_tidak_jawab',
         'nilai',
     ];
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, 'nis', 'nis');
+    }
+    public function pengaturanUjian()
+    {
+        return $this->belongsTo(PengaturanUjian::class, 'kode_ujian', 'kode_ujian');
+    }
 }

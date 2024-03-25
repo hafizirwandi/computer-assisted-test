@@ -86,7 +86,7 @@ Breadcrumbs::for('reset-ujian', function (BreadcrumbTrail $trail) {
 
 // Auth::siswa
 Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {
-    $trail->push('Home', route('home.siswa'));
+    // $trail->push('Home', route('home.siswa'));
 });
 //Profile
 Breadcrumbs::for('profile', function (BreadcrumbTrail $trail) {
@@ -99,6 +99,10 @@ Breadcrumbs::for('cat', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('cat.mulai', function (BreadcrumbTrail $trail, $id) {
     $trail->parent('cat');
     $trail->push('Mulai', route('cat.mulai', $id));
+});
+Breadcrumbs::for('cat.nilai', function (BreadcrumbTrail $trail) {
+    $trail->parent('cat');
+    $trail->push('Nilai', route('cat.nilai'));
 });
 
 

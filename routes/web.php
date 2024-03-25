@@ -132,4 +132,5 @@ Route::middleware('auth:siswa')->group(function () {
     Route::post('/cat/update-jawaban', [CatController::class, 'updateJawaban'])->name('cat.updateJawaban');
     Route::post('/cat/hitung-hasil', [CatController::class, 'hitungHasil'])->name('cat.hitungHasil');
     Route::get('/cat/hasil/{id}', [CatController::class, 'hasil'])->name('cat.hasil');
+    Route::get('/cat/nilai', [CatController::class, 'nilai'])->name('cat.nilai');
 });

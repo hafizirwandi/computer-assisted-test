@@ -10,7 +10,6 @@ use App\Models\PengaturanUjian;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
-use function PHPUnit\Framework\isEmpty;
 
 class CatController extends Controller
 {
@@ -171,5 +170,10 @@ class CatController extends Controller
             $e->getMessage();
             abort('404');
         }
+    }
+    public function nilai()
+    {
+        $data['data'] = HasilUjian::with('pengaturanUjian.soal')->get();
+        return view('cat.nilai', $data);
     }
 }
