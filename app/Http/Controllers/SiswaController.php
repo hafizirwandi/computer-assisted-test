@@ -123,7 +123,7 @@ class SiswaController extends Controller
                         'sekolah_id' => $request->input('sekolah_id'),
                     ];
 
-                    Siswa::create($newStudent);
+                    Siswa::updateOrCreate(['nis' => $newStudent['nis']], $newStudent);
                 } catch (\Exception $e) {
                     // Menangkap kesalahan dan menyimpannya dalam array
                     $errors[] = [
@@ -132,16 +132,10 @@ class SiswaController extends Controller
                     ];
                 }
             }
-            // Lakukan sesuatu dengan array $errors, misalnya tampilkan atau simpan ke log
-            // if (!empty($errors)) {
-            //     return back()->with('error', 'Ada Duplikat NIS');
-            // } else {
-            //     return back()->with('success', 'Data Berhasil di Import');
-            // }
+
 
             return back()->with('success', 'Data Berhasil di Import');
         } catch (\Exception $e) {
-            return $e->getMessage();
             return back()->with('error', $e->getMessage());
         }
     }
