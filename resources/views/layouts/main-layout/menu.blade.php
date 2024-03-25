@@ -106,14 +106,14 @@
                       <div data-i18n="Home">Home</div>
                   </a>
               </li>
-              <li class="menu-item {{ request()->routeIs('cat*') ? 'active' : '' }}">
+              <li class="menu-item {{ request()->routeIs('cat') ? 'active' : '' }}">
                   <a href="{{ route('cat') }}" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-device-desktop"></i>
                       <div data-i18n="User">CAT</div>
                   </a>
               </li>
-              <li class="menu-item {{ request()->routeIs('cat*') ? 'active' : '' }}">
-                  <a href="{{ route('cat') }}" class="menu-link">
+              <li class="menu-item {{ request()->routeIs('cat.nilai*') ? 'active' : '' }}">
+                  <a href="{{ route('cat.nilai') }}" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-star"></i>
                       <div data-i18n="User">Nilai</div>
                   </a>

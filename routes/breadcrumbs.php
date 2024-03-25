@@ -100,6 +100,10 @@ Breadcrumbs::for('cat.mulai', function (BreadcrumbTrail $trail, $id) {
     $trail->parent('cat');
     $trail->push('Mulai', route('cat.mulai', $id));
 });
+Breadcrumbs::for('cat.nilai', function (BreadcrumbTrail $trail) {
+    $trail->parent('cat');
+    $trail->push('Nilai', route('cat.nilai'));
+});
 
 
 // // Home > Blog
