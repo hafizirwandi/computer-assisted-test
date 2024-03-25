@@ -42,7 +42,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="javascript:void(0);">
                             <div class="d-flex">
                                 <div class="flex-shrink-0 me-3">
                                     <div class="avatar">
@@ -74,12 +74,14 @@
                             </div>
                         </a>
                     </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ route('ganti-password') }}">
-                            <i class="ti ti-lock me-2 ti-sm"></i>
-                            <span class="align-middle">Ganti Password</span>
-                        </a>
-                    </li>
+                    @if (auth()->guard('web')->check())
+                        <li>
+                            <a class="dropdown-item" href="{{ route('ganti-password') }}">
+                                <i class="ti ti-lock me-2 ti-sm"></i>
+                                <span class="align-middle">Ganti Password</span>
+                            </a>
+                        </li>
+                    @endif
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}">
                             <i class="ti ti-logout me-2 ti-sm"></i>

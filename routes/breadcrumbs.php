@@ -86,7 +86,7 @@ Breadcrumbs::for('reset-ujian', function (BreadcrumbTrail $trail) {
 
 // Auth::siswa
 Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {
-    $trail->push('Home', route('home.siswa'));
+    // $trail->push('Home', route('home.siswa'));
 });
 //Profile
 Breadcrumbs::for('profile', function (BreadcrumbTrail $trail) {

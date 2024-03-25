@@ -1,11 +1,15 @@
 @extends('layouts.main-layout.app')
 @section('title', 'Home')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('vuexy/assets/vendor/css/pages/page-faq.css') }}" />
+@endsection
 @section('content')
-    <p>
-        Sample page.<br />For more layout options use
-        <a href="" target="_blank" class="fw-medium">HTML starter template generator</a>
-        and refer
-        <a href="https://demos.pixinvent.com/vuexy-html-admin-template/documentation//layouts.html" target="_blank"
-            class="fw-medium">Layout docs</a>.
-    </p>
+    <div class="faq-header d-flex flex-column justify-content-center align-items-center rounded h-px-300 position-relative">
+        <img src="{{ asset('vuexy/assets/img/pages/header.png') }}" class="scaleX-n1-rtl faq-banner-img"
+            alt="background image">
+        <h3 class="text-center"> Hai, {{ auth()->guard('siswa')->user()->nama }} </h3>
+
+        <p class="text-center mb-0 px-3">Selamat datang di CAT (Computer Assisted Test)</p>
+        <a href="{{ route('cat') }}" class="btn btn-primary btn-lg mt-5">Mulai Ujian</a>
+    </div>
 @endsection
