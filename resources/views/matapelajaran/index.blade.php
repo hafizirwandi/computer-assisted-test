@@ -6,6 +6,9 @@
      <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
          <i class="ti ti-plus ti-sm me-2"></i>Tambah Matapelajaran
      </button>
+     <button onclick="importData()" class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
+         <i class="ti ti-database-import ti-sm me-2"></i>Import Matapelajaran
+     </button>
 
      <div class="card mb-4">
          <div class="card-body">

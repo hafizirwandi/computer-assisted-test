@@ -14,16 +14,19 @@ class SiswaController extends Controller
     public function index(Request $request)
     {
 
+        $data['data'] = [];
         $siswa = Siswa::query();
         if ($request->query('sekolah')) {
             $siswa->where('sekolah_id', $request->query('sekolah'));
+            $data['data'] = $siswa->get();
         }
         if ($request->query('kelas')) {
             $siswa->where('kelas', $request->query('kelas'));
+            $data['data'] = $siswa->get();
         }
         $data['sekolah'] = Sekolah::all();
 
-        $data['data'] = $siswa->get();
+
         return view('siswa.index', $data);
     }
 
@@ -115,9 +118,9 @@ class SiswaController extends Controller
                 try {
                     $newStudent = [
                         'nis' => $data[1],
-                        'nama' => $data[2],
-                        'username' => $data[3],
-                        'password' => Hash::make($data[3]),
+                        'nama' => $data[3],
+                        'username' => $data[2],
+                        'password' => Hash::make($data[2]),
                         'status' => '1',
                         'kelas' => $data[4],
                         'sekolah_id' => $request->input('sekolah_id'),

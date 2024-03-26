@@ -82,7 +82,18 @@ Breadcrumbs::for('ganti-password', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('reset-ujian', function (BreadcrumbTrail $trail) {
     $trail->push('Reset Ujian', route('reset-ujian'));
 });
-
+//Rekap Nilai
+Breadcrumbs::for('rekap-nilai', function (BreadcrumbTrail $trail) {
+    $trail->push('Rekap Nilai', route('rekap-nilai'));
+});
+Breadcrumbs::for('rekap-nilai.kumulatif', function (BreadcrumbTrail $trail) {
+    $trail->parent('rekap-nilai');
+    $trail->push('Kumulatif', route('rekap-nilai.kumulatif'));
+});
+Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {
+    $trail->parent('rekap-nilai');
+    $trail->push('Dashboard', route('rekap-nilai.dashboard'));
+});
 
 // Auth::siswa
 Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {
