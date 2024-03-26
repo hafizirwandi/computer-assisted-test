@@ -14,6 +14,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\CatController;
 use App\Http\Controllers\PengaturanUjianController;
 use App\Http\Controllers\ResetUjianController;
+use App\Http\Controllers\RekapNilaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,6 +121,10 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/reset-ujian', [ResetUjianController::class, 'index'])->name('reset-ujian');
     Route::get('/reset-ujian/create', [ResetUjianController::class, 'create'])->name('reset-ujian.create');
     Route::post('/reset-ujian', [ResetUjianController::class, 'store'])->name('reset-ujian.store');
+
+    Route::get('/rekap-nilai', [RekapNilaiController::class, 'index'])->name('rekap-nilai');
+    Route::get('/rekap-nilai/kumulatif', [RekapNilaiController::class, 'kumulatif'])->name('rekap-nilai.kumulatif');
+    Route::get('/rekap-nilai/dashboard', [RekapNilaiController::class, 'dashboard'])->name('rekap-nilai.dashboard');
 });
 
 Route::middleware('auth:siswa')->group(function () {
