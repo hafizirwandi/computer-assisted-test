@@ -128,6 +128,12 @@
                       </li>
                   </ul>
               </li>
+              <li class="menu-item {{ request()->routeIs('kirim-nilai') ? 'active' : '' }}">
+                  <a href="{{ route('kirim-nilai') }}" class="menu-link">
+                      <i class="menu-icon tf-icons ti ti-send"></i>
+                      <div data-i18n="Export Nilai">Kirim Nilai</div>
+                  </a>
+              </li>
               <li class="menu-item">
                   <a href="" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-database-export"></i>
