@@ -54,20 +54,20 @@
                                  <td>{{ $r->nis }}</td>
                                  <td>{{ $r->nama }}</td>
                                  <td>{{ $r->kelas }}</td>
-                                 @php $jlh = 0; @endphp
+
                                  @foreach ($r->ujian as $ps)
                                      @if ($ps != null)
                                          @php
                                              $obj = json_decode($ps);
-                                             $jlh += $obj->nilai;
+
                                          @endphp
                                          <td>{{ $obj->nilai }}</td>
                                      @else
                                          <td>0</td>
                                      @endif
                                  @endforeach
-                                 <td>{{ $jlh }}</td>
-                                 <td>{{ $jlh / count($r->ujian) }}</td>
+                                 <td>{{ $r->nilai }}</td>
+                                 <td>{{ $r->nilai / count($r->ujian) }}</td>
                                  <td>{{ $r->rank }}</td>
                                  <td>{{ $r->rank2 }}</td>
                              </tr>

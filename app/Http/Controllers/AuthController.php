@@ -118,4 +118,17 @@ class AuthController extends Controller
 
         return redirect()->back()->withInput()->withErrors(['username' => 'Invalid username or password']);
     }
+    public function LoginApi(Request $request)
+    {
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            $token = $user->createToken('API')->plainTextToken;
+
+            return response()->json(['token' => $token], 200);
+        } else {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+    }
 }
