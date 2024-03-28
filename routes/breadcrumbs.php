@@ -97,6 +97,10 @@ Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('kirim-nilai', function (BreadcrumbTrail $trail) {
     $trail->push('Kirim Nilai', route('kirim-nilai'));
 });
+Breadcrumbs::for('kirim-nilai.checkSyncData', function (BreadcrumbTrail $trail) {
+    $trail->parent('kirim-nilai');
+    $trail->push('Check Sinkronisasi Data', route('kirim-nilai.checkSyncData'));
+});
 
 // Auth::siswa
 Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {

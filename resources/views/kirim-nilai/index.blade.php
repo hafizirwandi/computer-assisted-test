@@ -25,7 +25,7 @@
                             tersinkron ke server cloud</li>
                     </ol>
                     <button class="btn btn-primary" id="syncData">Sinkroniasi Nilai</button>
-                    <button class="btn btn-warning" id="checkSyncData">Check Hasil Sinkronisasi</button>
+                    <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
                 </div>
             </div>
 
