@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +20,6 @@ use App\Http\Controllers\API\AuthController;
 // });
 
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('login', [ApiController::class, 'login']);
+Route::get('/get-nilai', [ApiController::class, 'getNilai'])->middleware('auth:sanctum');
+Route::post('/sync-nilai', [ApiController::class, 'syncNilai'])->middleware('auth:sanctum');
