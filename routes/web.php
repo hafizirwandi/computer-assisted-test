@@ -129,6 +129,7 @@ Route::middleware('auth:web')->group(function () {
 
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])->name('kirim-nilai');
     Route::post('/kirim-nilai/syncData', [KirimNilaiController::class, 'syncData'])->name('kirim-nilai.syncData');
+    Route::get('/kirim-nilai/check-sync-data', [KirimNilaiController::class, 'checkSyncData'])->name('kirim-nilai.checkSyncData');
 });
 
 Route::middleware('auth:siswa')->group(function () {
