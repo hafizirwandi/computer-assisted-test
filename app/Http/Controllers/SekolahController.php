@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sekolah;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SekolahController extends Controller
 {
@@ -33,12 +34,17 @@ class SekolahController extends Controller
                 'email' => 'required',
             ];
             if ($id != null) {
+                $rules['kode_sekolah'] = [
+                    'required',
+                    Rule::unique('sekolah')->ignore($id),
+                ];
                 $data = $request->validate($rules);
                 $sekolah = Sekolah::findOrFail($id);
                 $sekolah->where('id', $id)->update($data);
 
                 $msg = 'Sekolah berhasil diperbaharui';
             } else {
+                $rules['kode_sekolah'] = 'required|unique:sekolah';
                 $data = $request->validate($rules);
                 $sekolah = Sekolah::create($data);
                 $msg = 'Sekolah berhasil dibuat';

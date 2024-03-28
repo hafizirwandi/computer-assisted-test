@@ -128,6 +128,7 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/rekap-nilai/dashboard', [RekapNilaiController::class, 'dashboard'])->name('rekap-nilai.dashboard');
 
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])->name('kirim-nilai');
+    Route::post('/kirim-nilai/syncData', [KirimNilaiController::class, 'syncData'])->name('kirim-nilai.syncData');
 });
 
 Route::middleware('auth:siswa')->group(function () {

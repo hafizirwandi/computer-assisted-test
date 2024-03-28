@@ -5,8 +5,12 @@
 
   <form class="row g-3" method="post" action="{{ route('sekolah.store') }}">
       @csrf
-      <div class="col-12 col-md-12">
-          <label class="form-label">Nama</label>
+      <div class="col-12 col-md-6">
+          <label class="form-label">Kode Sekolah</label>
+          <input type="text" name="kode_sekolah" class="form-control" placeholder="Enter Text" required />
+      </div>
+      <div class="col-12 col-md-6">
+          <label class="form-label">Nama Sekolah</label>
           <input type="text" name="nama" class="form-control" placeholder="Enter Text" required />
       </div>
       <div class="col-12 col-md-6">
