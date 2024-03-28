@@ -94,6 +94,9 @@ Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai');
     $trail->push('Dashboard', route('rekap-nilai.dashboard'));
 });
+Breadcrumbs::for('kirim-nilai', function (BreadcrumbTrail $trail) {
+    $trail->push('Kirim Nilai', route('kirim-nilai'));
+});
 
 // Auth::siswa
 Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {

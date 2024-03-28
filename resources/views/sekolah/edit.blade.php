@@ -6,7 +6,12 @@
   <form class="row g-3" method="post" action="{{ route('sekolah.update', $data->id) }}">
       @csrf
       @method('put')
-      <div class="col-12 col-md-12">
+      <div class="col-12 col-md-6">
+          <label class="form-label">Kode Sekolah</label>
+          <input type="text" name="kode_sekolah" class="form-control" placeholder="Enter Text"
+              value="{{ $data->kode_sekolah }}" required />
+      </div>
+      <div class="col-12 col-md-6">
           <label class="form-label">Nama</label>
           <input type="text" name="nama" class="form-control" placeholder="Enter Text" value="{{ $data->nama }}"
               required />

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 if (!function_exists('statusUser')) {
@@ -82,5 +83,28 @@ if (!function_exists('uploadAndReadExcel')) {
         }
 
         return $rows;
+    }
+}
+
+if (!function_exists('getTokenApi')) {
+    function getTokenApi()
+    {
+
+        if (!session('api_token')) {
+            $response = Http::post(env('URL_API') . 'login', [
+                'username' => 'admin',
+                'password' => 'admin',
+            ]);
+            if ($response->successful()) {
+                $token = $response->json()['data']['token'];
+                session(['api_token' => $token]);
+                return $token;
+            } else {
+
+                return null;
+            }
+        } else {
+            return session('api_token');
+        }
     }
 }

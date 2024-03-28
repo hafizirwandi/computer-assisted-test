@@ -2,11 +2,11 @@
  @section('title', 'Sekolah')
  @section('content')
 
-
-     <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-plus ti-sm me-2"></i>Tambah Sekolah
-     </button>
-
+     @if (count($data) < 1)
+         <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+             <i class="ti ti-plus ti-sm me-2"></i>Tambah Sekolah
+         </button>
+     @endif
      <div class="card mb-4">
          <div class="card-body">
 
@@ -15,6 +15,7 @@
                  <table class="datatable table">
                      <thead>
                          <tr>
+                             <th>Kode</th>
                              <th>Nama</th>
                              <th>Alamat</th>
                              <th>Telp</th>
@@ -27,6 +28,7 @@
                      <tbody>
                          @foreach ($data as $r)
                              <tr>
+                                 <td>{{ $r->kode_sekolah }}</td>
                                  <td>{{ $r->nama }}</td>
                                  <td>{{ $r->alamat }}</td>
                                  <td>{{ $r->telp }}</td>
