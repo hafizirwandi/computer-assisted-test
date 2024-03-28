@@ -18,6 +18,7 @@ class NilaiCloud extends Model
         'jlh_tidak_jawab',
         'nilai',
         'nama_siswa',
+        'kelas',
         'kode_sekolah',
         'nama_sekolah',
         'matapelajaran',
