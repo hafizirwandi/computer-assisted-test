@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('jlh_tidak_jawab');
             $table->decimal('nilai', 5, 2);
             $table->string('nama_siswa');
+            $table->string('kelas');
             $table->string('kode_sekolah');
             $table->string('nama_sekolah');
             $table->string('matapelajaran');
