@@ -12,6 +12,7 @@ use App\Http\Controllers\MatapelajaranController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\CatController;
+use App\Http\Controllers\ExportNilai;
 use App\Http\Controllers\KirimNilaiController;
 use App\Http\Controllers\PengaturanUjianController;
 use App\Http\Controllers\ResetUjianController;
@@ -130,6 +131,8 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])->name('kirim-nilai');
     Route::post('/kirim-nilai/syncData', [KirimNilaiController::class, 'syncData'])->name('kirim-nilai.syncData');
     Route::get('/kirim-nilai/check-sync-data', [KirimNilaiController::class, 'checkSyncData'])->name('kirim-nilai.checkSyncData');
+    Route::get('/export-nilai', [ExportNilai
+    ::class, 'index'])->name('export-nilai');
 });
 
 Route::middleware('auth:siswa')->group(function () {
