@@ -108,3 +108,24 @@ if (!function_exists('getTokenApi')) {
         }
     }
 }
+
+if (!function_exists('encryptText')) {
+    function encryptText($plainText, $key)
+    {
+        $ivLength = openssl_cipher_iv_length('AES-256-CBC');
+        $iv = openssl_random_pseudo_bytes($ivLength);
+        $encryptedText = openssl_encrypt($plainText, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+        return base64_encode($iv . $encryptedText);
+    }
+}
+
+if (!function_exists('decryptText')) {
+    function decryptText($encryptedText, $key)
+    {
+        $encryptedText = base64_decode($encryptedText);
+        $ivLength = openssl_cipher_iv_length('AES-256-CBC');
+        $iv = substr($encryptedText, 0, $ivLength);
+        $encryptedText = substr($encryptedText, $ivLength);
+        return openssl_decrypt($encryptedText, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+    }
+}

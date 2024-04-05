@@ -134,20 +134,12 @@
                       <div data-i18n="Export Nilai">Kirim Nilai</div>
                   </a>
               </li>
-              <li class="menu-item">
-                  <a href="" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-database-export"></i>
-                      <div data-i18n="Export Nilai">Export Nilai</div>
-                  </a>
-              </li>
-              <li class="menu-item ">
-                  <a href="" class="menu-link">
+              <li class="menu-item {{ request()->routeIs('import-nilai') ? 'active' : '' }}">
+                  <a href="{{ route('import-nilai') }}" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-database-import"></i>
                       <div data-i18n="Import Nilai">Import Nilai</div>
                   </a>
               </li>
-
-
               <li class="menu-item">
                   <a href="" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-file-description"></i>

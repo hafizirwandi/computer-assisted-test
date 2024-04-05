@@ -2,7 +2,7 @@
 @section('title', 'Home')
 @section('content')
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-body">
                     <h5>Ketentuan untuk sinkronisasi data ke Cloud</h5>
@@ -15,8 +15,9 @@
                         <li>Pastikan NIS Siswa juga menggunakan Nomor Induk Siswa Nasional;</li>
                         <li>Pastikan Ujian sudah selesai terlaksana dengan benar untuk menghindari duplikat entry;</li>
                         <li>Bagi sekolah yang tidak memiliki jaringan internet silahkan untuk mengeksport data dulu
-                            modul <a href=""><i>Export Nilai</i></a> untuk kemudian selanjut nya di Import ke Cloud di
-                            modul <a href=""><i>Import Nilai</i></a>;
+                            dengan mengklik tombol <i>Export Nilai</i> untuk kemudian selanjut nya di Import ke Cloud di
+                            modul <i>Import Nilai</i> atau bisa juga mengirim ke Panitia via email atau whatsapp untuk
+                            kemudiandi sinkronkan manual ke sistem;
                         </li>
                         <li>Silahkan hubungi pihak panitia apabila mengalami kendala dalam hal Sikroniasi Data ke Cloud;
                         </li>
@@ -26,10 +27,12 @@
                     </ol>
                     <button class="btn btn-primary" id="syncData">Sinkroniasi Nilai</button>
                     <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
+                    <a href="{{ route('kirim-nilai.export') }}" class="btn btn-secondary">Export Nilai</a>
                 </div>
             </div>
 
         </div>
+
     </div>
 
 @endsection
