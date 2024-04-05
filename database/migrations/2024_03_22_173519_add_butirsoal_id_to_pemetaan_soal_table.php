@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::table('pemetaan_soal', function (Blueprint $table) {
             //
 
+            $table->integer('soal_id')->after('nomor');
             $table->integer('butirsoal_id')->after('soal_id');
             $table->char('jawaban_benar')->after('butirsoal_id');
         });
