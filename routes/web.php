@@ -29,8 +29,8 @@ use App\Http\Controllers\RekapNilaiController;
 |
 */
 
-Route::get('/login-admin', [AuthController::class, 'loginFormAdmin'])->name('login');
-Route::get('/login', [AuthController::class, 'loginFormSiswa'])->name('login-siswa');
+// Route::get('/login-admin', [AuthController::class, 'loginFormAdmin'])->name('login');
+Route::get('/login', [AuthController::class, 'loginFormAdmin'])->name('login');
 Route::post('/auth', [AuthController::class, 'auth'])->name('auth');
 Route::post('/auth-siswa', [AuthController::class, 'authSiswa'])->name('auth.siswa');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
