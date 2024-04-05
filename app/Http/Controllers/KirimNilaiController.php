@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Exports\ExportData;
 use App\Models\HasilUjian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Sekolah;
 use App\Models\PengaturanUjian;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Illuminate\Support\Facades\Storage;
+
+
 
 
 class KirimNilaiController extends Controller
@@ -78,5 +84,62 @@ class KirimNilaiController extends Controller
             }
         }
         return view('kirim-nilai.check-sync-data', $data);
+    }
+    public function exportData()
+    {
+        $hu = HasilUjian::with(['siswa.sekolah', 'pengaturanUjian.soal'])->get();
+        $key = "WowAmazing123!";
+        $data = collect($hu->map(function ($item) use ($key) {
+            // Menyiapkan data yang ingin dienkripsi
+            $plainText = json_encode([
+                'nis' => $item->siswa->nis,
+                'nama_siswa' => $item->siswa->nama,
+                'kelas' => $item->siswa->kelas,
+                'kode_sekolah' => $item->siswa->sekolah->kode_sekolah,
+                'nama_sekolah' => $item->siswa->sekolah->nama,
+                'kode_ujian' => $item->pengaturanUjian->kode_ujian,
+                'matapelajaran' => $item->pengaturanUjian->soal->nama,
+            ]);
+
+            return encryptText($plainText, $key);
+        }));
+        $filename = 'encrypted_data_' . now()->format('Y-m-d_H-i-s') . '.crypt';
+        Storage::put($filename, $data->implode("\n"));
+        return response()->download(storage_path('app/' . $filename))->deleteFileAfterSend();
+
+
+
+        // $excelFileName = 'export-kirim-nilai.xlsx';
+        // // Menggunakan Maatwebsite/Excel untuk mengekspor data ke file Excel
+        // Excel::store(new ExportData($data), 'exports/' . $excelFileName, 'public');
+
+        // // Path file Excel yang telah dibuat
+        // $filePath = storage_path('app/public/exports/' . $excelFileName);
+
+        // // Buka file Excel dengan PhpSpreadsheet
+        // $spreadsheet = IOFactory::load($filePath);
+
+        // // Mendapatkan semua sheet dalam file
+        // $worksheet = $spreadsheet->getActiveSheet();
+
+        // // Mengunci semua sel di worksheet
+        // $protection = $worksheet->getProtection();
+        // $protection->setSheet(true);
+        // $protection->setPassword('your_password'); // Ganti 'your_password' dengan kata sandi yang Anda inginkan
+        // $protection->setSort(true);
+        // $protection->setInsertRows(true);
+        // $protection->setFormatCells(true);
+
+        // // Simpan perubahan ke file
+        // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        // $writer->save($filePath);
+
+        // // Set headers untuk unduhan
+        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        // header('Content-Disposition: attachment;filename="' . $excelFileName . '"');
+        // header('Cache-Control: max-age=0');
+
+        // // Output file Excel ke browser
+        // readfile($filePath);
     }
 }

@@ -101,10 +101,9 @@ Breadcrumbs::for('kirim-nilai.checkSyncData', function (BreadcrumbTrail $trail) 
     $trail->parent('kirim-nilai');
     $trail->push('Check Sinkronisasi Data', route('kirim-nilai.checkSyncData'));
 });
-Breadcrumbs::for('export-nilai', function (BreadcrumbTrail $trail) {
-    $trail->push('Export Nilai', route('export-nilai'));
+Breadcrumbs::for('import-nilai', function (BreadcrumbTrail $trail) {
+    $trail->push('Import Nilai', route('import-nilai'));
 });
-
 // Auth::siswa
 Breadcrumbs::for('home.siswa', function (BreadcrumbTrail $trail) {
     // $trail->push('Home', route('home.siswa'));
