@@ -61,6 +61,17 @@
             })
 
             function syncData() {
+                Swal.fire({
+                    title: 'Mohon menunggu...',
+                    allowOutsideClick: false,
+                    customClass: {
+                        confirmButton: 'd-none'
+                    },
+                    buttonsStyling: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
                 $.ajax({
                     url: "{{ route('kirim-nilai.syncData') }}",
                     method: 'POST',
