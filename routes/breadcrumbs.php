@@ -94,6 +94,18 @@ Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai');
     $trail->push('Dashboard', route('rekap-nilai.dashboard'));
 });
+//Rekap Nilai Global
+Breadcrumbs::for('rekap-nilai-global', function (BreadcrumbTrail $trail) {
+    $trail->push('Rekap Nilai', route('rekap-nilai-global'));
+});
+Breadcrumbs::for('rekap-nilai-global.kumulatif', function (BreadcrumbTrail $trail) {
+    $trail->parent('rekap-nilai-global');
+    $trail->push('Kumulatif', route('rekap-nilai-global.kumulatif'));
+});
+Breadcrumbs::for('rekap-nilai-global.dashboard', function (BreadcrumbTrail $trail) {
+    $trail->parent('rekap-nilai-global');
+    $trail->push('Dashboard', route('rekap-nilai-global.dashboard'));
+});
 Breadcrumbs::for('kirim-nilai', function (BreadcrumbTrail $trail) {
     $trail->push('Kirim Nilai', route('kirim-nilai'));
 });

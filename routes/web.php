@@ -17,6 +17,7 @@ use App\Http\Controllers\KirimNilaiController;
 use App\Http\Controllers\PengaturanUjianController;
 use App\Http\Controllers\ResetUjianController;
 use App\Http\Controllers\RekapNilaiController;
+use App\Http\Controllers\RekapNilaiGlobalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,6 +128,10 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/rekap-nilai', [RekapNilaiController::class, 'index'])->name('rekap-nilai');
     Route::get('/rekap-nilai/kumulatif', [RekapNilaiController::class, 'kumulatif'])->name('rekap-nilai.kumulatif');
     Route::get('/rekap-nilai/dashboard', [RekapNilaiController::class, 'dashboard'])->name('rekap-nilai.dashboard');
+
+    Route::get('/rekap-nilai-global', [RekapNilaiGlobalController::class, 'index'])->name('rekap-nilai-global');
+    Route::get('/rekap-nilai-global/kumulatif', [RekapNilaiGlobalController::class, 'kumulatif'])->name('rekap-nilai-global.kumulatif');
+    Route::get('/rekap-nilai-global/dashboard', [RekapNilaiGlobalController::class, 'dashboard'])->name('rekap-nilai-global.dashboard');
 
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])->name('kirim-nilai');
     Route::post('/kirim-nilai/syncData', [KirimNilaiController::class, 'syncData'])->name('kirim-nilai.syncData');

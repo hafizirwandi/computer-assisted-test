@@ -110,19 +110,19 @@
                       </li>
                   </ul>
               </li>
-              <li class="menu-item ">
+              <li class="menu-item {{ isDropdown(['rekap-nilai-global', 'rekap-nilai-global.kumulatif']) }}">
                   <a href="javascript:void(0);" class="menu-link menu-toggle">
                       <i class="menu-icon tf-icons ti ti-chart-histogram"></i>
                       <div data-i18n="Rekap Nilai Global">Rekap Nilai Global</div>
                   </a>
                   <ul class="menu-sub">
-                      <li class="menu-item ">
-                          <a href="" class="menu-link">
+                      <li class="menu-item {{ request()->routeIs('rekap-nilai-global') ? 'active' : '' }}">
+                          <a href="{{ route('rekap-nilai-global') }}" class="menu-link">
                               <div data-i18n="Per Ujian">Per Ujian</div>
                           </a>
                       </li>
-                      <li class="menu-item ">
-                          <a href="" class="menu-link">
+                      <li class="menu-item {{ request()->routeIs('rekap-nilai-global.kumulatif') ? 'active' : '' }}">
+                          <a href="{{ route('rekap-nilai-global.kumulatif') }}" class="menu-link">
                               <div data-i18n="Kumulatif">Kumulatif</div>
                           </a>
                       </li>

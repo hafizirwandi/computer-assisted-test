@@ -1,0 +1,82 @@
+ @extends('layouts.main-layout.app')
+ @section('title', 'Rekap Nilai Kumulatif Global')
+ @section('content')
+     <div class="alert alert-primary" role="alert">
+         <form action="">
+             <div class="row g-3">
+                 <div class="col-md-11">
+                     <select name="sekolah" class="form-control " placeholder="Enter Text">
+                         <option value="">-- Pilih Sekolah--</option>
+                         @foreach ($sekolah as $r)
+                             <option value="{{ $r->kode_sekolah }}"
+                                 {{ $r->kode_sekolah == request()->get('sekolah') ? 'selected' : '' }}>
+                                 {{ $r->nama_sekolah }}
+                             </option>
+                         @endforeach
+                     </select>
+                 </div>
+
+                 <div class="col-md-1">
+                     <button type="submit" class="btn btn-warning  text-nowrap  btn-sm waves-effect waves-light">
+                         <i class="ti ti-search ti-sm me-2"></i>Cari
+                     </button>
+                 </div>
+             </div>
+         </form>
+     </div>
+     <div class="card mb-4">
+         <div class="card-body">
+
+             <div class="table-responsive">
+
+                 <table class="datatable table">
+                     <thead>
+                         <tr>
+
+                             <th rowspan="2">NIS</th>
+                             <th rowspan="2">Nama</th>
+                             <th rowspan="2">Kelas</th>
+                             <th colspan="{{ count($ujian) }}" style="text-align: center">Nilai</th>
+                             <th rowspan="2">Total</th>
+                             <th rowspan="2">Rata-rata</th>
+                             <th rowspan="2">Rank</th>
+                             <th rowspan="2">Rank2</th>
+                         </tr>
+                         <tr>
+                             @foreach ($ujian as $j)
+                                 <th>{{ $j->matapelajaran }}</th>
+                             @endforeach
+
+                         </tr>
+                     </thead>
+                     <tbody>
+                         @foreach ($data as $r)
+                             <tr>
+                                 <td>{{ $r->nis }}</td>
+                                 <td>{{ $r->nama_siswa }}</td>
+                                 <td>{{ $r->kelas }}</td>
+
+                                 @foreach ($r->ujian as $ps)
+                                     @if ($ps != null)
+                                         @php
+                                             $obj = json_decode($ps);
+
+                                         @endphp
+                                         <td>{{ $obj->nilai }}</td>
+                                     @else
+                                         <td>0</td>
+                                     @endif
+                                 @endforeach
+                                 <td>{{ $r->nilai }}</td>
+                                 <td>{{ $r->nilai / count($r->ujian) }}</td>
+                                 <td>{{ $r->rank }}</td>
+                                 <td>{{ $r->rank2 }}</td>
+                             </tr>
+                         @endforeach
+                     </tbody>
+
+                 </table>
+             </div>
+         </div>
+     </div>
+ @endsection
