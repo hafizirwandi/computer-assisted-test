@@ -96,7 +96,7 @@ Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {
 });
 //Rekap Nilai Global
 Breadcrumbs::for('rekap-nilai-global', function (BreadcrumbTrail $trail) {
-    $trail->push('Rekap Nilai', route('rekap-nilai-global'));
+    $trail->push('Rekap Nilai Global', route('rekap-nilai-global'));
 });
 Breadcrumbs::for('rekap-nilai-global.kumulatif', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai-global');
