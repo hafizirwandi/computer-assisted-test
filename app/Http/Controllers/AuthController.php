@@ -54,14 +54,15 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        if ($guard == 'web') {
-            return redirect('/login-admin');
-        } elseif ($guard == 'siswa') {
-            return redirect('/login');
-        } else {
-            // Handle guard lainnya jika diperlukan
-            return redirect('/login');
-        }
+        return redirect('/login');
+        // if ($guard == 'web') {
+        //     return redirect('/login-admin');
+        // } elseif ($guard == 'siswa') {
+        //     return redirect('/login');
+        // } else {
+        //     // Handle guard lainnya jika diperlukan
+        //     return redirect('/login');
+        // }
     }
 
     public function gantiPassword()
