@@ -33,24 +33,24 @@
                  @php $const =  explode(",", $data->tipe_optional_jawaban) ;@endphp
                  <div class="col-12 col-md-12 {{ !in_array('a', $const) ? 'd-none' : '' }} jawaban_a jawaban">
                      <label class="form-label">Jawaban A</label>
-                     <textarea name="jawaban_a" class="form-control summernote" required>{{ $data->jawaban_a }}</textarea>
+                     <textarea name="jawaban_a" class="form-control summernote">{{ $data->jawaban_a }}</textarea>
                  </div>
                  <div class="col-12 col-md-12 {{ !in_array('b', $const) ? 'd-none' : '' }} jawaban_b jawaban">
                      <label class="form-label">Jawaban B</label>
-                     <textarea name="jawaban_b" class="form-control summernote" required>{{ $data->jawaban_b }}</textarea>
+                     <textarea name="jawaban_b" class="form-control summernote">{{ $data->jawaban_b }}</textarea>
                  </div>
 
                  <div class="col-12 col-md-12 {{ !in_array('c', $const) ? 'd-none' : '' }} jawaban_c jawaban">
                      <label class="form-label">Jawaban C</label>
-                     <textarea name="jawaban_c" class="form-control summernote" required>{{ $data->jawaban_c }}</textarea>
+                     <textarea name="jawaban_c" class="form-control summernote">{{ $data->jawaban_c }}</textarea>
                  </div>
                  <div class="col-12 col-md-12 {{ !in_array('d', $const) ? 'd-none' : '' }} jawaban_d jawaban">
                      <label class="form-label">Jawaban D</label>
-                     <textarea name="jawaban_d" class="form-control summernote" required>{{ $data->jawaban_d }}</textarea>
+                     <textarea name="jawaban_d" class="form-control summernote">{{ $data->jawaban_d }}</textarea>
                  </div>
                  <div class="col-12 col-md-12 {{ !in_array('e', $const) ? 'd-none' : '' }} jawaban_e jawaban">
                      <label class="form-label">Jawaban E</label>
-                     <textarea name="jawaban_e" class="form-control summernote" required>{{ $data->jawaban_e }}</textarea>
+                     <textarea name="jawaban_e" class="form-control summernote">{{ $data->jawaban_e }}</textarea>
                  </div>
                  <div class="col-12 col-md-6">
                      <label class="form-label">Jawaban Benar</label>
