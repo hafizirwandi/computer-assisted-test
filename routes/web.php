@@ -137,7 +137,7 @@ Route::middleware('auth:web')->group(function () {
 
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])->name('kirim-nilai')->middleware('can:sinkronisasi-nilai');
     Route::post('/kirim-nilai/syncData', [KirimNilaiController::class, 'syncData'])->name('kirim-nilai.syncData')->middleware('can:sinkronisasi-nilai');
-    Route::get('/kirim-nilai/check-sync-data', [KirimNilaiController::class, 'checkSyncData'])->name('kirim-nilai.checkSyncData')->middleware('can:cek-sinkronisasi-nilai');
+    Route::get('/kirim-nilai/check-sync-data', [KirimNilaiController::class, 'checkSyncData'])->name('kirim-nilai.checkSyncData')->middleware('can:cek-hasil-sinkronisasi-nilai');
     Route::get('/kirim-nilai/export', [KirimNilaiController::class, 'exportData'])->name('kirim-nilai.export')->middleware('can:eksport-nilai');
     Route::get('/import-nilai', [ImportNilaiController::class, 'index'])->name('import-nilai')->middleware('can:import-nilai');
     Route::post('/import-nilai/upload', [ImportNilaiController::class, 'upload'])->name('import-nilai.upload')->middleware('can:import-nilai');
