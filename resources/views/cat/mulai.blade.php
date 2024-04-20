@@ -263,9 +263,13 @@
                  },
                  success: function(response) {
                      $("#soal").html(response);
-                     $('.checkbox-jwb').change(function() {
-                         let jwb = $(this).val();
+                     $('.checkbox-jwb').click(function() {
+                         $('.checkbox-jwb').removeClass('active');
+                         $(this).addClass('active');
+                         let jwb = $(this).attr('value');
                          let id = $(this).data('id');
+                         //  alert(jwb);
+                         //  alert(id);
                          updateJawaban(id, jwb);
                          hitungRasioActive();
 
