@@ -68,6 +68,9 @@ return new class extends Migration
         'eksport-nilai',
         'import-nilai',
         'dokumentasi',
+        'ganti-password',
+        'pengaturan-sistem'
+
     ];
 
     public function up()
@@ -77,7 +80,45 @@ return new class extends Migration
             Permission::create(['name' => $permission]);
         }
 
-        //Super Admin
+        //Super Admin Online
+        $user = User::create([
+            'name' => 'Admin',
+            'username' => 'admin-online',
+            'email' => 'admin-online@cat.com',
+            'status' => '1',
+            'password' => Hash::make('admin')
+        ]);
+        $role = Role::create(['name' => 'admin-online']);
+        $rpermission = [
+            'user-list',
+            'user-edit',
+            'user-delete',
+            'user-create',
+            'role-list',
+            'role-edit',
+            'role-delete',
+            'role-create',
+            'role-add-permission',
+            'permission-list',
+            'permission-edit',
+            'permission-delete',
+            'permission-create',
+            'rekap-nilai-global',
+            'rekap-nilai-global-kumulatif',
+            'edit-nilai-siswa',
+            'edit-nilai-siswa-global',
+            'import-nilai',
+            'dokumentasi',
+            'ganti-password',
+            'pengaturan-sistem'
+        ];
+        foreach ($rpermission as $r) {
+            $role->givePermissionTo($r);
+        }
+
+        $user->assignRole([$role->id]);
+
+        //Super Admin Lokal Offline
         $user = User::create([
             'name' => 'Admin',
             'username' => 'admin',
@@ -87,9 +128,40 @@ return new class extends Migration
         ]);
         $role = Role::create(['name' => 'admin']);
 
-        $permissions = Permission::pluck('id', 'id')->all();
+        $rpermission = [
+            'user-list',
+            'user-edit',
+            'user-delete',
+            'user-create',
+            'role-list',
+            'role-edit',
+            'role-delete',
+            'role-create',
+            'role-add-permission',
+            'permission-list',
+            'permission-edit',
+            'permission-delete',
+            'permission-create',
+            'matapelajaran-list',
+            'matapelajaran-edit',
+            'matapelajaran-delete',
+            'matapelajaran-create',
+            'soal-list',
+            'soal-edit',
+            'soal-delete',
+            'soal-create',
+            'butirsoal-list',
+            'butirsoal-edit',
+            'butirsoal-delete',
+            'butirsoal-create',
+            'dokumentasi',
+            'ganti-password',
+            'pengaturan-sistem'
+        ];
+        foreach ($rpermission as $r) {
+            $role->givePermissionTo($r);
+        }
 
-        $role->syncPermissions($permissions);
 
         $user->assignRole([$role->id]);
 
@@ -102,9 +174,37 @@ return new class extends Migration
             'password' => Hash::make('operator')
         ]);
         $role = Role::create(['name' => 'operator']);
-        $permissions = Permission::pluck('id', 'id')->all();
+        $rpermission = [
 
-        $role->syncPermissions($permissions);
+            'sekolah-list',
+            'sekolah-edit',
+            'sekolah-delete',
+            'sekolah-create',
+            'siswa-list',
+            'siswa-edit',
+            'siswa-delete',
+            'siswa-create',
+            'siswa-import',
+            'p-ujian-list',
+            'p-ujian-edit',
+            'p-ujian-delete',
+            'p-ujian-create',
+            'reset-ujian-list',
+            'reset-ujian-edit',
+            'reset-ujian-delete',
+            'reset-ujian-create',
+            'rekap-nilai',
+            'rekap-nilai-kumulatif',
+            'sinkronisasi-nilai',
+            'cek-hasil-sinkronisasi-nilai',
+            'eksport-nilai',
+            'dokumentasi',
+            'ganti-password'
+        ];
+
+        foreach ($rpermission as $r) {
+            $role->givePermissionTo($r);
+        }
 
         $user->assignRole([$role->id]);
     }

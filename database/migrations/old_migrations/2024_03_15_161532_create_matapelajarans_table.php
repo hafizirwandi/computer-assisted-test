@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sekolah', function (Blueprint $table) {
+        Schema::create('matapelajaran', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_sekolah')->unique();
             $table->string('nama');
-            $table->string('telp')->nullable();
-            $table->string('email')->nullable();
-            $table->string('alamat')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sekolah');
+        Schema::dropIfExists('matapelajaran');
     }
 };

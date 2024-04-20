@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('soal_id');
             $table->integer('waktu');
             $table->integer('jlh_soal');
-            // $table->foreign('soal_id')->references('id')->on('soal');
+            $table->foreign('soal_id')->references('id')->on('soal');
             $table->string('kode_ujian')->unique();
             $table->date('tanggal_ujian')->nullable();
             $table->enum('is_random', ['0', '1'])->default('0');

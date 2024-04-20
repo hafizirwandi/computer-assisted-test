@@ -13,14 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sekolah', function (Blueprint $table) {
-            $table->id();
-            $table->string('kode_sekolah')->unique();
-            $table->string('nama');
-            $table->string('telp')->nullable();
-            $table->string('email')->nullable();
-            $table->string('alamat')->nullable();
-            $table->timestamps();
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sekolah');
+        Schema::dropIfExists('password_resets');
     }
 };
