@@ -25,10 +25,10 @@
                         <li>Silahkan klik tombol <i>Check Hasil Sinkornisasi</i> untuk melihat apakah data sudah benar
                             tersinkron ke server cloud</li>
                     </ol>
-                    @can('sinkroniasi-nilai')
+                    @can('sinkronisasi-nilai')
                         <button class="btn btn-primary" id="syncData">Sinkroniasi Nilai</button>
                     @endcan
-                    @can('cek-hasil-sinkroniasi-nilai')
+                    @can('cek-hasil-sinkronisasi-nilai')
                         <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
                     @endcan
                     @can('eksport-nilai')
