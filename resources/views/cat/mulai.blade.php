@@ -139,7 +139,7 @@
                      const endTime = parseInt(storedTime);
                      updateCountdown(endTime);
                  } else {
-                     const endTime = new Date().getTime() + (20 * 60 * 1000);
+                     const endTime = new Date().getTime() + ({{ $pu->waktu }} * 60 * 1000);
                      updateCountdown(endTime);
                  }
              }
@@ -185,6 +185,30 @@
 
                      }
                  }, 1000); // Setiap detik
+
+                 $('#btnSelesai').click(function() {
+
+                     Swal.fire({
+                         title: 'Apakah Anda yakin?',
+                         icon: 'warning',
+                         customClass: {
+                             confirmButton: 'btn btn-primary waves-effect waves-light',
+                             cancelButton: 'btn btn-label-secondary waves-effect waves-light',
+
+                         },
+                         showCancelButton: true,
+                         buttonsStyling: false
+
+                     }).then((result) => {
+                         if (result.isConfirmed) {
+                             clearInterval(countdownInterval);
+                             localStorage.removeItem(
+                                 'remainingTime');
+                             hitungHasil();
+                         }
+
+                     });
+                 });
              }
              startCountdown();
 
@@ -226,27 +250,7 @@
 
 
              });
-             $('#btnSelesai').click(function() {
 
-                 Swal.fire({
-                     title: 'Apakah Anda yakin?',
-                     icon: 'warning',
-                     customClass: {
-                         confirmButton: 'btn btn-primary waves-effect waves-light',
-                         cancelButton: 'btn btn-label-secondary waves-effect waves-light',
-
-                     },
-                     showCancelButton: true,
-                     buttonsStyling: false
-
-                 }).then((result) => {
-                     if (result.isConfirmed) {
-                         localStorage.removeItem('remainingTime');
-                         hitungHasil();
-                     }
-
-                 });
-             });
          });
 
          function fetchSoal(nomor) {

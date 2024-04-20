@@ -12,6 +12,7 @@ class ButirSoal extends Model
     protected $fillable = [
         'soal_id',
         'soal',
+        'tipe_optional_jawaban',
         'jawaban_a',
         'jawaban_b',
         'jawaban_c',

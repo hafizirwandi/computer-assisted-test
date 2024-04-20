@@ -2,10 +2,11 @@
  @section('title', 'Reset Ujian')
  @section('content')
 
-
-     <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-refresh ti-sm me-2"></i>Reset Ujian
-     </button>
+     @can('reset-ujian-create')
+         <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+             <i class="ti ti-refresh ti-sm me-2"></i>Reset Ujian
+         </button>
+     @endcan
 
      <div class="card mb-4">
          <div class="card-body">
@@ -19,6 +20,7 @@
                              <th>Kode Ujian</th>
                              <th>Alasan</th>
                              <th>Created at</th>
+                             <th>Action</th>
                          </tr>
                      </thead>
                      <tbody>
@@ -29,6 +31,27 @@
                                  <td>{{ $r->keterangan }}</td>
 
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
+                                 </td>
+                                 <td>
+                                     <div class="d-flex align-items-center">
+                                         @can('reset-ujian-edit')
+                                             <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
+                                                 <i class="ti ti-edit ti-sm me-2"></i>
+                                             </a>
+                                         @endcan
+                                         @can('siswa-delete')
+                                             <form method="post" action="{{ route('reset-ujian.destroy') }}">
+                                                 @csrf
+                                                 @method('delete')
+                                                 <input type="hidden" name="id" value="{{ $r->id }}">
+                                                 <button type="submit"
+                                                     onclick="return confirm('Are you sure you want to proceed?')"
+                                                     class="text-body no-style">
+                                                     <i class="ti ti-trash ti-sm me-2"></i>
+                                                 </button>
+                                             </form>
+                                         @endcan
+                                     </div>
                                  </td>
 
                              </tr>
@@ -90,6 +113,15 @@
              });
 
          }
+
+         @can('reset-ujian-edit')
+             function edit(id) {
+
+                 $("#myModal .modal-body").load("{{ route('reset-ujian.edit', ['id' => ':id']) }}".replace(':id', id));
+                 $("#myModal").modal("show");
+
+             }
+         @endcan
      </script>
 
  @endsection

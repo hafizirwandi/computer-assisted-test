@@ -23,129 +23,158 @@
                       <div data-i18n="Home">Home</div>
                   </a>
               </li>
+              @can('user-list')
+                  <li class="menu-item {{ request()->routeIs('user*') ? 'active' : '' }}">
+                      <a href="{{ route('user') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-users"></i>
+                          <div data-i18n="User">User</div>
+                      </a>
+                  </li>
+              @endcan
+              @canany(['role-list', 'permission-list'])
+                  <li class="menu-item {{ isDropdown(['role*', 'permission*']) }}">
+                      <a href="javascript:void(0);" class="menu-link menu-toggle">
+                          <i class="menu-icon tf-icons ti ti-settings"></i>
+                          <div data-i18n="Role & Permission">Role & Permission</div>
+                      </a>
+                      <ul class="menu-sub">
+                          @can('role-list')
+                              <li class="menu-item {{ request()->routeIs('role*') ? 'active' : '' }}">
+                                  <a href="{{ route('role') }}" class="menu-link">
+                                      <div data-i18n="Role">Role</div>
+                                  </a>
+                              </li>
+                          @endcan
+                          @can('permission-list')
+                              <li class="menu-item {{ request()->routeIs('permission*') ? 'active' : '' }}">
+                                  <a href="{{ route('permission') }}" class="menu-link">
+                                      <div data-i18n="Permission">Permission</div>
+                                  </a>
+                              </li>
+                          @endcan
+                      </ul>
+                  </li>
+              @endcanany
 
-              <li class="menu-item {{ request()->routeIs('user*') ? 'active' : '' }}">
-                  <a href="{{ route('user') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-users"></i>
-                      <div data-i18n="User">User</div>
-                  </a>
-              </li>
+              @can('sekolah-list')
+                  <li class="menu-item {{ request()->routeIs('sekolah*') ? 'active' : '' }}">
+                      <a href="{{ route('sekolah') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-school"></i>
+                          <div data-i18n="Sekolah">Sekolah</div>
+                      </a>
+                  </li>
+              @endcan
+              @can('matapelajaran-list')
+                  <li class="menu-item {{ request()->routeIs('matapelajaran*') ? 'active' : '' }}">
+                      <a href="{{ route('matapelajaran') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-books"></i>
+                          <div data-i18n="Matapelajaran">Matapelajaran</div>
+                      </a>
+                  </li>
+              @endcan
+              @can('soal-list')
+                  <li class="menu-item {{ request()->routeIs('soal*') ? 'active' : '' }}">
+                      <a href="{{ route('soal') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-microscope"></i>
+                          <div data-i18n="Soal">Soal</div>
+                      </a>
+                  </li>
+              @endcan
+              @can('siswa-list')
+                  <li class="menu-item {{ request()->routeIs('siswa*') ? 'active' : '' }}">
+                      <a href="{{ route('siswa') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-user-circle"></i>
+                          <div data-i18n="Siswa">Siswa</div>
+                      </a>
+                  </li>
+              @endcan
+              @can('p-ujian-list')
+                  <li class="menu-item {{ request()->routeIs('pengaturan-ujian*') ? 'active' : '' }}">
+                      <a href="{{ route('pengaturan-ujian') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-forms"></i>
+                          <div data-i18n="Pengaturan Ujian">Pengaturan Ujian</div>
+                      </a>
+                  </li>
+              @endcan
+              @can('reset-ujian-list')
+                  <li class="menu-item {{ request()->routeIs('reset-ujian*') ? 'active' : '' }}">
+                      <a href="{{ route('reset-ujian') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-refresh"></i>
+                          <div data-i18n="Reset Ujian">Reset Ujian</div>
+                      </a>
+                  </li>
+              @endcan
+              @canany(['rekap-nilai', 'rekap-nilai-kumulatif'])
+                  <li class="menu-item {{ isDropdown(['rekap-nilai', 'rekap-nilai.kumulatif', 'rekap-nilai.dashboard']) }}">
+                      <a href="javascript:void(0);" class="menu-link menu-toggle">
+                          <i class="menu-icon tf-icons ti ti-chart-bar"></i>
+                          <div data-i18n="Rekap Nilai">Rekap Nilai</div>
+                      </a>
+                      <ul class="menu-sub">
+                          @can('rekap-nilai')
+                              <li class="menu-item {{ request()->routeIs('rekap-nilai') ? 'active' : '' }}">
+                                  <a href="{{ route('rekap-nilai') }}" class="menu-link">
+                                      <div data-i18n="Per Ujian">Per Ujian</div>
+                                  </a>
+                              </li>
+                          @endcan
+                          @can('rekap-nilai-kumulatif')
+                              <li class="menu-item {{ request()->routeIs('rekap-nilai.kumulatif*') ? 'active' : '' }}">
+                                  <a href="{{ route('rekap-nilai.kumulatif') }}" class="menu-link">
+                                      <div data-i18n="Kumulatif">Kumulatif</div>
+                                  </a>
+                              </li>
+                          @endcan
+                      </ul>
+                  </li>
+              @endcanany
+              @canany(['rekap-nilai-global', 'rekap-nilai-global-kumulatif'])
+                  <li class="menu-item {{ isDropdown(['rekap-nilai-global', 'rekap-nilai-global.kumulatif']) }}">
+                      <a href="javascript:void(0);" class="menu-link menu-toggle">
+                          <i class="menu-icon tf-icons ti ti-chart-histogram"></i>
+                          <div data-i18n="Rekap Nilai Global">Rekap Nilai Global</div>
+                      </a>
+                      <ul class="menu-sub">
+                          @can('rekap-nilai-global')
+                              <li class="menu-item {{ request()->routeIs('rekap-nilai-global') ? 'active' : '' }}">
+                                  <a href="{{ route('rekap-nilai-global') }}" class="menu-link">
+                                      <div data-i18n="Per Ujian">Per Ujian</div>
+                                  </a>
+                              </li>
+                          @endcan
+                          @can('rekap-nilai-global-kumulatif')
+                              <li class="menu-item {{ request()->routeIs('rekap-nilai-global.kumulatif') ? 'active' : '' }}">
+                                  <a href="{{ route('rekap-nilai-global.kumulatif') }}" class="menu-link">
+                                      <div data-i18n="Kumulatif">Kumulatif</div>
+                                  </a>
+                              </li>
+                          @endcan
+                      </ul>
+                  </li>
+              @endcanany
 
-              <li class="menu-item {{ isDropdown(['role*', 'permission*']) }}">
-                  <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons ti ti-settings"></i>
-                      <div data-i18n="Role & Permission">Role & Permission</div>
-                  </a>
-                  <ul class="menu-sub">
-                      <li class="menu-item {{ request()->routeIs('role*') ? 'active' : '' }}">
-                          <a href="{{ route('role') }}" class="menu-link">
-                              <div data-i18n="Role">Role</div>
-                          </a>
-                      </li>
-                      <li class="menu-item {{ request()->routeIs('permission*') ? 'active' : '' }}">
-                          <a href="{{ route('permission') }}" class="menu-link">
-                              <div data-i18n="Permission">Permission</div>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
-
-
-              <li class="menu-item {{ request()->routeIs('sekolah*') ? 'active' : '' }}">
-                  <a href="{{ route('sekolah') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-school"></i>
-                      <div data-i18n="Sekolah">Sekolah</div>
-                  </a>
-              </li>
-              <li class="menu-item {{ request()->routeIs('matapelajaran*') ? 'active' : '' }}">
-                  <a href="{{ route('matapelajaran') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-books"></i>
-                      <div data-i18n="Matapelajaran">Matapelajaran</div>
-                  </a>
-              </li>
-              <li class="menu-item {{ request()->routeIs('soal*') ? 'active' : '' }}">
-                  <a href="{{ route('soal') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-microscope"></i>
-                      <div data-i18n="Soal">Soal</div>
-                  </a>
-              </li>
-
-              <li class="menu-item {{ request()->routeIs('siswa*') ? 'active' : '' }}">
-                  <a href="{{ route('siswa') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-user-circle"></i>
-                      <div data-i18n="Siswa">Siswa</div>
-                  </a>
-              </li>
-
-              <li class="menu-item {{ request()->routeIs('pengaturan-ujian*') ? 'active' : '' }}">
-                  <a href="{{ route('pengaturan-ujian') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-forms"></i>
-                      <div data-i18n="Pengaturan Ujian">Pengaturan Ujian</div>
-                  </a>
-              </li>
-
-              <li class="menu-item {{ request()->routeIs('reset-ujian*') ? 'active' : '' }}">
-                  <a href="{{ route('reset-ujian') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-refresh"></i>
-                      <div data-i18n="Reset Ujian">Reset Ujian</div>
-                  </a>
-              </li>
-
-
-              <li class="menu-item {{ isDropdown(['rekap-nilai', 'rekap-nilai.kumulatif', 'rekap-nilai.dashboard']) }}">
-                  <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons ti ti-chart-bar"></i>
-                      <div data-i18n="Rekap Nilai">Rekap Nilai</div>
-                  </a>
-                  <ul class="menu-sub">
-                      <li class="menu-item {{ request()->routeIs('rekap-nilai') ? 'active' : '' }}">
-                          <a href="{{ route('rekap-nilai') }}" class="menu-link">
-                              <div data-i18n="Per Ujian">Per Ujian</div>
-                          </a>
-                      </li>
-                      <li class="menu-item {{ request()->routeIs('rekap-nilai.kumulatif*') ? 'active' : '' }}">
-                          <a href="{{ route('rekap-nilai.kumulatif') }}" class="menu-link">
-                              <div data-i18n="Kumulatif">Kumulatif</div>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
-              <li class="menu-item {{ isDropdown(['rekap-nilai-global', 'rekap-nilai-global.kumulatif']) }}">
-                  <a href="javascript:void(0);" class="menu-link menu-toggle">
-                      <i class="menu-icon tf-icons ti ti-chart-histogram"></i>
-                      <div data-i18n="Rekap Nilai Global">Rekap Nilai Global</div>
-                  </a>
-                  <ul class="menu-sub">
-                      <li class="menu-item {{ request()->routeIs('rekap-nilai-global') ? 'active' : '' }}">
-                          <a href="{{ route('rekap-nilai-global') }}" class="menu-link">
-                              <div data-i18n="Per Ujian">Per Ujian</div>
-                          </a>
-                      </li>
-                      <li class="menu-item {{ request()->routeIs('rekap-nilai-global.kumulatif') ? 'active' : '' }}">
-                          <a href="{{ route('rekap-nilai-global.kumulatif') }}" class="menu-link">
-                              <div data-i18n="Kumulatif">Kumulatif</div>
-                          </a>
-                      </li>
-                  </ul>
-              </li>
-              <li class="menu-item {{ request()->routeIs('kirim-nilai*') ? 'active' : '' }}">
-                  <a href="{{ route('kirim-nilai') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-send"></i>
-                      <div data-i18n="Export Nilai">Kirim Nilai</div>
-                  </a>
-              </li>
-              <li class="menu-item {{ request()->routeIs('import-nilai') ? 'active' : '' }}">
-                  <a href="{{ route('import-nilai') }}" class="menu-link">
-                      <i class="menu-icon tf-icons ti ti-database-import"></i>
-                      <div data-i18n="Import Nilai">Import Nilai</div>
-                  </a>
-              </li>
-              <li class="menu-item">
+              @canany(['sinkronisasi-nilai', 'cek-hasil-sinkronisasi-nilai', 'eksport-nilai'])
+                  <li class="menu-item {{ request()->routeIs('kirim-nilai*') ? 'active' : '' }}">
+                      <a href="{{ route('kirim-nilai') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-send"></i>
+                          <div data-i18n="Export Nilai">Kirim Nilai</div>
+                      </a>
+                  </li>
+              @endcanany
+              @can('import-nilai')
+                  <li class="menu-item {{ request()->routeIs('import-nilai') ? 'active' : '' }}">
+                      <a href="{{ route('import-nilai') }}" class="menu-link">
+                          <i class="menu-icon tf-icons ti ti-database-import"></i>
+                          <div data-i18n="Import Nilai">Import Nilai</div>
+                      </a>
+                  </li>
+              @endcan
+              {{-- <li class="menu-item">
                   <a href="" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-file-description"></i>
                       <div data-i18n="Dokumentasi">Dokumentasi</div>
                   </a>
-              </li>
+              </li> --}}
           @endauth
           {{-- Auth::siswa --}}
           @auth('siswa')

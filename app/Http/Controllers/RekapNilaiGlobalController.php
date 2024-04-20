@@ -20,14 +20,17 @@ class RekapNilaiGlobalController extends Controller
 
 
             $result = NilaiCloud::where('kode_sekolah', $request->input('sekolah'))->get();
-            $collection = $this->setRankValue($result);
-            $data['data'] = $this->setRankValueV2($collection);
+            $data['data'] = $result;
+            // $collection = $this->setRankValue($result);
+            // $data['data'] = $this->setRankValueV2($collection);
         }
 
         if ($request->query('ujian')) {
             $result = NilaiCloud::where('kode_ujian', $request->input('ujian'))->get();
-            $collection = $this->setRankValue($result);
-            $data['data'] = $this->setRankValueV2($collection);
+            $data['data'] = $result;
+
+            // $collection = $this->setRankValue($result);
+            // $data['data'] = $this->setRankValueV2($collection);
         }
 
         $data['sekolah'] = NilaiCloud::select('nama_sekolah', 'kode_sekolah')->groupBy('kode_sekolah', 'nama_sekolah')->get();
@@ -56,8 +59,9 @@ class RekapNilaiGlobalController extends Controller
             }
 
             $data['ujian'] = $ujian;
-            $collection = $this->setRankValue($siswa);
-            $data['data'] = $this->setRankValueV2($collection);
+            $data['data'] = $siswa;
+            // $collection = $this->setRankValue($siswa);
+            // $data['data'] = $this->setRankValueV2($collection);
         }
 
 

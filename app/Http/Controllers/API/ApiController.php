@@ -53,7 +53,7 @@ class ApiController extends Controller
                     'kode_sekolah' => $r['kode_sekolah'],
                     'nis' => $r['nis'],
                     'kode_ujian' => $r['kode_ujian'],
-                    'matapelajaran' => $r['matapelajaran'],
+                    // 'matapelajaran' => $r['matapelajaran'],
                 ];
 
                 NilaiCloud::updateOrCreate($where, $r);

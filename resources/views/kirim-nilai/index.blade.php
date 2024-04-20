@@ -25,9 +25,15 @@
                         <li>Silahkan klik tombol <i>Check Hasil Sinkornisasi</i> untuk melihat apakah data sudah benar
                             tersinkron ke server cloud</li>
                     </ol>
-                    <button class="btn btn-primary" id="syncData">Sinkroniasi Nilai</button>
-                    <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
-                    <a href="{{ route('kirim-nilai.export') }}" class="btn btn-secondary">Export Nilai</a>
+                    @can('sinkroniasi-nilai')
+                        <button class="btn btn-primary" id="syncData">Sinkroniasi Nilai</button>
+                    @endcan
+                    @can('cek-hasil-sinkroniasi-nilai')
+                        <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
+                    @endcan
+                    @can('eksport-nilai')
+                        <a href="{{ route('kirim-nilai.export') }}" class="btn btn-secondary">Export Nilai</a>
+                    @endcan
                 </div>
             </div>
 
@@ -38,72 +44,74 @@
 @endsection
 @section('script')
     <script>
-        $(function() {
-            $("#syncData").click(function() {
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    icon: 'warning',
-                    customClass: {
-                        confirmButton: 'btn btn-primary waves-effect waves-light',
-                        cancelButton: 'btn btn-label-secondary waves-effect waves-light',
+        @can('sinkronisasi-nilai')
+            $(function() {
+                $("#syncData").click(function() {
+                    Swal.fire({
+                        title: 'Apakah Anda yakin?',
+                        icon: 'warning',
+                        customClass: {
+                            confirmButton: 'btn btn-primary waves-effect waves-light',
+                            cancelButton: 'btn btn-label-secondary waves-effect waves-light',
 
-                    },
-                    showCancelButton: true,
-                    buttonsStyling: false
+                        },
+                        showCancelButton: true,
+                        buttonsStyling: false
 
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        syncData();
-                    }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            syncData();
+                        }
 
-                });
+                    });
 
+                })
+
+                function syncData() {
+                    Swal.fire({
+                        title: 'Mohon menunggu...',
+                        allowOutsideClick: false,
+                        customClass: {
+                            confirmButton: 'd-none'
+                        },
+                        buttonsStyling: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ route('kirim-nilai.syncData') }}",
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Berhasil!',
+                                text: response.message,
+                                customClass: {
+                                    confirmButton: 'btn btn-primary waves-effect waves-light'
+                                },
+                                buttonsStyling: false
+                            });
+
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal!',
+                                text: xhr.responseText,
+                                customClass: {
+                                    confirmButton: 'btn btn-primary waves-effect waves-light'
+                                },
+                                buttonsStyling: false
+                            });
+                        }
+                    });
+                }
             })
-
-            function syncData() {
-                Swal.fire({
-                    title: 'Mohon menunggu...',
-                    allowOutsideClick: false,
-                    customClass: {
-                        confirmButton: 'd-none'
-                    },
-                    buttonsStyling: false,
-                    onBeforeOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-                $.ajax({
-                    url: "{{ route('kirim-nilai.syncData') }}",
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                    },
-                    success: function(response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Berhasil!',
-                            text: response.message,
-                            customClass: {
-                                confirmButton: 'btn btn-primary waves-effect waves-light'
-                            },
-                            buttonsStyling: false
-                        });
-
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal!',
-                            text: xhr.responseText,
-                            customClass: {
-                                confirmButton: 'btn btn-primary waves-effect waves-light'
-                            },
-                            buttonsStyling: false
-                        });
-                    }
-                });
-            }
-        })
+        @endcan
     </script>
 @endsection

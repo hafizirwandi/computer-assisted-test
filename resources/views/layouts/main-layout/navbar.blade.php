@@ -75,12 +75,14 @@
                         </a>
                     </li>
                     @if (auth()->guard('web')->check())
-                        <li>
-                            <a class="dropdown-item" href="{{ route('ganti-password') }}">
-                                <i class="ti ti-lock me-2 ti-sm"></i>
-                                <span class="align-middle">Ganti Password</span>
-                            </a>
-                        </li>
+                        @can('ganti-password')
+                            <li>
+                                <a class="dropdown-item" href="{{ route('ganti-password') }}">
+                                    <i class="ti ti-lock me-2 ti-sm"></i>
+                                    <span class="align-middle">Ganti Password</span>
+                                </a>
+                            </li>
+                        @endcan
                     @endif
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}">
