@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('sekolah', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_sekolah')->unique();
             $table->string('nama');
             $table->string('telp')->nullable();
             $table->string('email')->nullable();

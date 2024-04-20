@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('kode_ujian')->nullable();
             $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
             $table->string('nis')->nullable();
-            $table->foreign('nis')->references('nis')->on('siswa');
+            $table->foreign('nis')->references('nis')->on('siswa')->onDelete('cascade')->onUpdate('cascade');
             $table->string('keterangan');
             $table->timestamps();
         });

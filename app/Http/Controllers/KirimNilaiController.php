@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 
@@ -45,6 +46,7 @@ class KirimNilaiController extends Controller
             // Mengembalikan item dengan bidang baru
             return $item;
         });
+        // dd($result);
         $data['data'] = $result;
 
         // Sertakan token dalam header Authorization
@@ -87,6 +89,8 @@ class KirimNilaiController extends Controller
     }
     public function exportData()
     {
+        $sekolah = Sekolah::first();
+        // dd($sekolah);
         $hu = HasilUjian::with(['siswa.sekolah', 'pengaturanUjian.soal'])->get();
         $key = "WowAmazing123!";
         $data = collect($hu->map(function ($item) use ($key) {
@@ -99,47 +103,18 @@ class KirimNilaiController extends Controller
                 'nama_sekolah' => $item->siswa->sekolah->nama,
                 'kode_ujian' => $item->pengaturanUjian->kode_ujian,
                 'matapelajaran' => $item->pengaturanUjian->soal->nama,
+                'jlh_soal' => $item->pengaturanUjian->jlh_soal,
+                'jlh_soal' => $item->pengaturanUjian->jlh_soal,
+                'jlh_jawab_benar' => $item->jlh_jawab_benar,
+                'jlh_jawab_salah' => $item->jlh_jawab_salah,
+                'jlh_tidak_jawab' => $item->jlh_tidak_jawab,
+                'nilai' => $item->nilai,
             ]);
 
             return encryptText($plainText, $key);
         }));
-        $filename = 'encrypted_data_' . now()->format('Y-m-d_H-i-s') . '.crypt';
+        $filename = 'export-' . $sekolah->kode_sekolah . '-' . Str::slug($sekolah->nama) . '-' . now()->format('Y-m-d_H-i-s') . '.crypt';
         Storage::put($filename, $data->implode("\n"));
         return response()->download(storage_path('app/' . $filename))->deleteFileAfterSend();
-
-
-
-        // $excelFileName = 'export-kirim-nilai.xlsx';
-        // // Menggunakan Maatwebsite/Excel untuk mengekspor data ke file Excel
-        // Excel::store(new ExportData($data), 'exports/' . $excelFileName, 'public');
-
-        // // Path file Excel yang telah dibuat
-        // $filePath = storage_path('app/public/exports/' . $excelFileName);
-
-        // // Buka file Excel dengan PhpSpreadsheet
-        // $spreadsheet = IOFactory::load($filePath);
-
-        // // Mendapatkan semua sheet dalam file
-        // $worksheet = $spreadsheet->getActiveSheet();
-
-        // // Mengunci semua sel di worksheet
-        // $protection = $worksheet->getProtection();
-        // $protection->setSheet(true);
-        // $protection->setPassword('your_password'); // Ganti 'your_password' dengan kata sandi yang Anda inginkan
-        // $protection->setSort(true);
-        // $protection->setInsertRows(true);
-        // $protection->setFormatCells(true);
-
-        // // Simpan perubahan ke file
-        // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        // $writer->save($filePath);
-
-        // // Set headers untuk unduhan
-        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        // header('Content-Disposition: attachment;filename="' . $excelFileName . '"');
-        // header('Cache-Control: max-age=0');
-
-        // // Output file Excel ke browser
-        // readfile($filePath);
     }
 }

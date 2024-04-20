@@ -17,8 +17,8 @@ return new class extends Migration
             //
 
             $table->integer('soal_id')->after('nomor');
-            $table->integer('butirsoal_id')->after('soal_id');
-            $table->char('jawaban_benar')->after('butirsoal_id');
+            $table->integer('butirsoal_id');
+            $table->char('jawaban_benar');
         });
     }
 

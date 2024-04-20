@@ -16,13 +16,15 @@ return new class extends Migration
         Schema::create('pemetaan_soal', function (Blueprint $table) {
             $table->id();
             $table->integer('nomor');
+            $table->integer('soal_id');
             $table->integer('butirsoal_id');
+            $table->char('jawaban_benar');
             $table->char('jawaban')->nullable();
             $table->double('poin_benar');
             $table->string('kode_ujian')->nullable();
-            $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
+            // $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
             $table->string('nis')->nullable();
-            $table->foreign('nis')->references('nis')->on('siswa');
+            $table->foreign('nis')->references('nis')->on('siswa')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

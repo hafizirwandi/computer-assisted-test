@@ -2,10 +2,11 @@
  @section('title', 'Permission')
  @section('content')
 
-
-     <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-plus ti-sm me-2"></i>Tambah Permission
-     </button>
+     @can('permission-create')
+         <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+             <i class="ti ti-plus ti-sm me-2"></i>Tambah Permission
+         </button>
+     @endcan
 
      <div class="card mb-4">
          <div class="card-body">
@@ -22,7 +23,7 @@
                      <tbody>
                          @foreach ($data as $r)
                              <tr>
-                                 <td>{{ ucwords($r->name) }}</td>
+                                 <td>{{ $r->name }}</td>
                                  <td><span class="text-nowrap">
 
                                          @foreach ($r->role as $j)
@@ -37,20 +38,23 @@
                                  </td>
                                  <td>
                                      <div class="d-flex align-items-center">
-                                         <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
-                                             <i class="ti ti-edit ti-sm me-2"></i>
-                                         </a>
-                                         <form method="post" action="{{ route('permission.destroy') }}">
-                                             @csrf
-                                             @method('delete')
-                                             <input type="hidden" name="id" value="{{ $r->id }}">
-                                             <button type="submit"
-                                                 onclick="return confirm('Are you sure you want to proceed?')"
-                                                 class="text-body no-style">
-                                                 <i class="ti ti-trash ti-sm me-2"></i>
-                                             </button>
-                                         </form>
-
+                                         @can('permission-edit')
+                                             <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
+                                                 <i class="ti ti-edit ti-sm me-2"></i>
+                                             </a>
+                                         @endcan
+                                         @can('permission-delete')
+                                             <form method="post" action="{{ route('permission.destroy') }}">
+                                                 @csrf
+                                                 @method('delete')
+                                                 <input type="hidden" name="id" value="{{ $r->id }}">
+                                                 <button type="submit"
+                                                     onclick="return confirm('Are you sure you want to proceed?')"
+                                                     class="text-body no-style">
+                                                     <i class="ti ti-trash ti-sm me-2"></i>
+                                                 </button>
+                                             </form>
+                                         @endcan
                                      </div>
                                  </td>
                              </tr>
@@ -72,19 +76,22 @@
  @endsection
  @section('script')
      <script>
-         function create() {
+         @can('permission-create')
+             function create() {
 
-             $("#myModal .modal-body").load("{{ route('permission.create') }}");
-             $("#myModal").modal("show");
+                 $("#myModal .modal-body").load("{{ route('permission.create') }}");
+                 $("#myModal").modal("show");
 
-         }
+             }
+         @endcan
+         @can('permission-edit')
+             function edit(id) {
 
-         function edit(id) {
+                 $("#myModal .modal-body").load("{{ route('permission.edit', ['id' => ':id']) }}".replace(':id', id));
+                 $("#myModal").modal("show");
 
-             $("#myModal .modal-body").load("{{ route('permission.edit', ['id' => ':id']) }}".replace(':id', id));
-             $("#myModal").modal("show");
-
-         }
+             }
+         @endcan
      </script>
 
  @endsection

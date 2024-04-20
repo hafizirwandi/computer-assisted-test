@@ -18,6 +18,12 @@ class ResetUjianController extends Controller
 
         return view('reset-ujian.index', $data);
     }
+    public function edit($id)
+    {
+        $data['data'] = ResetUjian::findOrFail($id);
+
+        return view('reset-ujian.edit', $data);
+    }
 
     public function create()
     {
@@ -48,6 +54,33 @@ class ResetUjianController extends Controller
 
             $msg = 'Sekolah berhasil dibuat';
             return back()->with('success', $msg);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+    public function update(Request $request, $id = null)
+    {
+        try {
+            $rules = [
+                'keterangan' => 'nullable',
+            ];
+            $data = $request->validate($rules);
+
+
+
+            ResetUjian::where('id', $id)->update($data);
+
+            $msg = 'Sekolah berhasil diubah';
+            return back()->with('success', $msg);
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+    public function destroy(Request $request)
+    {
+        try {
+            ResetUjian::destroy($request->input('id'));
+            return back()->with('success', 'Reset ujian berhasil dihapus');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

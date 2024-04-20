@@ -33,7 +33,7 @@
       </div>
       <div class="col-12 col-md-12">
           <label class="form-label">Keterangan</label>
-          <textarea type="text" name="keterangan" class="form-control" rows="5" placeholder="Enter Text"></textarea>
+          <textarea type="text" name="keterangan" class="form-control" rows="5" placeholder="Enter Text" required></textarea>
       </div>
 
 

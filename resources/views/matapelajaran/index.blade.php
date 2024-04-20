@@ -2,14 +2,11 @@
  @section('title', 'Matapelajaran')
  @section('content')
 
-
-     <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-plus ti-sm me-2"></i>Tambah Matapelajaran
-     </button>
-     <button onclick="importData()" class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-database-import ti-sm me-2"></i>Import Matapelajaran
-     </button>
-
+     @can('matapelajaran-create')
+         <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+             <i class="ti ti-plus ti-sm me-2"></i>Tambah Matapelajaran
+         </button>
+     @endcan
      <div class="card mb-4">
          <div class="card-body">
 
@@ -31,19 +28,23 @@
                                  </td>
                                  <td>
                                      <div class="d-flex align-items-center">
-                                         <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
-                                             <i class="ti ti-edit ti-sm me-2"></i>
-                                         </a>
-                                         <form method="post" action="{{ route('matapelajaran.destroy') }}">
-                                             @csrf
-                                             @method('delete')
-                                             <input type="hidden" name="id" value="{{ $r->id }}">
-                                             <button type="submit"
-                                                 onclick="return confirm('Are you sure you want to proceed?')"
-                                                 class="text-body no-style">
-                                                 <i class="ti ti-trash ti-sm me-2"></i>
-                                             </button>
-                                         </form>
+                                         @can('matapelajaran-edit')
+                                             <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
+                                                 <i class="ti ti-edit ti-sm me-2"></i>
+                                             </a>
+                                         @endcan
+                                         @can('matapelajaran-delete')
+                                             <form method="post" action="{{ route('matapelajaran.destroy') }}">
+                                                 @csrf
+                                                 @method('delete')
+                                                 <input type="hidden" name="id" value="{{ $r->id }}">
+                                                 <button type="submit"
+                                                     onclick="return confirm('Are you sure you want to proceed?')"
+                                                     class="text-body no-style">
+                                                     <i class="ti ti-trash ti-sm me-2"></i>
+                                                 </button>
+                                             </form>
+                                         @endcan
 
                                      </div>
                                  </td>
@@ -66,19 +67,22 @@
  @endsection
  @section('script')
      <script>
-         function create() {
+         @can('matapelajaran-create')
+             function create() {
 
-             $("#myModal .modal-body").load("{{ route('matapelajaran.create') }}");
-             $("#myModal").modal("show");
+                 $("#myModal .modal-body").load("{{ route('matapelajaran.create') }}");
+                 $("#myModal").modal("show");
 
-         }
+             }
+         @endcan
+         @can('matapelajaran-edit')
+             function edit(id) {
 
-         function edit(id) {
+                 $("#myModal .modal-body").load("{{ route('matapelajaran.edit', ['id' => ':id']) }}".replace(':id', id));
+                 $("#myModal").modal("show");
 
-             $("#myModal .modal-body").load("{{ route('matapelajaran.edit', ['id' => ':id']) }}".replace(':id', id));
-             $("#myModal").modal("show");
-
-         }
+             }
+         @endcan
      </script>
 
  @endsection

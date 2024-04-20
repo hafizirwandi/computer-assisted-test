@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nis')->unique();
             $table->string('kelas');
+            $table->enum('status', ['0', '1', '2'])->default('0');
+            $table->string('password');
             $table->unsignedBigInteger('sekolah_id');
-            $table->foreign('sekolah_id')->references('id')->on('sekolah');
+            $table->foreign('sekolah_id')->references('id')->on('sekolah')->onDelete('cascade')->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

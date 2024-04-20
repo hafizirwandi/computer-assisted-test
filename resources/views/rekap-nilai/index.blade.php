@@ -52,8 +52,8 @@
                              <th>Jlh Salah</th>
                              <th>Jlh Tidak Jawab</th>
                              <th>Nilai</th>
-                             <th>Rank</th>
-                             <th>Rank2</th>
+                             {{-- <th>Rank</th>
+                             <th>Rank2</th> --}}
                              <th>Created at</th>
                          </tr>
                      </thead>
@@ -69,8 +69,8 @@
                                  <td>{{ $r->jlh_jawab_salah }}</td>
                                  <td>{{ $r->jlh_tidak_jawab }}</td>
                                  <td>{{ $r->nilai }}</td>
-                                 <td>{{ $r->rank }}</td>
-                                 <td>{{ $r->rank2 }}</td>
+                                 {{-- <td>{{ $r->rank }}</td>
+                                 <td>{{ $r->rank2 }}</td> --}}
 
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>

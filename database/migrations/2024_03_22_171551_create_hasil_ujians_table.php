@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('hasil_ujian', function (Blueprint $table) {
             $table->id();
             $table->string('kode_ujian')->nullable();
-            $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
+            // $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
             $table->string('nis')->nullable();
-            $table->foreign('nis')->references('nis')->on('siswa');
+            $table->foreign('nis')->references('nis')->on('siswa')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('jlh_soal');
             $table->integer('jlh_jawab_benar');
             $table->integer('jlh_jawab_salah');

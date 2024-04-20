@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('butir_soal', function (Blueprint $table) {
             $table->id();
+            $table->string('tipe_optional_jawaban');
             $table->longText('soal');
-            $table->longText('jawaban_a');
-            $table->longText('jawaban_b');
-            $table->longText('jawaban_c');
-            $table->longText('jawaban_d');
-            $table->longText('jawaban_e');
+            $table->longText('jawaban_a')->nullable();
+            $table->longText('jawaban_b')->nullable();
+            $table->longText('jawaban_c')->nullable();
+            $table->longText('jawaban_d')->nullable();
+            $table->longText('jawaban_e')->nullable();
             $table->string('jawaban_benar');
             $table->double('poin_benar');
             $table->unsignedBigInteger('soal_id');

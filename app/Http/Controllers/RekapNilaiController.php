@@ -22,15 +22,17 @@ class RekapNilaiController extends Controller
                     ->where('siswa.sekolah_id', $sekolahID);
             });
             $result = $hu->get();
-            $collection = $this->setRankValue($result);
-            $data['data'] = $this->setRankValueV2($collection);
+            $data['data'] = $result;
+            // $collection = $this->setRankValue($result);
+            // $data['data'] = $this->setRankValueV2($collection);
         }
 
         if ($request->query('ujian')) {
             $hu->where('hasil_ujian.kode_ujian', $request->input('ujian'));
             $result = $hu->get();
-            $collection = $this->setRankValue($result);
-            $data['data'] = $this->setRankValueV2($collection);
+            $data['data'] = $result;
+            // $collection = $this->setRankValue($result);
+            // $data['data'] = $this->setRankValueV2($collection);
         }
 
 
