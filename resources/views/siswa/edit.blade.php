@@ -6,7 +6,7 @@
   <form class="row g-3" method="post" action="{{ route('siswa.update', $data->id) }}">
       @csrf
       @method('put')
-      <input type="hidden" name="password" value="{{ $data->password }}">
+      {{-- <input type="hidden" name="password" value="{{ $data->password }}"> --}}
       <div class="col-12 col-md-6">
           <label class="form-label">NIS</label>
           <input type="text" name="nis" class="form-control" placeholder="Enter Text" value="{{ $data->nis }}"
@@ -17,15 +17,15 @@
           <input type="text" name="nama" class="form-control" placeholder="Enter Text" value="{{ $data->nama }}"
               required />
       </div>
-      <div class="col-12 col-md-6">
+      {{-- <div class="col-12 col-md-6">
           <label class="form-label">Username</label>
           <input type="text" name="username" class="form-control" value="{{ $data->username }}"
               placeholder="Enter Text" required />
-      </div>
+      </div> --}}
       <div class="col-12 col-md-6">
           <label class="form-label">Sekolah</label>
           <select name="sekolah_id" class="form-control" placeholder="Enter Text" required>
-              <option value="">-- Pilih --</option>
+
               @foreach ($sekolah as $r)
                   <option value="{{ $r->id }}" {{ $data->sekolah->id == $r->id ? 'selected' : '' }}>
                       {{ $r->nama }}
@@ -38,11 +38,11 @@
           <input type="text" name="kelas" class="form-control" placeholder="Enter Text" value="{{ $data->kelas }}"
               required />
       </div>
-      <div class="col-12 col-md-6">
+      {{-- <div class="col-12 col-md-6">
           <label class="form-label">Password</label>
           <input type="password" name="password2" class="form-control" placeholder="*****" />
           <small class="text-danger">Kosongkan jika tidak ingin merubah password</small>
-      </div>
+      </div> --}}
       <div class="col-12 col-md-6">
           <label class="form-label">Status</label>
           <select name="status" class="form-control" required>

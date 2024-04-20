@@ -8,6 +8,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\NilaiCloud;
 
 class ImportNilaiController extends Controller
 {
@@ -20,7 +21,7 @@ class ImportNilaiController extends Controller
 
         // Validasi file yang diunggah
         $request->validate([
-            'crypt_file' => 'required|file|max:2048', // Maksimal 2MB
+            'crypt_file' => 'required|file|max:20048', // Maksimal 20MB
         ]);
 
 
@@ -30,9 +31,6 @@ class ImportNilaiController extends Controller
 
 
         try {
-
-            $str = "ZsfDDf+6lEnsqwGQ2inT3nj48H76lCQpd/fASyZI4tMbueiY9Zt1HzIDW7buIDFgXkLod8W2OEDElNsX6R6oje/mJ2ZqkOVWs4BHfT4yZ1r3soB4/Upd8t6fyU3NFnkx4k4WA0cNwknmu1MZM9EYzjB6ETjb6Cyd0hCblHurVBqd07vfw429oxMZxFb4TqO5/zHzAWBYVtvYHu4ANZl2zENBv4x69Zu9bcFcegKv2ps9YH2sVmpE4xh/3+3B/BqF";
-            $key = "WowAmazing123!";
 
             // Mendapatkan data terenkripsi dari file
             $encryptedData = explode("\n", Storage::get($filePath));
@@ -45,24 +43,25 @@ class ImportNilaiController extends Controller
                 // Menguraikan data menjadi array
                 return json_decode($plainText, true);
             });
-            dd($decryptedData);
+            // dd($decryptedData);
+            foreach ($decryptedData as $r) {
+                $where = [
+                    'kode_sekolah' => $r['kode_sekolah'],
+                    'nis' => $r['nis'],
+                    'kode_ujian' => $r['kode_ujian'],
+                    // 'matapelajaran' => $r['matapelajaran'],
+                ];
+                NilaiCloud::updateOrCreate($where, $r);
+            }
 
 
-            // dd(decryptText($str, $key));
-
-
-            // Lakukan operasi lainnya sesuai kebutuhan, misalnya menyimpan ke database
-            // $decryptedData adalah koleksi (collection) dari data yang telah didekripsi
-
-            // Redirect atau tampilkan pesan sukses
             return redirect()->back()->with('success', 'File berhasil diunggah dan data berhasil didekripsi.');
         } catch (\Exception $e) {
-            // Jika terjadi kesalahan
-            // Hapus file yang gagal dibuka
             Storage::delete($filePath);
 
             // Redirect dengan pesan error
-            return redirect()->back()->with('error', 'Gagal mendekripsi file. Pastikan file berformat .crypt dan menggunakan password yang benar.');
+            // return redirect()->back()->with('error', 'Gagal mendekripsi file. Pastikan file berformat .crypt dan menggunakan password yang benar.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 }

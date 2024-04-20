@@ -16,15 +16,21 @@ class SiswaController extends Controller
 
         $data['data'] = [];
         $siswa = Siswa::query();
+        $data['kelas'] = [];
+        $data['sekolah'] = Sekolah::all();
         if ($request->query('sekolah')) {
             $siswa->where('sekolah_id', $request->query('sekolah'));
             $data['data'] = $siswa->get();
+            $data['kelas'] = Siswa::select('kelas')
+                ->where('sekolah_id', $request->query('sekolah'))
+                ->groupBy('kelas')
+                ->get();
         }
         if ($request->query('kelas')) {
             $siswa->where('kelas', $request->query('kelas'));
             $data['data'] = $siswa->get();
         }
-        $data['sekolah'] = Sekolah::all();
+
 
 
         return view('siswa.index', $data);
@@ -49,11 +55,11 @@ class SiswaController extends Controller
         try {
             $rules = [
                 'nama' => 'required',
-                'username' => 'required',
+                // 'username' => 'required',
                 'sekolah_id' => 'required',
                 'kelas' => 'required',
                 'status' => 'required|in:0,1,2',
-                'password' => 'required',
+                // 'password' => 'required',
             ];
 
 
@@ -65,9 +71,10 @@ class SiswaController extends Controller
 
                 $siswa = Siswa::findOrFail($id);
                 $data = $request->validate($rules);
-                if ($request->input('password2')) {
-                    $data['password'] =  Hash::make(($request->input('password2')));
-                }
+                // if ($request->input('password2')) {
+                //     $data['password'] =  Hash::make(($request->input('password2')));
+                // }
+                $data['password'] =  Hash::make(($request->input('nis')));
 
                 $siswa->where('id', $id)->update($data);
 
@@ -75,7 +82,8 @@ class SiswaController extends Controller
             } else {
                 $rules['nis'] = 'required|unique:siswa';
                 $data = $request->validate($rules);
-                $data['password'] =  Hash::make(($request->input('password')));
+                // $data['password'] =  Hash::make(($request->input('password')));
+                $data['password'] =  Hash::make(($request->input('nis')));
                 $siswa = Siswa::create($data);
                 $msg = 'Siswa berhasil dibuat';
             }
@@ -117,12 +125,12 @@ class SiswaController extends Controller
                 $data = $importedData[$i];
                 try {
                     $newStudent = [
-                        'nis' => $data[1],
-                        'nama' => $data[3],
-                        'username' => $data[2],
-                        'password' => Hash::make($data[2]),
+                        'nis' => $data[0],
+                        'nama' => $data[1],
+                        // 'username' => $data[2],
+                        // 'password' => Hash::make($data[2]),
                         'status' => '1',
-                        'kelas' => $data[4],
+                        'kelas' => $data[2],
                         'sekolah_id' => $request->input('sekolah_id'),
                     ];
 

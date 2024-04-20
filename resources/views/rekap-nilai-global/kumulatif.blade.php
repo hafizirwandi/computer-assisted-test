@@ -39,8 +39,8 @@
                              <th colspan="{{ count($ujian) }}" style="text-align: center">Nilai</th>
                              <th rowspan="2">Total</th>
                              <th rowspan="2">Rata-rata</th>
-                             <th rowspan="2">Rank</th>
-                             <th rowspan="2">Rank2</th>
+                             {{-- <th rowspan="2">Rank</th>
+                             <th rowspan="2">Rank2</th> --}}
                          </tr>
                          <tr>
                              @foreach ($ujian as $j)
@@ -69,8 +69,8 @@
                                  @endforeach
                                  <td>{{ $r->nilai }}</td>
                                  <td>{{ $r->nilai / count($r->ujian) }}</td>
-                                 <td>{{ $r->rank }}</td>
-                                 <td>{{ $r->rank2 }}</td>
+                                 {{-- <td>{{ $r->rank }}</td>
+                                 <td>{{ $r->rank2 }}</td> --}}
                              </tr>
                          @endforeach
                      </tbody>

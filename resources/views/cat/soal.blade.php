@@ -4,7 +4,7 @@
 {!! $butirsoal->soal !!}
 
 <div class="mb-4"></div>
-@php $const_jwb = ['a','b','c','d','e']; @endphp
+@php $const_jwb = explode(",",$butirsoal->tipe_optional_jawaban); @endphp
 @foreach ($const_jwb as $jwb)
     <div class="form-check custom-option custom-option-basic mb-3 ">
         <label class="form-check-label custom-option-content">

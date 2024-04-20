@@ -1,15 +1,16 @@
  @extends('layouts.main-layout.app')
  @section('title', 'Siswa')
  @section('content')
-
-
-     <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-plus ti-sm me-2"></i>Tambah Siswa
-     </button>
-
-     <button onclick="importData()" class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
-         <i class="ti ti-transfer-in ti-sm me-2"></i>Import Siswa
-     </button>
+     @can('siswa-create')
+         <button onclick="create()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+             <i class="ti ti-plus ti-sm me-2"></i>Tambah Siswa
+         </button>
+     @endcan
+     @can('siswa-import')
+         <button onclick="importData()" class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
+             <i class="ti ti-transfer-in ti-sm me-2"></i>Import Siswa
+         </button>
+     @endcan
 
      <div class="alert alert-primary" role="alert">
          <form action="">
@@ -19,7 +20,8 @@
                          <option value="">-- Pilih Sekolah--</option>
                          @foreach ($sekolah as $r)
                              <option value="{{ $r->id }}"
-                                 {{ $r->id == request()->get('sekolah') ? 'selected' : '' }}>{{ $r->nama }}
+                                 {{ $r->id == request()->get('sekolah') ? 'selected' : '' }}>
+                                 {{ $r->nama }}
                              </option>
                          @endforeach
                      </select>
@@ -28,10 +30,12 @@
                  <div class="col-md-6">
                      <select id="kelas" name="kelas" class="form-control" placeholder="Enter Text">
                          <option value="">-- Pilih Kelas--</option>
-                         @if (request()->get('kelas'))
-                             <option value="{{ request()->get('kelas') }}" selected>{{ request()->get('kelas') }}
+                         @foreach ($kelas as $r)
+                             <option value="{{ $r->kelas }}"
+                                 {{ request()->get('kelas') == $r->kelas ? 'selected' : '' }}>
+                                 {{ $r->kelas }}
                              </option>
-                         @endif
+                         @endforeach
 
                      </select>
                  </div>
@@ -53,7 +57,7 @@
                          <tr>
                              <th>NIS</th>
                              <th>Nama</th>
-                             <th>Username</th>
+                             {{-- <th>Username</th> --}}
                              <th>Sekolah</th>
                              <th>Kelas</th>
                              <th>Status</th>
@@ -66,7 +70,7 @@
                              <tr>
                                  <td>{{ $r->nis }}</td>
                                  <td>{{ $r->nama }}</td>
-                                 <td>{{ $r->username }}</td>
+                                 {{-- <td>{{ $r->username }}</td> --}}
                                  <td>{{ $r->sekolah->nama }}</td>
                                  <td>{{ $r->kelas }}</td>
                                  <td> {!! statusUser($r->status) !!} </td>
@@ -76,19 +80,23 @@
                                  </td>
                                  <td>
                                      <div class="d-flex align-items-center">
-                                         <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
-                                             <i class="ti ti-edit ti-sm me-2"></i>
-                                         </a>
-                                         <form method="post" action="{{ route('siswa.destroy') }}">
-                                             @csrf
-                                             @method('delete')
-                                             <input type="hidden" name="id" value="{{ $r->id }}">
-                                             <button type="submit"
-                                                 onclick="return confirm('Are you sure you want to proceed?')"
-                                                 class="text-body no-style">
-                                                 <i class="ti ti-trash ti-sm me-2"></i>
-                                             </button>
-                                         </form>
+                                         @can('siswa-edit')
+                                             <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
+                                                 <i class="ti ti-edit ti-sm me-2"></i>
+                                             </a>
+                                         @endcan
+                                         @can('siswa-delete')
+                                             <form method="post" action="{{ route('siswa.destroy') }}">
+                                                 @csrf
+                                                 @method('delete')
+                                                 <input type="hidden" name="id" value="{{ $r->id }}">
+                                                 <button type="submit"
+                                                     onclick="return confirm('Are you sure you want to proceed?')"
+                                                     class="text-body no-style">
+                                                     <i class="ti ti-trash ti-sm me-2"></i>
+                                                 </button>
+                                             </form>
+                                         @endcan
 
                                      </div>
                                  </td>
@@ -111,26 +119,30 @@
  @endsection
  @section('script')
      <script>
-         function create() {
+         @can('siswa-create')
+             function create() {
 
-             $("#myModal .modal-body").load("{{ route('siswa.create') }}");
-             $("#myModal").modal("show");
+                 $("#myModal .modal-body").load("{{ route('siswa.create') }}");
+                 $("#myModal").modal("show");
 
-         }
+             }
+         @endcan
+         @can('siswa-edit')
+             function edit(id) {
 
-         function edit(id) {
+                 $("#myModal .modal-body").load("{{ route('siswa.edit', ['id' => ':id']) }}".replace(':id', id));
+                 $("#myModal").modal("show");
 
-             $("#myModal .modal-body").load("{{ route('siswa.edit', ['id' => ':id']) }}".replace(':id', id));
-             $("#myModal").modal("show");
+             }
+         @endcan
+         @can('siswa-import')
+             function importData() {
 
-         }
+                 $("#myModal .modal-body").load("{{ route('siswa.import') }}");
+                 $("#myModal").modal("show");
 
-         function importData() {
-
-             $("#myModal .modal-body").load("{{ route('siswa.import') }}");
-             $("#myModal").modal("show");
-
-         }
+             }
+         @endcan
      </script>
      <script>
          // Event listener untuk perubahan pada dropdown sekolah
@@ -148,6 +160,7 @@
                  success: function(response) {
                      // Menghapus semua opsi pada dropdown kelas
                      $('#kelas').empty();
+                     $('#kelas').append('<option value="">-- Pilih Kelas--</option>');
                      // Menambahkan opsi untuk setiap kelas yang diterima dari server
                      $.each(response, function(index, kelas) {
                          $('#kelas').append('<option value="' + kelas.kelas + '">' + kelas
