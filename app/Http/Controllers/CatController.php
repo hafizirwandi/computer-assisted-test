@@ -104,7 +104,10 @@ class CatController extends Controller
     }
     public function getSoal(Request $request)
     {
-        $data['ps'] = PemetaanSoal::with('butirSoal')->where('nomor', $request->input('nomor'))->first();
+        $nis = Auth::guard('siswa')->user()->nis;
+        $data['ps'] = PemetaanSoal::with('butirSoal')
+            ->where('nis', $nis)
+            ->where('nomor', $request->input('nomor'))->first();
         return view('cat.soal', $data);
     }
     public function updateJawaban(Request $request)

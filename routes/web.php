@@ -126,6 +126,7 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/reset-ujian/edit/{id}', [ResetUjianController::class, 'edit'])->name('reset-ujian.edit')->middleware('can:reset-ujian-edit');
     Route::put('/reset-ujian/{id}', [ResetUjianController::class, 'update'])->name('reset-ujian.update')->middleware('can:reset-ujian-edit');
     Route::delete('/reset-ujian/delete', [ResetUjianController::class, 'destroy'])->name('reset-ujian.destroy')->middleware('can:reset-ujian-delete');
+    Route::post('/reset-ujian/resetall', [ResetUjianController::class, 'resetAll'])->name('reset-ujian.resetall')->middleware('can:reset-ujian-create');
 
     Route::get('/rekap-nilai', [RekapNilaiController::class, 'index'])->name('rekap-nilai')->middleware('can:rekap-nilai');
     Route::get('/rekap-nilai/kumulatif', [RekapNilaiController::class, 'kumulatif'])->name('rekap-nilai.kumulatif')->middleware('can:rekap-nilai-kumulatif');
