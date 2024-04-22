@@ -176,7 +176,8 @@ class CatController extends Controller
     }
     public function nilai()
     {
-        $data['data'] = HasilUjian::with('pengaturanUjian.soal')->get();
+        $nis = Auth::guard('siswa')->user()->nis;
+        $data['data'] = HasilUjian::with('pengaturanUjian.soal')->where('nis', $nis)->get();
         return view('cat.nilai', $data);
     }
 }

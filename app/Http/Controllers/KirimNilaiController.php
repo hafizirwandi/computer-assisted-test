@@ -65,32 +65,43 @@ class KirimNilaiController extends Controller
     {
 
         $sekolah = Sekolah::first();
-        $token = getTokenApi();
+        if ($sekolah) {
+            $token = getTokenApi();
 
-        $params = [
-            'kode_sekolah' => $sekolah->kode_sekolah
-        ];
+            $params = [
+                'kode_sekolah' => $sekolah->kode_sekolah
+            ];
 
-        // Sertakan token dalam header Authorization
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-            'Content-Type' => 'application/json',
-        ])->get(env('URL_API') . 'get-nilai', $params);
-
-
-        $data['data'] = [];
-        $data['ujian'] = PengaturanUjian::with('soal')->get();
-        $kode_ujian = $request->input('ujian');
-        if ($response->successful()) {
-            $result = $response->json()['data'];
+            // Sertakan token dalam header Authorization
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json',
+            ])->get(env('URL_API') . 'get-nilai', $params);
 
 
-            $data['data'] = $result;
-            if ($request->query('ujian')) {
-                $data['data'] =  collect($result)->filter(function ($item) use ($kode_ujian) {
-                    return  $item['kode_ujian'] == $kode_ujian;
-                })->values();
+            $data['data'] = [];
+            $data['ujian'] = PengaturanUjian::with('soal')->get();
+            $kode_ujian = $request->input('ujian');
+            if ($response->successful()) {
+
+                $result = $response->json()['data'];
+                if ($result) {
+
+
+
+                    $data['data'] = $result;
+                    if ($request->query('ujian')) {
+                        $data['data'] =  collect($result)->filter(function ($item) use ($kode_ujian) {
+                            return  $item['kode_ujian'] == $kode_ujian;
+                        })->values();
+                    }
+                } else {
+                    $data['data'] = [];
+                }
             }
+        } else {
+            $data['data'] = [];
+            $data['ujian'] = PengaturanUjian::with('soal')->get();
         }
         return view('kirim-nilai.check-sync-data', $data);
     }

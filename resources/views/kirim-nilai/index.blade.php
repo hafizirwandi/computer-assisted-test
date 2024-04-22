@@ -26,13 +26,13 @@
                             tersinkron ke server cloud</li>
                     </ol>
                     @can('sinkronisasi-nilai')
-                        <button class="btn btn-primary" id="syncData">Sinkroniasi Nilai</button>
+                        <button class="btn btn-primary" id="syncData">Kirim Nilai Online</button>
                     @endcan
                     @can('cek-hasil-sinkronisasi-nilai')
                         <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
                     @endcan
                     @can('eksport-nilai')
-                        <a href="{{ route('kirim-nilai.export') }}" class="btn btn-secondary">Export Nilai</a>
+                        <a href="{{ route('kirim-nilai.export') }}" class="btn btn-success">Kirim Nilai Offline</a>
                     @endcan
                 </div>
             </div>
