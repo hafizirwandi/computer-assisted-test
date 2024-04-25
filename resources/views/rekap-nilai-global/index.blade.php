@@ -10,7 +10,7 @@
                          @foreach ($sekolah as $r)
                              <option value="{{ $r->kode_sekolah }}"
                                  {{ $r->kode_sekolah == request()->get('sekolah') ? 'selected' : '' }}>
-                                 {{ $r->nama_sekolah }}
+                                 {{ $r->kode_sekolah . ' - ' . $r->nama_sekolah }}
                              </option>
                          @endforeach
                      </select>
@@ -56,6 +56,7 @@
                              {{-- <th>Rank</th>
                              <th>Rank2</th> --}}
                              <th>Created at</th>
+                             <th>Action</th>
                          </tr>
                      </thead>
                      <tbody>
@@ -75,6 +76,23 @@
 
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
+                                 <td>
+                                     <div class="d-flex align-items-center">
+                                         <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
+                                             <i class="ti ti-edit ti-sm me-2"></i>
+                                         </a>
+                                         <form method="post" action="{{ route('reset-ujian.resetall') }}">
+                                             @csrf
+                                             <input type="hidden" name="kode_ujian" value="{{ $r->kode_ujian }}">
+                                             <button type="submit"
+                                                 onclick="return confirm('Are you sure you want to proceed?')"
+                                                 class="text-body no-style">
+                                                 <i class="ti ti-trash ti-sm me-2"></i>
+                                             </button>
+                                         </form>
+
+                                     </div>
+                                 </td>
 
                              </tr>
                          @endforeach
@@ -85,3 +103,20 @@
          </div>
      </div>
  @endsection
+ <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+     <div class="modal-dialog modal-lg modal-simple modal-dialog-centered">
+         <div class="modal-content p-3 p-md-5">
+             <div class="modal-body">
+
+             </div>
+         </div>
+     </div>
+ </div>
+ <script>
+     function edit(id) {
+
+         $("#myModal .modal-body").load("{{ route('reset-ujian.edit', ['id' => ':id']) }}".replace(':id', id));
+         $("#myModal").modal("show");
+
+     }
+ </script>
