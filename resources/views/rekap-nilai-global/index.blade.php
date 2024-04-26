@@ -81,7 +81,7 @@
                                          <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
                                              <i class="ti ti-edit ti-sm me-2"></i>
                                          </a>
-                                         <form method="post" action="{{ route('reset-ujian.resetall') }}">
+                                         <form method="post" action="{{ route('rekap-nilai-global.delete') }}">
                                              @csrf
                                              <input type="hidden" name="kode_ujian" value="{{ $r->kode_ujian }}">
                                              <button type="submit"

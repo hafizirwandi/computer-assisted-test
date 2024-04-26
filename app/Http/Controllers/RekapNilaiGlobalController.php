@@ -101,4 +101,48 @@ class RekapNilaiGlobalController extends Controller
         });
         return $rankedCollection;
     }
+    public function edit($id)
+    {
+        $data['data'] = NilaiCloud::find($id);
+        return view('rekap-nilai-global.edit', $data);
+    }
+    public function update(Request $request, $id = null)
+    {
+
+        // dd($request->all());
+        try {
+
+            $rules = [
+                'soal_id' => 'required|exists:soal,id',
+                'jlh_soal' => 'required|numeric',
+                'waktu' => 'required|numeric',
+                'tanggal_ujian' => 'required|date',
+                'status' => 'required|in:0,1',
+                'is_random' => 'required|in:0,1',
+            ];
+
+
+            $rules['kode_ujian'] = [
+                'required',
+                Rule::unique('pengaturan_ujian')->ignore($id),
+            ];
+            $pengaturan_ujian = PengaturanUjian::findOrFail($id);
+            $data = $request->validate($rules);
+            $pengaturan_ujian->where('id', $id)->update($data);
+            $this->updateStatusPengaturanUjian($id, $data['status']);
+
+            $msg = 'Pengaturan ujian berhasil diperbaharui';
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+    public function destroy(Request $request)
+    {
+        try {
+            NilaiCloud::destroy($request->input('id'));
+            return back()->with('success', 'Nilai berhasil dihapus');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
 }
