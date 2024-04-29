@@ -30,23 +30,27 @@ class KirimNilaiController extends Controller
 
         $token = getTokenApi();
 
+
         $hu = HasilUjian::with(['siswa.sekolah', 'pengaturanUjian.soal'])->get();
-        $result = $hu->map(function ($item) {
-            $item->makeHidden(['id', 'siswa', 'pengaturanUjian', 'created_at', 'updated_at']);
+        $result = collect($hu->map(function ($item) {
+            // Menyiapkan data yang ingin dienkripsi
+            $array = [
+                'nis' => $item->siswa->nis,
+                'nama_siswa' => $item->siswa->nama,
+                'kelas' => $item->siswa->kelas,
+                'kode_sekolah' => $item->siswa->sekolah->kode_sekolah,
+                'nama_sekolah' => $item->siswa->sekolah->nama,
+                'kode_ujian' => $item->pengaturanUjian->kode_ujian,
+                'matapelajaran' => $item->pengaturanUjian->soal->nama,
+                'jlh_soal' => $item->pengaturanUjian->jlh_soal,
+                'jlh_jawab_benar' => $item->jlh_jawab_benar,
+                'jlh_jawab_salah' => $item->jlh_jawab_salah,
+                'jlh_tidak_jawab' => $item->jlh_tidak_jawab,
+                'nilai' => $item->nilai,
+            ];
 
-
-            $item->nis = $item->siswa->nis;
-            $item->nama_siswa = $item->siswa->nama;
-            $item->kelas = $item->siswa->kelas;
-            $item->kode_sekolah = $item->siswa->sekolah->kode_sekolah;
-            $item->nama_sekolah = $item->siswa->sekolah->nama;
-            $item->kode_ujian = $item->pengaturanUjian->kode_ujian;
-            $item->matapelajaran = $item->pengaturanUjian->soal->nama;
-
-            // Mengembalikan item dengan bidang baru
-            return $item;
-        });
-        // dd($result);
+            return $array;
+        }));
         $data['data'] = $result;
 
         // Sertakan token dalam header Authorization
@@ -61,29 +65,43 @@ class KirimNilaiController extends Controller
     {
 
         $sekolah = Sekolah::first();
-        $token = getTokenApi();
-        $params = [
-            'kode_sekolah' => $sekolah->kode_sekolah
-        ];
+        if ($sekolah) {
+            $token = getTokenApi();
 
-        // Sertakan token dalam header Authorization
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $token,
-            'Content-Type' => 'application/json',
-        ])->get(env('URL_API') . 'get-nilai', $params);
+            $params = [
+                'kode_sekolah' => $sekolah->kode_sekolah
+            ];
 
-        $data['data'] = [];
-        $data['ujian'] = PengaturanUjian::with('soal')->get();
-        $kode_ujian = $request->input('ujian');
-        if ($response->successful()) {
-            $result = $response->json()['data'];
+            // Sertakan token dalam header Authorization
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json',
+            ])->get(env('URL_API') . 'get-nilai', $params);
 
-            $data['data'] = $result;
-            if ($request->query('ujian')) {
-                $data['data'] =  collect($result)->filter(function ($item) use ($kode_ujian) {
-                    return  $item['kode_ujian'] == $kode_ujian;
-                })->values();
+
+            $data['data'] = [];
+            $data['ujian'] = PengaturanUjian::with('soal')->get();
+            $kode_ujian = $request->input('ujian');
+            if ($response->successful()) {
+
+                $result = $response->json()['data'];
+                if ($result) {
+
+
+
+                    $data['data'] = $result;
+                    if ($request->query('ujian')) {
+                        $data['data'] =  collect($result)->filter(function ($item) use ($kode_ujian) {
+                            return  $item['kode_ujian'] == $kode_ujian;
+                        })->values();
+                    }
+                } else {
+                    $data['data'] = [];
+                }
             }
+        } else {
+            $data['data'] = [];
+            $data['ujian'] = PengaturanUjian::with('soal')->get();
         }
         return view('kirim-nilai.check-sync-data', $data);
     }
@@ -103,7 +121,6 @@ class KirimNilaiController extends Controller
                 'nama_sekolah' => $item->siswa->sekolah->nama,
                 'kode_ujian' => $item->pengaturanUjian->kode_ujian,
                 'matapelajaran' => $item->pengaturanUjian->soal->nama,
-                'jlh_soal' => $item->pengaturanUjian->jlh_soal,
                 'jlh_soal' => $item->pengaturanUjian->jlh_soal,
                 'jlh_jawab_benar' => $item->jlh_jawab_benar,
                 'jlh_jawab_salah' => $item->jlh_jawab_salah,

@@ -17,11 +17,16 @@ class CatController extends Controller
     public function index()
     {
 
-        $data['ujian'] = PengaturanUjian::with('soal')->where('status', '1')->first();
+        $ujian = PengaturanUjian::with('soal')->where('status', '1')->get();
         $nis = Auth::guard('siswa')->user()->nis;
-        $hu = HasilUjian::where('nis', $nis)
-            ->where('kode_ujian', $data['ujian']->kode_ujian)->first();
-        $data['hu'] = $hu;
+        foreach ($ujian as &$r) {
+            $hu = HasilUjian::where('nis', $nis)
+                ->where('kode_ujian', $r->kode_ujian)->first();
+            if ($hu) {
+                $r['hu'] = $hu;
+            }
+        }
+        $data['ujian'] = $ujian;
         return view('cat.index', $data);
     }
     public function checkKodeUjian(Request $request)
@@ -93,6 +98,7 @@ class CatController extends Controller
             $ps_jwb = PemetaanSoal::where('nis', $nis)
                 ->where('kode_ujian', $kode_ujian)
                 ->whereNotNull('jawaban')->get();
+
             $data['ps']  = $ps;
             $data['progres'] = (count($ps_jwb) / count($ps) * 100) . '%';
 
@@ -104,7 +110,11 @@ class CatController extends Controller
     }
     public function getSoal(Request $request)
     {
-        $data['ps'] = PemetaanSoal::with('butirSoal')->where('nomor', $request->input('nomor'))->first();
+        $nis = Auth::guard('siswa')->user()->nis;
+        $data['ps'] = PemetaanSoal::with('butirSoal')
+            ->where('nis', $nis)
+            ->where('kode_ujian', $request->input('kode_ujian'))
+            ->where('nomor', $request->input('nomor'))->first();
         return view('cat.soal', $data);
     }
     public function updateJawaban(Request $request)
@@ -173,7 +183,8 @@ class CatController extends Controller
     }
     public function nilai()
     {
-        $data['data'] = HasilUjian::with('pengaturanUjian.soal')->get();
+        $nis = Auth::guard('siswa')->user()->nis;
+        $data['data'] = HasilUjian::with('pengaturanUjian.soal')->where('nis', $nis)->get();
         return view('cat.nilai', $data);
     }
 }

@@ -10,7 +10,7 @@
                          @foreach ($sekolah as $r)
                              <option value="{{ $r->kode_sekolah }}"
                                  {{ $r->kode_sekolah == request()->get('sekolah') ? 'selected' : '' }}>
-                                 {{ $r->nama_sekolah }}
+                                 {{ $r->kode_sekolah . ' - ' . $r->nama_sekolah }}
                              </option>
                          @endforeach
                      </select>
@@ -38,7 +38,19 @@
      </div>
      <div class="card mb-4">
          <div class="card-body">
-
+             @if (request()->input('sekolah'))
+                 <a href="{{ route('rekap-nilai-global.edit-all', request()->input('sekolah')) }}"
+                     class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
+                     <i class="ti ti-pencil ti-sm me-2"></i>Edit Semua
+                 </a>
+                 <a href="{{ route('rekap-nilai-global.delete-all', request()->input('sekolah')) }}"
+                     class="btn btn-danger mb-3 text-nowrap add-new-role waves-effect waves-light">
+                     <i class="ti ti-trash ti-sm me-2"></i>Hapus Semua
+                 </a>
+             @endif
+             <button onclick="add()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+                 <i class="ti ti-plus ti-sm me-2"></i>Tambah Nilai Cloud
+             </button>
              <div class="table-responsive">
 
                  <table class="datatable table">
@@ -56,6 +68,7 @@
                              {{-- <th>Rank</th>
                              <th>Rank2</th> --}}
                              <th>Created at</th>
+                             <th>Action</th>
                          </tr>
                      </thead>
                      <tbody>
@@ -75,6 +88,27 @@
 
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
+                                 <td>
+                                     <div class="d-flex align-items-center">
+                                         @can('edit-nilai-siswa-global')
+                                             <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
+                                                 <i class="ti ti-edit ti-sm me-2"></i>
+                                             </a>
+
+                                             <form method="post" action="{{ route('rekap-nilai-global.destroy') }}">
+                                                 @csrf
+                                                 @method('delete')
+                                                 <input type="hidden" name="id" value="{{ $r->id }}">
+                                                 <button type="submit"
+                                                     onclick="return confirm('Are you sure you want to proceed?')"
+                                                     class="text-body no-style">
+                                                     <i class="ti ti-trash ti-sm me-2"></i>
+                                                 </button>
+                                             </form>
+                                         @endcan
+
+                                     </div>
+                                 </td>
 
                              </tr>
                          @endforeach
@@ -85,3 +119,26 @@
          </div>
      </div>
  @endsection
+ <div class="modal fade" id="myModal" tabindex="-1" aria-hidden="true">
+     <div class="modal-dialog modal-lg modal-simple modal-dialog-centered">
+         <div class="modal-content p-3 p-md-5">
+             <div class="modal-body">
+
+             </div>
+         </div>
+     </div>
+ </div>
+ <script>
+     @can('edit-nilai-siswa-global')
+         function add() {
+             $("#myModal .modal-body").load("{{ route('rekap-nilai-global.create') }}");
+             $("#myModal").modal("show");
+         }
+
+         function edit(id) {
+             $("#myModal .modal-body").load("{{ route('rekap-nilai-global.edit', ['id' => ':id']) }}".replace(':id',
+                 id));
+             $("#myModal").modal("show");
+         }
+     @endcan
+ </script>

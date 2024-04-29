@@ -47,14 +47,14 @@ class PengaturanUjianController extends Controller
                 $pengaturan_ujian = PengaturanUjian::findOrFail($id);
                 $data = $request->validate($rules);
                 $pengaturan_ujian->where('id', $id)->update($data);
-                $this->updateStatusPengaturanUjian($id, $data['status']);
+                // $this->updateStatusPengaturanUjian($id, $data['status']);
 
                 $msg = 'Pengaturan ujian berhasil diperbaharui';
             } else {
                 $rules['kode_ujian'] = 'required|unique:pengaturan_ujian';
                 $data = $request->validate($rules);
                 $pengaturan_ujian = PengaturanUjian::create($data);
-                $this->updateStatusPengaturanUjian($pengaturan_ujian->id, $data['status']);
+                // $this->updateStatusPengaturanUjian($pengaturan_ujian->id, $data['status']);
                 $msg = 'Pengaturan ujian berhasil dibuat';
             }
 

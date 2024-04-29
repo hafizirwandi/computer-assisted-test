@@ -37,10 +37,10 @@
          }
 
          #countdown {
-             font-size: 20pt;
+             font-size: 18pt;
              font-weight: 700;
              text-align: right;
-             letter-spacing: 2pt
+             letter-spacing: 1pt
          }
 
          .box-pointer-soal {
@@ -51,7 +51,6 @@
      </style>
  @endsection
  @section('content')
-
      <div class="card mb-4">
          <div class="card-body row g-3">
              <div class="col-lg-9">
@@ -76,7 +75,7 @@
                  <div class="card mb-3">
                      <div class="card-header header-elements">
                          <i class="ti ti-clock-hour-3" style="font-size: 18pt; margin-right:10px"></i>
-                         <span id="countdown">00:00</span>
+                         <span id="countdown">00:00:00</span>
 
                          <div class="card-header-elements ms-auto">
                              <button type="button" id="btnSelesai"
@@ -135,6 +134,8 @@
                  //      'remainingTime');
                  // Cek apakah ada waktu yang tersimpan di localStorage
                  const storedTime = localStorage.getItem('remainingTime');
+
+
                  if (storedTime) {
                      const endTime = parseInt(storedTime);
                      updateCountdown(endTime);
@@ -151,11 +152,12 @@
                      const remainingTime = endTime - currentTime;
 
                      // Konversi sisa waktu ke dalam menit dan detik
+                     const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
                      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
                      // Tampilkan waktu mundur pada elemen dengan id "countdown"
-                     $("#countdown").text(minutes + ' : ' + seconds);
+                     $("#countdown").text(hours + ' : ' + minutes + ' : ' + seconds);
 
                      // Simpan sisa waktu ke dalam localStorage
                      localStorage.setItem('remainingTime', endTime.toString());
@@ -259,13 +261,19 @@
                  method: 'POST',
                  data: {
                      _token: '{{ csrf_token() }}',
+                     kode_ujian: '{{ $pu->kode_ujian }}',
                      nomor: nomor
+
                  },
                  success: function(response) {
                      $("#soal").html(response);
-                     $('.checkbox-jwb').change(function() {
-                         let jwb = $(this).val();
+                     $('.checkbox-jwb').click(function() {
+                         $('.checkbox-jwb').removeClass('active');
+                         $(this).addClass('active');
+                         let jwb = $(this).attr('value');
                          let id = $(this).data('id');
+                         //  alert(jwb);
+                         //  alert(id);
                          updateJawaban(id, jwb);
                          hitungRasioActive();
 

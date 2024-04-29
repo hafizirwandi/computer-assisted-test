@@ -15,6 +15,7 @@ class ResetUjianController extends Controller
     public function index()
     {
         $data['data'] = ResetUjian::with(['siswa', 'pengaturanUjian.soal'])->get();
+        $data['pujian'] = PengaturanUjian::with('soal')->get();
 
         return view('reset-ujian.index', $data);
     }
@@ -52,7 +53,7 @@ class ResetUjianController extends Controller
 
             ResetUjian::create($data);
 
-            $msg = 'Sekolah berhasil dibuat';
+            $msg = 'Data berhasil direset';
             return back()->with('success', $msg);
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
@@ -81,6 +82,23 @@ class ResetUjianController extends Controller
         try {
             ResetUjian::destroy($request->input('id'));
             return back()->with('success', 'Reset ujian berhasil dihapus');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+    public function resetall(Request $request)
+    {
+        try {
+
+
+            PemetaanSoal::where('kode_ujian', $request->input('kode_ujian'))
+                ->delete();
+
+            HasilUjian::where('kode_ujian', $request->input('kode_ujian'))
+                ->delete();
+
+            $msg = 'Data berhasil direset';
+            return back()->with('success', $msg);
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }

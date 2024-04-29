@@ -128,7 +128,7 @@ class SiswaController extends Controller
                         'nis' => $data[0],
                         'nama' => $data[1],
                         // 'username' => $data[2],
-                        // 'password' => Hash::make($data[2]),
+                        'password' => Hash::make($data[0]),
                         'status' => '1',
                         'kelas' => $data[2],
                         'sekolah_id' => $request->input('sekolah_id'),
