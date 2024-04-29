@@ -16,6 +16,6 @@ class ButirSoalSeeder extends Seeder
     public function run()
     {
         //
-        ButirSoal::factory()->count(50)->create();
+        ButirSoal::factory()->count(60)->create();
     }
 }

@@ -22,7 +22,11 @@
                      <tbody>
                          @foreach ($data as $r)
                              <tr>
-                                 <td>{{ $r->pengaturanUjian->kode_ujian }} - {{ $r->pengaturanUjian->soal->nama }}</td>
+                                 <td>
+                                     @if ($r->pengaturanUjian)
+                                         {{ $r->pengaturanUjian->kode_ujian }} - {{ $r->pengaturanUjian->soal->nama }}
+                                     @endif
+                                 </td>
                                  <td>{{ $r->jlh_soal }}</td>
                                  <td>{{ $r->jlh_jawab_benar }}</td>
                                  <td>{{ $r->jlh_jawab_salah }}</td>

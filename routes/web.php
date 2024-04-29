@@ -133,11 +133,18 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/rekap-nilai/dashboard', [RekapNilaiController::class, 'dashboard'])->name('rekap-nilai.dashboard')->middleware('can:rekap-nilai-dashboard');
 
     Route::get('/rekap-nilai-global', [RekapNilaiGlobalController::class, 'index'])->name('rekap-nilai-global')->middleware('can:rekap-nilai-global');
-    Route::get('/rekap-nilai-global/edit/{id}', [ResetUjianController::class, 'edit'])->name('rekap-nilai-global.edit')->middleware('can:edit-nilai-siswa-global');
-    Route::put('/rekap-nilai-global/{id}', [ResetUjianController::class, 'update'])->name('rekap-nilai-global.update')->middleware('can:edit-nilai-siswa-global');
-    Route::delete('/rekap-nilai-global/delete', [RekapNilaiGlobalController::class, 'delete'])->name('rekap-nilai-global')->middleware('can:rekap-nilai-global.delete');
+    Route::get('/rekap-nilai-global/create', [RekapNilaiGlobalController::class, 'create'])->name('rekap-nilai-global.create')->middleware('can:edit-nilai-siswa-global');
+    Route::post('/rekap-nilai-global', [RekapNilaiGlobalController::class, 'saveOrUpdate'])->name('rekap-nilai-global.store')->middleware('can:edit-nilai-siswa-global');
+    Route::get('/rekap-nilai-global/edit/{id}', [RekapNilaiGlobalController::class, 'edit'])->name('rekap-nilai-global.edit')->middleware('can:edit-nilai-siswa-global');
+    Route::put('/rekap-nilai-global/{id}', [RekapNilaiGlobalController::class, 'saveOrUpdate'])->name('rekap-nilai-global.update')->middleware('can:edit-nilai-siswa-global');
+    Route::delete('/rekap-nilai-global/delete', [RekapNilaiGlobalController::class, 'destroy'])->name('rekap-nilai-global.destroy')->middleware('can:edit-nilai-siswa-global');
     Route::get('/rekap-nilai-global/kumulatif', [RekapNilaiGlobalController::class, 'kumulatif'])->name('rekap-nilai-global.kumulatif')->middleware('can:rekap-nilai-global-kumulatif');
     Route::get('/rekap-nilai-global/dashboard', [RekapNilaiGlobalController::class, 'dashboard'])->name('rekap-nilai-global.dashboard')->middleware('can:rekap-nilai-global-dashboard');
+    Route::get('/rekap-nilai-global/edit-all/{sekolah}', [RekapNilaiGlobalController::class, 'editAll'])->name('rekap-nilai-global.edit-all')->middleware('can:edit-nilai-siswa-global');
+    Route::put('/rekap-nilai-global/save-edit-all/{id}', [RekapNilaiGlobalController::class, 'saveEditAll'])->name('rekap-nilai-global.save-edit-all')->middleware('can:edit-nilai-siswa-global');
+    Route::get('/rekap-nilai-global/delete-all/{sekolah}', [RekapNilaiGlobalController::class, 'deleteAll'])->name('rekap-nilai-global.delete-all')->middleware('can:edit-nilai-siswa-global');
+    Route::post('/rekap-nilai-global/destroy-all', [RekapNilaiGlobalController::class, 'destroyAll'])->name('rekap-nilai-global.destroy-all')->middleware('can:edit-nilai-siswa-global');
+
 
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])->name('kirim-nilai')->middleware('can:sinkronisasi-nilai');
     Route::post('/kirim-nilai/syncData', [KirimNilaiController::class, 'syncData'])->name('kirim-nilai.syncData')->middleware('can:sinkronisasi-nilai');

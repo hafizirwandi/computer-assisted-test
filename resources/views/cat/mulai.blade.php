@@ -261,7 +261,9 @@
                  method: 'POST',
                  data: {
                      _token: '{{ csrf_token() }}',
+                     kode_ujian: '{{ $pu->kode_ujian }}',
                      nomor: nomor
+
                  },
                  success: function(response) {
                      $("#soal").html(response);

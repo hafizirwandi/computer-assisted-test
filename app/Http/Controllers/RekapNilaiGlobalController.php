@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\PengaturanUjian;
 use App\Models\Siswa;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Validation\Rule;
 
 class RekapNilaiGlobalController extends Controller
 {
@@ -17,7 +18,6 @@ class RekapNilaiGlobalController extends Controller
         $data['data'] = [];
         $hu = HasilUjian::select('*')->with('pengaturanUjian.soal');
         if ($request->query('sekolah')) {
-
 
             $result = NilaiCloud::where('kode_sekolah', $request->input('sekolah'))->get();
             $data['data'] = $result;
@@ -101,37 +101,48 @@ class RekapNilaiGlobalController extends Controller
         });
         return $rankedCollection;
     }
+
+    public function create()
+    {
+        return view('rekap-nilai-global.create');
+    }
     public function edit($id)
     {
         $data['data'] = NilaiCloud::find($id);
         return view('rekap-nilai-global.edit', $data);
     }
-    public function update(Request $request, $id = null)
+    public function saveOrUpdate(Request $request, $id = null)
     {
 
         // dd($request->all());
         try {
 
             $rules = [
-                'soal_id' => 'required|exists:soal,id',
+                'kode_sekolah' => 'required',
+                'nama_sekolah' => 'required',
+                'kode_ujian' => 'required',
+                'nis' => 'required',
                 'jlh_soal' => 'required|numeric',
-                'waktu' => 'required|numeric',
-                'tanggal_ujian' => 'required|date',
-                'status' => 'required|in:0,1',
-                'is_random' => 'required|in:0,1',
+                'jlh_jawab_benar' => 'required|numeric',
+                'jlh_jawab_salah' => 'required|numeric',
+                'jlh_tidak_jawab' => 'required|numeric',
+                'nilai' => 'required|numeric',
+                'nama_siswa' => 'required',
+                'kelas' => 'required',
+                'matapelajaran' => 'required',
             ];
+            if ($id != null) {
+                $nilai = NilaiCloud::findOrFail($id);
+                $data = $request->validate($rules);
+                $nilai->where('id', $id)->update($data);
 
-
-            $rules['kode_ujian'] = [
-                'required',
-                Rule::unique('pengaturan_ujian')->ignore($id),
-            ];
-            $pengaturan_ujian = PengaturanUjian::findOrFail($id);
-            $data = $request->validate($rules);
-            $pengaturan_ujian->where('id', $id)->update($data);
-            $this->updateStatusPengaturanUjian($id, $data['status']);
-
-            $msg = 'Pengaturan ujian berhasil diperbaharui';
+                $msg = 'Rekap Nilai Global berhasil diperbaharui';
+            } else {
+                $data = $request->validate($rules);
+                NilaiCloud::create($data);
+                $msg = 'Rekap Nilai Global berhasil dibuat';
+            }
+            return back()->with('success', $msg);
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -143,6 +154,63 @@ class RekapNilaiGlobalController extends Controller
             return back()->with('success', 'Nilai berhasil dihapus');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+    public function editAll($sekolah)
+    {
+        $data['data'] = NilaiCloud::where('kode_sekolah', $sekolah)->get();
+        return view('rekap-nilai-global.edit-all', $data);
+    }
+    public function saveEditAll(Request $request, $id = null)
+    {
+
+        try {
+
+            $rules = [
+                'kode_sekolah' => 'required',
+                'nama_sekolah' => 'required',
+                'kode_ujian' => 'required',
+                'nis' => 'required',
+                'jlh_soal' => 'required|numeric',
+                'jlh_jawab_benar' => 'required|numeric',
+                'jlh_jawab_salah' => 'required|numeric',
+                'jlh_tidak_jawab' => 'required|numeric',
+                'nilai' => 'required|numeric',
+                'nama_siswa' => 'required',
+                'kelas' => 'required',
+                'matapelajaran' => 'required',
+            ];
+
+            $nilai = NilaiCloud::findOrFail($id);
+            $data = $request->validate($rules);
+            $nilai->where('id', $id)->update($data);
+
+            $msg = 'Rekap Nilai Global berhasil diperbaharui';
+            return response()->json(['message' => $msg]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()]);
+        }
+    }
+    public function deleteAll($sekolah)
+    {
+        $result = NilaiCloud::where('kode_sekolah', $sekolah)->get();
+        if ($result->isEmpty()) {
+            return redirect()->route('rekap-nilai-global');
+        }
+        $data['data'] = $result;
+        return view('rekap-nilai-global.delete-all', $data);
+    }
+    public function destroyAll(Request $request)
+    {
+        try {
+            foreach ($request->input('selectedItems') as $id) {
+                NilaiCloud::destroy($id);
+            }
+
+            $msg = 'Rekap Nilai Global berhasil dihapus';
+            return response()->json(['message' => $msg]);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()]);
         }
     }
 }

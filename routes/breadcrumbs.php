@@ -4,6 +4,7 @@
 // this import. This is nice for IDE syntax and refactoring.π
 
 use App\Models\ButirSoal;
+use App\Models\NilaiCloud;
 use App\Models\Role;
 use App\Models\Soal;
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -90,6 +91,7 @@ Breadcrumbs::for('rekap-nilai.kumulatif', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai');
     $trail->push('Kumulatif', route('rekap-nilai.kumulatif'));
 });
+
 Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai');
     $trail->push('Dashboard', route('rekap-nilai.dashboard'));
@@ -101,6 +103,18 @@ Breadcrumbs::for('rekap-nilai-global', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('rekap-nilai-global.kumulatif', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai-global');
     $trail->push('Kumulatif', route('rekap-nilai-global.kumulatif'));
+});
+Breadcrumbs::for('rekap-nilai-global.edit-all', function (BreadcrumbTrail $trail, $sekolah) {
+    $trail->parent('rekap-nilai-global');
+    $d = NilaiCloud::where('kode_sekolah', $sekolah)
+        ->first();
+    $trail->push('Edit Data ' . $d->kode_sekolah . ' - ' . $d->nama_sekolah, route('rekap-nilai-global.edit-all', $sekolah));
+});
+Breadcrumbs::for('rekap-nilai-global.delete-all', function (BreadcrumbTrail $trail, $sekolah) {
+    $trail->parent('rekap-nilai-global');
+    $d = NilaiCloud::where('kode_sekolah', $sekolah)
+        ->first();
+    $trail->push('Delete Data ' . $d->kode_sekolah . ' - ' . $d->nama_sekolah, route('rekap-nilai-global.delete-all', $sekolah));
 });
 Breadcrumbs::for('rekap-nilai-global.dashboard', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai-global');

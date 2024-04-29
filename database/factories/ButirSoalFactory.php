@@ -20,6 +20,7 @@ class ButirSoalFactory extends Factory
     {
         return [
             'soal' => fake()->paragraph(),
+            'tipe_optional_jawaban' => 'a,b,c,d',
             'jawaban_a' => fake()->sentence(),
             'jawaban_b' => fake()->sentence(),
             'jawaban_c' => fake()->sentence(),
