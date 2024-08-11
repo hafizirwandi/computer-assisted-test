@@ -29,7 +29,7 @@
                                  <td>{{ $r->nama }}</td>
                                  <td>{{ $r->matapelajaran->nama }}</td>
                                  <td>{{ $r->kode_soal }}</td>
-                                 <td>{{ count($r->butirsoal) }}</td>
+                                 <td>{{ count($r->refButirSoal) }}</td>
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
 

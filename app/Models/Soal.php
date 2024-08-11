@@ -18,8 +18,8 @@ class Soal extends Model
     {
         return $this->belongsTo(Matapelajaran::class, 'matapelajaran_id', 'id');
     }
-    public function butirSoal()
+    public function refButirSoal()
     {
-        return $this->hasMany(ButirSoal::class, 'soal_id', 'id');
+        return $this->hasMany(RefButirSoal::class, 'soal_id', 'id');
     }
 }

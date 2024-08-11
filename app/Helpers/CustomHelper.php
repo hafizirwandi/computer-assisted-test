@@ -129,3 +129,20 @@ if (!function_exists('decryptText')) {
         return openssl_decrypt($encryptedText, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
     }
 }
+if (!function_exists('tipeSoal')) {
+    function tipeSoal($status)
+    {
+        switch ($status) {
+            case 1:
+                return '<span class="badge bg-label-success" text-capitalized="">Pilhan Ganda Single Option</span>';
+            case 2:
+                return '<span class="badge bg-label-warning" text-capitalized="">Pilhan Ganda Multi Options</span>';
+            case 3:
+                return '<span class="badge bg-label-primary" text-capitalized="">Pilihan Ganda Komplek</span>';
+            case 4:
+                return '<span class="badge bg-label-secondary" text-capitalized="">Isian Singkat</span>';
+            default:
+                return '';
+        }
+    }
+}

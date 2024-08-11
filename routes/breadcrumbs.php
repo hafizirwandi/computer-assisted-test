@@ -3,14 +3,15 @@
 // Note: Laravel will automatically resolve `Breadcrumbs::` without
 // this import. This is nice for IDE syntax and refactoring.π
 
-use App\Models\ButirSoal;
-use App\Models\NilaiCloud;
 use App\Models\Role;
 use App\Models\Soal;
-use Diglactic\Breadcrumbs\Breadcrumbs;
+use App\Models\ButirSoal;
+use App\Models\NilaiCloud;
+use App\Models\RefButirSoal;
 
 // This import is also not required, and you could replace `BreadcrumbTrail $trail`
 //  with `$trail`. This is nice for IDE type checking and completion.
+use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
 // Home
@@ -61,7 +62,7 @@ Breadcrumbs::for('soal.butirsoal.create', function (BreadcrumbTrail $trail, $id)
     $trail->push('Create', route('soal.butirsoal.create', $id));
 });
 Breadcrumbs::for('soal.butirsoal.edit', function (BreadcrumbTrail $trail, $id) {
-    $butirsoal = ButirSoal::find($id);
+    $butirsoal = RefButirSoal::find($id);
     $trail->parent('soal.detail', $butirsoal->soal_id);
     $trail->push('Edit', route('soal.butirsoal.edit', $id));
 });

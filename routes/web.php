@@ -96,7 +96,13 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/soal/{id}/butirsoal/create', [SoalController::class, 'createButirSoal'])->name('soal.butirsoal.create')->middleware('can:butirsoal-create');
     Route::get('/soal/butirsoal/edit/{id}', [SoalController::class, 'editButirSoal'])->name('soal.butirsoal.edit')->middleware('can:butirsoal-edit');
     Route::post('/soal/butirsoal/store', [SoalController::class, 'saveOrUpdateButirSoal'])->name('soal.butirsoal.store')->middleware('can:butirsoal-create');
+    Route::post('/soal/butirsoal/store2', [SoalController::class, 'saveOrUpdateButirSoal2'])->name('soal.butirsoal.store2')->middleware('can:butirsoal-create');
+    Route::post('/soal/butirsoal/store3', [SoalController::class, 'saveOrUpdateButirSoal3'])->name('soal.butirsoal.store3')->middleware('can:butirsoal-create');
+    Route::post('/soal/butirsoal/store4', [SoalController::class, 'saveOrUpdateButirSoal4'])->name('soal.butirsoal.store4')->middleware('can:butirsoal-create');
     Route::put('/soal/butirsoal/{id}', [SoalController::class, 'saveOrUpdateButirSoal'])->name('soal.butirsoal.update')->middleware('can:butirsoal-edit');
+    Route::put('/soal/butirsoal2/{id}', [SoalController::class, 'saveOrUpdateButirSoal2'])->name('soal.butirsoal.update2')->middleware('can:butirsoal-edit');
+    Route::put('/soal/butirsoal3/{id}', [SoalController::class, 'saveOrUpdateButirSoal3'])->name('soal.butirsoal.update3')->middleware('can:butirsoal-edit');
+    Route::put('/soal/butirsoal4/{id}', [SoalController::class, 'saveOrUpdateButirSoal4'])->name('soal.butirsoal.update4')->middleware('can:butirsoal-edit');
     Route::delete('/soal/butirsoal/delete', [SoalController::class, 'destroyButirSoal'])->name('soal.butirsoal.destroy')->middleware('can:butirsoal-delete');
 
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa')->middleware('can:siswa-list');
