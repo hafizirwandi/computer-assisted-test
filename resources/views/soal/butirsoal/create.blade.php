@@ -30,4 +30,14 @@
          </form>
      </div>
 
+     @if (request()->get('tipe-soal') == '1')
+         @include('soal.butirsoal.create.1')
+     @elseif (request()->get('tipe-soal') == '2')
+         @include('soal.butirsoal.create.2')
+     @elseif (request()->get('tipe-soal') == '3')
+         @include('soal.butirsoal.create.3')
+     @elseif (request()->get('tipe-soal') == '4')
+         @include('soal.butirsoal.create.4')
+     @endif
+
  @endsection

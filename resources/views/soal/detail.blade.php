@@ -21,7 +21,7 @@
  @section('content')
 
      @can('butirsoal-create')
-         <a href="{{ route('soal.butirsoal.create', '1') }}"
+         <a href="{{ route('soal.butirsoal.create', $soal->id) }}"
              class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
              <i class="ti ti-plus ti-sm me-2"></i>Tambah Butir Soal
          </a>
@@ -39,6 +39,7 @@
                      </thead>
                      <tbody>
 
+                         {{-- @dd($data); --}}
                          @foreach ($data as $j)
                              <tr>
                                  <td>

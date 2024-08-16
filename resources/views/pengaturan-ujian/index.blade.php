@@ -24,6 +24,7 @@
                              <th>Is Random</th>
                              <th>Status</th>
                              <th>Created at</th>
+                             <th>Aktif</th>
                              <th>Action</th>
                          </tr>
                      </thead>
@@ -41,7 +42,18 @@
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
                                  <td>
+                                     <label class="switch switch-square">
+                                         <input type="checkbox" class="switch-input"
+                                             {{ $r->status == '1' ? 'checked' : '' }} />
+                                         <span class="switch-toggle-slider">
+                                             <span class="switch-on"></span>
+                                             <span class="switch-off"></span>
+                                         </span>
+                                     </label>
+                                 </td>
+                                 <td>
                                      <div class="d-flex align-items-center">
+
                                          @can('p-ujian-edit')
                                              <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
                                                  <i class="ti ti-edit ti-sm me-2"></i>
@@ -99,4 +111,34 @@
          @endcan
      </script>
 
+     <script>
+         function aktif(id) {
+             $.ajax({
+                 url: "{{ route('cat.hitungHasil') }}",
+                 method: 'POST',
+                 data: {
+                     _token: '{{ csrf_token() }}',
+                     id: id
+                 },
+                 success: function(response) {
+                     Swal.fire({
+                         title: 'Berhasil!',
+                         text: 'Data anda berhasil disimpan',
+                         icon: 'success',
+                         timerProgressBar: true,
+                         customClass: {
+                             confirmButton: 'btn btn-primary waves-effect waves-light',
+
+                         },
+                         buttonsStyling: false
+                     });
+
+                 },
+                 error: function(xhr) {
+                     console.log(xhr.responseText);
+                 }
+             });
+
+         }
+     </script>
  @endsection

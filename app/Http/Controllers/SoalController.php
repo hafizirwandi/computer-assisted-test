@@ -34,8 +34,8 @@ class SoalController extends Controller
     public function detail($id)
     {
 
+        $data['soal'] = Soal::findOrFail($id);
         $data['data'] = RefButirSoal::with(['butirSoal', 'butirSoal2', 'butirSoal3', 'butirSoal4', 'soal'])->where('soal_id', $id)->get();
-        // dd($data);
         return view('soal.detail', $data);
     }
     public function saveOrUpdate(Request $request, $id = null)
@@ -272,7 +272,18 @@ class SoalController extends Controller
     public function destroyButirSoal(Request $request)
     {
         try {
-            ButirSoal::destroy($request->input('id'));
+            $q = RefButirSoal::findOrFail($request->input('id'));
+            if ($q->ref_butir_soal == '1') {
+                ButirSoal::destroy($request->input('id'));
+            } elseif ($q->ref_butir_soal == '2') {
+                ButirSoal2::destroy($request->input('id'));
+            } elseif ($q->ref_butir_soal == '3') {
+                ButirSoal3::destroy($request->input('id'));
+            } elseif ($q->ref_butir_soal == '4') {
+                ButirSoal4::destroy($request->input('id'));
+            }
+            $q->delete();
+
             return back()->with('success', 'Soal berhasil dihapus');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
