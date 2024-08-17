@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sekolah;
 use App\Models\HasilUjian;
+use App\Models\PemetaanSoal;
 use Illuminate\Http\Request;
 use App\Models\PengaturanUjian;
 use App\Models\Siswa;
@@ -14,7 +15,8 @@ class RekapNilaiController extends Controller
     public function index(Request $request)
     {
         $data['data'] = [];
-        $hu = HasilUjian::select('*')->with('pengaturanUjian.soal');
+        $hu = HasilUjian::select(['hasil_ujian.id as idhu', 'hasil_ujian.*'])->with('pengaturanUjian.soal');
+
         if ($request->query('sekolah')) {
             $sekolahID = $request->input('sekolah');
             $hu->join('siswa', function (JoinClause $join) use ($sekolahID) {
@@ -34,7 +36,6 @@ class RekapNilaiController extends Controller
             // $collection = $this->setRankValue($result);
             // $data['data'] = $this->setRankValueV2($collection);
         }
-
 
 
 
@@ -104,5 +105,16 @@ class RekapNilaiController extends Controller
             return $item;
         });
         return $rankedCollection;
+    }
+    public function detail($id)
+    {
+
+        $hu = HasilUjian::findOrFail($id);
+        $ps = PemetaanSoal::with(['butirSoal', 'butirSoal2', 'butirSoal3', 'butirSoal4'])->where('nis', $hu->nis)
+            ->where('kode_ujian', $hu->kode_ujian)
+            ->get();
+        $data['data'] = $ps;
+
+        return view('rekap-nilai.detail', $data);
     }
 }

@@ -84,4 +84,9 @@ class PengaturanUjianController extends Controller
             PengaturanUjian::where('id', '!=', $id)->update(['status' => '0']);
         }
     }
+    public function checked(Request $request)
+    {
+
+        PengaturanUjian::where('id', $request->input('id'))->update(['status' => $request->input('status')]);
+    }
 }

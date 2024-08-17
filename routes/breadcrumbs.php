@@ -6,6 +6,7 @@
 use App\Models\Role;
 use App\Models\Soal;
 use App\Models\ButirSoal;
+use App\Models\HasilUjian;
 use App\Models\NilaiCloud;
 use App\Models\RefButirSoal;
 
@@ -91,6 +92,12 @@ Breadcrumbs::for('rekap-nilai', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('rekap-nilai.kumulatif', function (BreadcrumbTrail $trail) {
     $trail->parent('rekap-nilai');
     $trail->push('Kumulatif', route('rekap-nilai.kumulatif'));
+});
+Breadcrumbs::for('rekap-nilai.detail', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('rekap-nilai');
+
+    $hu = HasilUjian::find($id);
+    $trail->push('Detail ' . $hu->kode_ujian . ' - NIS :' . $hu->nis, route('rekap-nilai.detail', $id));
 });
 
 Breadcrumbs::for('rekap-nilai.dashboard', function (BreadcrumbTrail $trail) {

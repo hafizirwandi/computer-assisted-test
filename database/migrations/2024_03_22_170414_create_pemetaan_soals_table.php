@@ -17,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->integer('nomor');
             $table->integer('soal_id');
-            $table->integer('butirsoal_id');
-            $table->char('jawaban_benar');
+            $table->integer('ref_butirsoal_id')->nullable();
+            $table->integer('ref_butir_soal')->nullable();
+            $table->integer('butirsoal_id')->nullable();
+            $table->char('jawaban_benar')->nullable();
             $table->char('jawaban')->nullable();
-            $table->double('poin_benar');
+            $table->double('poin_benar')->nullable();
             $table->string('kode_ujian')->nullable();
             // $table->foreign('kode_ujian')->references('kode_ujian')->on('pengaturan_ujian');
             $table->string('nis')->nullable();

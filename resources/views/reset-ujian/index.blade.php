@@ -9,6 +9,9 @@
      @endcan
 
      <div class="card mb-4">
+         <div class="card-title p-2">
+             <h4>Reset Ujian Per Siswa</h4>
+         </div>
          <div class="card-body">
 
              <div class="table-responsive">
@@ -65,7 +68,7 @@
      <hr>
      <div class="card mb-4">
          <div class="card-title p-2">
-             <h4>Reset Ujian</h4>
+             <h4>Reset Ujian Masal</h4>
          </div>
          <div class="card-body">
 

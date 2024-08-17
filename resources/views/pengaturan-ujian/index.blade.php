@@ -38,18 +38,20 @@
                                  <td>{{ $r->soal->kode_soal . ' - ' . $r->soal->nama }}</td>
                                  <td>{{ $r->jlh_soal }}</td>
                                  <td>{!! statusIsRandomSoal($r->is_random) !!}</td>
-                                 <td>{!! statusGeneral($r->status) !!}</td>
+                                 <td>{!! statusPengaturanUjian($r->status) !!}</td>
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
                                  <td>
-                                     <label class="switch switch-square">
-                                         <input type="checkbox" class="switch-input"
-                                             {{ $r->status == '1' ? 'checked' : '' }} />
-                                         <span class="switch-toggle-slider">
-                                             <span class="switch-on"></span>
-                                             <span class="switch-off"></span>
-                                         </span>
-                                     </label>
+                                     @can('p-ujian-active')
+                                         <label class="switch switch-square">
+                                             <input type="checkbox" class="switch-input" value="{{ $r->id }}"
+                                                 {{ $r->status == '1' ? 'checked' : '' }} onchange="saveCheckboxValue(this)" />
+                                             <span class="switch-toggle-slider">
+                                                 <span class="switch-on"></span>
+                                                 <span class="switch-off"></span>
+                                             </span>
+                                         </label>
+                                     @endcan
                                  </td>
                                  <td>
                                      <div class="d-flex align-items-center">
@@ -112,33 +114,41 @@
      </script>
 
      <script>
-         function aktif(id) {
-             $.ajax({
-                 url: "{{ route('cat.hitungHasil') }}",
-                 method: 'POST',
-                 data: {
-                     _token: '{{ csrf_token() }}',
-                     id: id
-                 },
-                 success: function(response) {
-                     Swal.fire({
-                         title: 'Berhasil!',
-                         text: 'Data anda berhasil disimpan',
-                         icon: 'success',
-                         timerProgressBar: true,
-                         customClass: {
-                             confirmButton: 'btn btn-primary waves-effect waves-light',
+         @can('p-ujian-active')
+             function saveCheckboxValue(checkbox) {
 
-                         },
-                         buttonsStyling: false
-                     });
+                 var isChecked = checkbox.checked ? 1 : 0;
+                 var id = checkbox.value;
 
-                 },
-                 error: function(xhr) {
-                     console.log(xhr.responseText);
-                 }
-             });
+                 $.ajax({
+                     url: "{{ route('pengaturan-ujian.checked') }}",
+                     method: 'POST',
+                     data: {
+                         _token: '{{ csrf_token() }}',
+                         id: id,
+                         status: isChecked
+                     },
+                     success: function(response) {
+                         Swal.fire({
+                             title: 'Berhasil!',
+                             text: 'Data anda berhasil disimpan',
+                             icon: 'success',
+                             timerProgressBar: true,
+                             customClass: {
+                                 confirmButton: 'btn btn-primary waves-effect waves-light',
 
-         }
+                             },
+                             buttonsStyling: false
+                         });
+                         window.location.reload();
+
+                     },
+                     error: function(xhr) {
+                         console.log(xhr.responseText);
+                     }
+                 });
+
+             }
+         @endcan
      </script>
  @endsection

@@ -146,3 +146,20 @@ if (!function_exists('tipeSoal')) {
         }
     }
 }
+if (!function_exists('statusPengaturanUjian')) {
+    function statusPengaturanUjian($status)
+    {
+        switch ($status) {
+            case 1:
+                return '<span class="badge bg-label-success" text-capitalized="">Active</span>';
+
+            case 0:
+                return '<span class="badge bg-label-secondary" text-capitalized="">Tidak Aktif</span>';
+
+
+
+            default:
+                return '';
+        }
+    }
+}

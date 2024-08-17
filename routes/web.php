@@ -122,6 +122,7 @@ Route::middleware('auth:web')->group(function () {
     Route::post('/pengaturan-ujian', [PengaturanUjianController::class, 'saveOrUpdate'])->name('pengaturan-ujian.store')->middleware('can:p-ujian-create');
     Route::put('/pengaturan-ujian/{id}', [PengaturanUjianController::class, 'saveOrUpdate'])->name('pengaturan-ujian.update')->middleware('can:p-ujian-edit');
     Route::delete('/pengaturan-ujian/delete', [PengaturanUjianController::class, 'destroy'])->name('pengaturan-ujian.destroy')->middleware('can:p-ujian-delete');
+    Route::post('/pengaturan-ujian/checked', [PengaturanUjianController::class, 'checked'])->name('pengaturan-ujian.checked')->middleware('can:p-ujian-active');
 
     Route::get('/ganti-password', [AuthController::class, 'gantiPassword'])->name('ganti-password')->middleware('can:ganti-password');
     Route::post('/ganti-password', [AuthController::class, 'saveGantiPassword'])->name('ganti-password.save')->middleware('can:ganti-password');
@@ -137,6 +138,7 @@ Route::middleware('auth:web')->group(function () {
     Route::get('/rekap-nilai', [RekapNilaiController::class, 'index'])->name('rekap-nilai')->middleware('can:rekap-nilai');
     Route::get('/rekap-nilai/kumulatif', [RekapNilaiController::class, 'kumulatif'])->name('rekap-nilai.kumulatif')->middleware('can:rekap-nilai-kumulatif');
     Route::get('/rekap-nilai/dashboard', [RekapNilaiController::class, 'dashboard'])->name('rekap-nilai.dashboard')->middleware('can:rekap-nilai-dashboard');
+    Route::get('/rekap-nilai/detail/{id}', [RekapNilaiController::class, 'detail'])->name('rekap-nilai.detail')->middleware('can:rekap-nilai');
 
     Route::get('/rekap-nilai-global', [RekapNilaiGlobalController::class, 'index'])->name('rekap-nilai-global')->middleware('can:rekap-nilai-global');
     Route::get('/rekap-nilai-global/create', [RekapNilaiGlobalController::class, 'create'])->name('rekap-nilai-global.create')->middleware('can:edit-nilai-siswa-global');

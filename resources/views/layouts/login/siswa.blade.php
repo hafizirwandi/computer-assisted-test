@@ -86,9 +86,12 @@
 
                             </span>
 
-                            <span class="app-brand-text demo text-body fw-bold ms-1">Computer Assisted Test</span>
+                            <br>
+
                         </a>
                     </div>
+                    <span class="app-brand-text demo text-body fw-bold ms-1">Ujian Asesmen Kompetensi
+                        Minimum</span>
                     <!-- /Logo -->
                     @if ($errors->any())
                         <center><small class="text-danger">{{ $errors->first() }}</small></center>

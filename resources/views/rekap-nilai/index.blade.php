@@ -48,10 +48,9 @@
                              <th>Nama</th>
                              <th>Kelas</th>
                              <th>Jlh Soal</th>
-                             <th>Jlh Benar</th>
-                             <th>Jlh Salah</th>
                              <th>Jlh Tidak Jawab</th>
                              <th>Nilai</th>
+                             <th>Aksi</th>
                              {{-- <th>Rank</th>
                              <th>Rank2</th> --}}
                              <th>Created at</th>
@@ -65,10 +64,14 @@
                                  <td>{{ $r->siswa->nama }}</td>
                                  <td>{{ $r->siswa->kelas }}</td>
                                  <td>{{ $r->jlh_soal }}</td>
-                                 <td>{{ $r->jlh_jawab_benar }}</td>
-                                 <td>{{ $r->jlh_jawab_salah }}</td>
+
                                  <td>{{ $r->jlh_tidak_jawab }}</td>
                                  <td>{{ $r->nilai }}</td>
+                                 <td>
+                                     <a href="{{ route('rekap-nilai.detail', $r->idhu) }}" class="text-body">
+                                         <i class="ti ti-eye ti-sm me-2"></i>
+                                     </a>
+                                 </td>
                                  {{-- <td>{{ $r->rank }}</td>
                                  <td>{{ $r->rank2 }}</td> --}}
 

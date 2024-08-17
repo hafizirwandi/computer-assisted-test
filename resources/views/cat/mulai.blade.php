@@ -267,17 +267,17 @@
                  },
                  success: function(response) {
                      $("#soal").html(response);
-                     $('.checkbox-jwb').click(function() {
-                         $('.checkbox-jwb').removeClass('active');
-                         $(this).addClass('active');
-                         let jwb = $(this).attr('value');
-                         let id = $(this).data('id');
-                         //  alert(jwb);
-                         //  alert(id);
-                         updateJawaban(id, jwb);
-                         hitungRasioActive();
+                     //  $('.checkbox-jwb').click(function() {
+                     //      $('.checkbox-jwb').removeClass('active');
+                     //      $(this).addClass('active');
+                     //      let jwb = $(this).attr('value');
+                     //      let id = $(this).data('id');
+                     //      //  alert(jwb);
+                     //      //  alert(id);
+                     //      updateJawaban(id, jwb);
+                     //      hitungRasioActive();
 
-                     });
+                     //  });
                  },
                  error: function(xhr) {
                      console.log(xhr.responseText);
@@ -316,12 +316,16 @@
                  success: function(response) {
                      $('.btn-nomor').removeClass('onlink');
                      $('.btn-nomor[data-id="' + id + '"]').addClass('active');
+
+
+                     hitungRasioActive();
                  },
                  error: function(xhr) {
                      console.log(xhr.responseText);
                  }
              });
          }
+
 
          function hitungRasioActive() {
 

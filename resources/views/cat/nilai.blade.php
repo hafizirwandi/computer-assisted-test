@@ -12,8 +12,7 @@
                          <tr>
                              <th>Ujian</th>
                              <th>Jlh Soal</th>
-                             <th>Jlh Benar</th>
-                             <th>Jlh Salah</th>
+                             <th>Jlh Jawab</th>
                              <th>Jlh Tidak Jawab</th>
                              <th>Nilai</th>
                              <th>Created at</th>
@@ -28,8 +27,7 @@
                                      @endif
                                  </td>
                                  <td>{{ $r->jlh_soal }}</td>
-                                 <td>{{ $r->jlh_jawab_benar }}</td>
-                                 <td>{{ $r->jlh_jawab_salah }}</td>
+                                 <td>{{ $r->jlh_soal - $r->jlh_tidak_jawab }}</td>
                                  <td>{{ $r->jlh_tidak_jawab }}</td>
                                  <td>{{ $r->nilai }}</td>
 

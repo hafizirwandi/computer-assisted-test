@@ -25,12 +25,12 @@
      <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
      <script>
          var options = {
-             series: [{{ $hu->jlh_jawab_benar }}, {{ $hu->jlh_jawab_salah }}, {{ $hu->jlh_tidak_jawab }}],
+             series: [{{ $hu->jlh_soal - $hu->jlh_tidak_jawab }}, {{ $hu->jlh_tidak_jawab }}],
              chart: {
                  width: 380,
                  type: 'pie',
              },
-             labels: ['Jumlah Jawab Benar', 'Jumlah Jawab Salah', 'Jumlah Tidak Jawab'],
+             labels: ['Jumlah Jawab', 'Jumlah Tidak Jawab'],
              responsive: [{
                  breakpoint: 480,
                  options: {
