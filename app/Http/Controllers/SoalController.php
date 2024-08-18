@@ -273,16 +273,20 @@ class SoalController extends Controller
     {
         try {
             $q = RefButirSoal::findOrFail($request->input('id'));
+            $delete = false;
             if ($q->ref_butir_soal == '1') {
-                ButirSoal::destroy($request->input('id'));
+                $delete =  ButirSoal::destroy($q->butir_soal_id);
             } elseif ($q->ref_butir_soal == '2') {
-                ButirSoal2::destroy($request->input('id'));
+                $delete = ButirSoal2::destroy($q->butir_soal_id);
             } elseif ($q->ref_butir_soal == '3') {
-                ButirSoal3::destroy($request->input('id'));
+                $delete = ButirSoal3::destroy($q->butir_soal_id);
             } elseif ($q->ref_butir_soal == '4') {
-                ButirSoal4::destroy($request->input('id'));
+                $delete = ButirSoal4::destroy($q->butir_soal_id);
             }
-            $q->delete();
+            if ($delete) {
+                $q->delete();
+            }
+
 
             return back()->with('success', 'Soal berhasil dihapus');
         } catch (\Exception $e) {

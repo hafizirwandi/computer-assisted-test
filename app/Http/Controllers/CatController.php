@@ -165,6 +165,7 @@ class CatController extends Controller
             $bs = $pemetaanSoal->butirSoal3;
             $soal = json_decode($bs->pernyataan_soal);
             $jawaban = json_decode($request->input('jwb'));
+
             $poin_benar = json_decode($bs->poin_benar);
             $ob = json_decode($bs->optional_jawaban);
             $poin = 0;

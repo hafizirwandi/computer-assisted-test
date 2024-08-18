@@ -79,7 +79,7 @@
         let ob = {{ count(json_decode($r->optional_jawaban)) }};
 
         let allValues = [];
-        for (var i = 0; i < ob; i++) {
+        for (var i = 0; i < pernyataan; i++) {
             let val = null;
             for (var m = 0; m < ob; m++) {
 
