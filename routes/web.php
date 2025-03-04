@@ -173,4 +173,5 @@ Route::middleware('auth:siswa')->group(function () {
     Route::post('/cat/hitung-hasil', [CatController::class, 'hitungHasil'])->name('cat.hitungHasil');
     Route::get('/cat/hasil/{id}', [CatController::class, 'hasil'])->name('cat.hasil');
     Route::get('/cat/nilai', [CatController::class, 'nilai'])->name('cat.nilai');
+    Route::get('/cat/nilai/detail/{id}', [RekapNilaiController::class, 'detail'])->name('cat.nilai.detail');
 });

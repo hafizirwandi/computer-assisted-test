@@ -74,4 +74,48 @@
     <script src="{{ asset('vuexy/assets/vendor/js/template-customizer.js') }}"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('vuexy/assets/js/config.js') }}"></script>
+    <style>
+        .btn-primary {
+            background-color: #045933 !important;
+            border-color: #045933 !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #067b47 !important;
+            border-color: #067b47 !important;
+        }
+
+        aside.bg-menu-theme {
+            background-color: #AFE1AF !important;
+        }
+
+        a.menu-link {
+            color: #045933 !important;
+        }
+
+        a.menu-link:hover,
+        a.menu-link:focus,
+        a.menu-link.menu-toggle.active.open {
+            color: #0a0a0a !important;
+        }
+
+        .menu-item.open>.menu-link.menu-toggle,
+        .menu-item.active>.menu-link.menu-toggle {
+            background: #fd9b01 !important;
+            box-shadow: 0px 2px 6px 0px #fd9b01;
+            color: #fff !important;
+        }
+
+
+        .bg-menu-theme.menu-vertical .menu-item.active>.menu-link:not(.menu-toggle) {
+            background: #fd9b01 !important;
+            box-shadow: 0px 2px 6px 0px #fd9b01;
+            color: #fff !important;
+        }
+
+        .app-brand-text {
+            color: #045933 !important;
+        }
+    </style>
+
 </head>

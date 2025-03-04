@@ -11,6 +11,7 @@
 window.config = {
   colors: {
     primary: '#7367f0',
+    // primary: '#014a29',
     secondary: '#a8aaae',
     success: '#28c76f',
     info: '#00cfe8',
@@ -58,10 +59,10 @@ window.rtlSupport = true; // set true for rtl support (rtl + ltr), false for ltr
 
 // To use more themes, just push it to THEMES object.
 
-/* TemplateCustomizer.THEMES.push({
-  name: 'theme-raspberry',
-  title: 'Raspberry'
-}); */
+// TemplateCustomizer.THEMES.push({
+//   name: 'theme-raspberry',
+//   title: 'Raspberry'
+// });
 
 // To add more languages, just push it to LANGUAGES object.
 /*

@@ -10,7 +10,10 @@ class AuthController extends Controller
 {
     public function loginFormSiswa()
     {
-        return view('layouts.login.siswa');
+        return view(
+            'layouts.login2025.siswa'
+        );
+        // return view('layouts.login.siswa');
     }
     public function loginFormAdmin()
     {

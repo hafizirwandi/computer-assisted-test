@@ -16,10 +16,12 @@
                              <th>Jlh Tidak Jawab</th>
                              <th>Nilai</th>
                              <th>Created at</th>
+                             <th>Aksi</th>
                          </tr>
                      </thead>
                      <tbody>
                          @foreach ($data as $r)
+                             {{-- @dd($r) --}}
                              <tr>
                                  <td>
                                      @if ($r->pengaturanUjian)
@@ -32,6 +34,10 @@
                                  <td>{{ $r->nilai }}</td>
 
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
+                                 </td>
+                                 <td> <a href="{{ route('cat.nilai.detail', $r->id) }}" class="text-body">
+                                         <i class="ti ti-eye ti-sm me-2"></i>
+                                     </a>
                                  </td>
 
                              </tr>

@@ -92,7 +92,7 @@ if (!function_exists('getTokenApi')) {
 
         if (!session('api_token')) {
             $response = Http::post(env('URL_API') . 'login', [
-                'username' => 'admin',
+                'username' => 'admin-online',
                 'password' => 'admin',
             ]);
             if ($response->successful()) {

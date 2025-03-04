@@ -46,22 +46,24 @@ class ApiController extends Controller
     {
         try {
             $data = $request->input('data');
-            foreach ($data as $r) {
+
+            // foreach ($data as $r) {
 
 
-                $where = [
-                    'kode_sekolah' => $r['kode_sekolah'],
-                    'nis' => $r['nis'],
-                    'kode_ujian' => $r['kode_ujian'],
-                    // 'matapelajaran' => $r['matapelajaran'],
-                ];
+            //     $where = [
+            //         'kode_sekolah' => $r['kode_sekolah'],
+            //         'nis' => $r['nis'],
+            //         'kode_ujian' => $r['kode_ujian'],
+            //         'matapelajaran' => $r['matapelajaran'],
+            //     ];
 
-                NilaiCloud::updateOrCreate($where, $r);
-            }
+            //     NilaiCloud::updateOrCreate($where, $r);
+            // }
 
             return response()->json([
                 'status' => true,
-                'massage' => 'Sucess'
+                'massage' => 'Sucess',
+                'data' => $data
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

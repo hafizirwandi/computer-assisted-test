@@ -158,6 +158,10 @@ Breadcrumbs::for('cat.nilai', function (BreadcrumbTrail $trail) {
     $trail->parent('cat');
     $trail->push('Nilai', route('cat.nilai'));
 });
+Breadcrumbs::for('cat.nilai.detail', function (BreadcrumbTrail $trail, $id) {
+    $trail->parent('cat.nilai');
+    $trail->push('Nilai', route('cat.nilai.detail', $id));
+});
 
 
 // // Home > Blog

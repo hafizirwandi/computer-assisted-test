@@ -29,7 +29,7 @@ class KirimNilaiController extends Controller
 
 
         $token = getTokenApi();
-
+        return $token;
 
         $hu = HasilUjian::with(['siswa.sekolah', 'pengaturanUjian.soal'])->get();
         $result = collect($hu->map(function ($item) {
@@ -52,6 +52,8 @@ class KirimNilaiController extends Controller
             return $array;
         }));
         $data['data'] = $result;
+
+
 
         // Sertakan token dalam header Authorization
         $response = Http::withHeaders([
