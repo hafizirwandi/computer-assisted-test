@@ -91,12 +91,16 @@ if (!function_exists('getTokenApi')) {
     {
 
         if (!session('api_token')) {
+
+
             $response = Http::post(env('URL_API') . 'login', [
                 'username' => 'admin-online',
                 'password' => 'admin',
             ]);
+
             if ($response->successful()) {
                 $token = $response->json()['data']['token'];
+
                 session(['api_token' => $token]);
                 return $token;
             } else {
