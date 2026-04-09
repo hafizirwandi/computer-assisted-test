@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -31,4 +30,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'iecresult' => [
+        'url' => env('URL_API', 'https://iecresult.com/api/'),
+        'username' => env('API_USERNAME', 'admin-online'),
+        'password' => env('API_PASSWORD', 'admin'),
+    ],
 ];

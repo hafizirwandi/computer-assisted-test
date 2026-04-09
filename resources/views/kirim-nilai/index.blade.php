@@ -107,23 +107,41 @@
                             _token: '{{ csrf_token() }}',
                         },
                         success: function(response) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil!',
-                                text: response.message,
-                                customClass: {
-                                    confirmButton: 'btn btn-primary waves-effect waves-light'
-                                },
-                                buttonsStyling: false
-                            });
-
+                            // Cek status sebenarnya di dalam response JSON
+                            if (response.status === true) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil Terkirim!',
+                                    text: response.message,
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary waves-effect waves-light'
+                                    },
+                                    buttonsStyling: false
+                                });
+                            } else {
+                                // status false tapi HTTP 200 — tampilkan sebagai error
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal!',
+                                    text: response.message ||
+                                        'Data gagal dikirim ke server. Silakan coba lagi.',
+                                    customClass: {
+                                        confirmButton: 'btn btn-primary waves-effect waves-light'
+                                    },
+                                    buttonsStyling: false
+                                });
+                            }
                         },
                         error: function(xhr) {
-                            console.log(xhr.responseText);
+                            let msg = 'Terjadi kesalahan koneksi atau server.';
+                            try {
+                                const resp = JSON.parse(xhr.responseText);
+                                msg = resp.message || msg;
+                            } catch (e) {}
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Gagal!',
-                                text: xhr.responseText,
+                                text: msg,
                                 customClass: {
                                     confirmButton: 'btn btn-primary waves-effect waves-light'
                                 },

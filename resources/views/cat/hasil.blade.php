@@ -41,15 +41,19 @@
              border: 1px solid rgba(255, 255, 255, 0.2);
          }
 
-         /* Customize ApexCharts for dark/blue background */
+         /* ApexCharts - pastikan teks label dan legend terbaca */
          .apexcharts-legend-text {
-             color: #ffffff !important;
-             font-weight: 500;
+             color: #1e293b !important;
+             font-weight: 600 !important;
          }
 
-         .apexcharts-datalabel-value,
+         /* Teks tengah donut (nama & nilai) */
+         .apexcharts-datalabel-value {
+             fill: #1e293b !important;
+         }
+
          .apexcharts-datalabel-label {
-             fill: #ffffff !important;
+             fill: #64748b !important;
          }
      </style>
  @endsection
@@ -75,7 +79,7 @@
                          <h1 class="display-3 fw-bolder mb-0 lh-1" style="color: #3b82f6;">{{ $hu->nilai }}</h1>
                      </div>
 
-                     <div class="row g-3 mb-4">
+                     <div class="row g-3 mb-4 d-none">
                          <div class="col-6">
                              <div class="stat-detail p-3 h-100">
                                  <h3 class="fw-bold mb-1" style="color: #3b82f6">{{ $hu->jlh_soal - $hu->jlh_tidak_jawab }}
@@ -137,21 +141,26 @@
                              show: true,
                              name: {
                                  show: true,
-                                 color: '#ffffff'
+                                 color: '#1e293b',
+                                 fontSize: '14px',
                              },
                              value: {
                                  show: true,
-                                 color: '#ffffff',
-                                 fontSize: '24px',
-                                 fontWeight: 'bold'
+                                 color: '#1e293b',
+                                 fontSize: '28px',
+                                 fontWeight: 'bold',
+                                 formatter: function(val) {
+                                     return parseInt(val);
+                                 }
                              },
                              total: {
                                  show: true,
                                  showAlways: true,
                                  label: 'Total Soal',
-                                 color: '#ffffff',
+                                 color: '#64748b',
+                                 fontSize: '13px',
                                  formatter: function(w) {
-                                     return w.globals.seriesTotals.reduce((a, b) => a + b, 0)
+                                     return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
                                  }
                              }
                          }
@@ -162,9 +171,30 @@
                  width: 0,
              },
              dataLabels: {
-                 enabled: true
+                 enabled: false
              },
-
+             legend: {
+                 show: true,
+                 position: 'bottom',
+                 labels: {
+                     colors: ['#1e293b', '#1e293b']
+                 },
+                 markers: {
+                     width: 12,
+                     height: 12,
+                     radius: 50
+                 },
+                 itemMargin: {
+                     horizontal: 10
+                 }
+             },
+             tooltip: {
+                 y: {
+                     formatter: function(val) {
+                         return val + ' soal';
+                     }
+                 }
+             }
          };
 
          var chart = new ApexCharts(document.querySelector("#chart"), options);

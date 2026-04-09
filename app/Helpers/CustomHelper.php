@@ -32,8 +32,6 @@ if (!function_exists('statusIsRandomSoal')) {
             case 0:
                 return '<span class="badge bg-label-secondary" text-capitalized="">Pending</span>';
 
-
-
             default:
                 return '';
         }
@@ -48,8 +46,6 @@ if (!function_exists('statusGeneral')) {
 
             case 0:
                 return '<span class="badge bg-label-secondary" text-capitalized="">Pending</span>';
-
-
 
             default:
                 return '';
@@ -87,24 +83,24 @@ if (!function_exists('uploadAndReadExcel')) {
 }
 
 if (!function_exists('getTokenApi')) {
-    function getTokenApi()
+    function getTokenApi($forceRefresh = false)
     {
+        if ($forceRefresh) {
+            session()->forget('api_token');
+        }
 
         if (!session('api_token')) {
-
-
-            $response = Http::post(env('URL_API') . 'login', [
-                'username' => 'admin-online',
-                'password' => 'admin',
+            $response = Http::post(config('services.iecresult.url') . 'login', [
+                'username' => config('services.iecresult.username'),
+                'password' => config('services.iecresult.password'),
             ]);
 
-            if ($response->successful()) {
+            if ($response->successful() && isset($response->json()['data']['token'])) {
                 $token = $response->json()['data']['token'];
-
                 session(['api_token' => $token]);
                 return $token;
             } else {
-
+                \Illuminate\Support\Facades\Log::error('getTokenApi failed: ' . $response->body());
                 return null;
             }
         } else {
@@ -159,8 +155,6 @@ if (!function_exists('statusPengaturanUjian')) {
 
             case 0:
                 return '<span class="badge bg-label-secondary" text-capitalized="">Tidak Aktif</span>';
-
-
 
             default:
                 return '';
