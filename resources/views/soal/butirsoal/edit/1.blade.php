@@ -72,33 +72,23 @@
     </div>
 </div>
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    @include('partials.summernote')
     <script>
         $(document).ready(function() {
-            $('.summernote').summernote({
-                height: 300
-            });
             $("#optional_jawaban").change(function() {
-
-                var jawaban_benar = {{ $data->jawaban_benar }};
-                var selectedValue = $(this).val(); // Mendapatkan nilai yang dipilih dari select
+                var jawaban_benar = '{{ $data->jawaban_benar }}';
+                var selectedValue = $(this).val();
                 var $jawabanBenarSelect = $('select[name="jawaban_benar"]');
                 $jawabanBenarSelect.empty();
-                // Tambahkan opsi default
                 $jawabanBenarSelect.append('<option value="">-- Pilih --</option>');
                 $('.jawaban').addClass('d-none');
 
                 if (selectedValue) {
-                    // Mendapatkan array dari nilai yang dipilih
                     var valuesArray = selectedValue.split(',');
-
-                    // Loop melalui setiap nilai yang dipilih
                     $.each(valuesArray, function(index, value) {
-                        // Menampilkan elemen dengan kelas yang sesuai dengan nilai yang dipilih
                         $('.jawaban_' + value).removeClass('d-none');
                         $jawabanBenarSelect.append('<option value="' + value + '"' + (value ==
-                            jawaban_benar ?
-                            ' selected' : '') + '>' + value + '</option>');
+                            jawaban_benar ? ' selected' : '') + '>' + value + '</option>');
                     });
                 }
             })

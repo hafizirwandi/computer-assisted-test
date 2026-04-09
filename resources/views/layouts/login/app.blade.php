@@ -53,6 +53,122 @@
     <script src="{{ asset('vuexy/assets/vendor/js/template-customizer.js') }}"></script>
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('vuexy/assets/js/config.js') }}"></script>
+
+    <style>
+        /* Variant 2: Light & Airy with Abstract Vibrant Shapes */
+        body {
+            background-color: #f8fafc !important;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Colorful blurred background blobs */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        body::before {
+            background: rgba(236, 72, 153, 0.4);
+            /* Vibrant Pink */
+            top: -10vh;
+            left: -10vw;
+        }
+
+        body::after {
+            background: rgba(59, 130, 246, 0.4);
+            /* Vibrant Blue */
+            bottom: -10vh;
+            right: -10vw;
+            animation-duration: 25s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(100px, 100px) scale(1.2);
+            }
+        }
+
+        .authentication-wrapper {
+            background-color: transparent !important;
+        }
+
+        .authentication-inner .card {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border: none;
+            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.1);
+            border-radius: 28px;
+            padding: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4E65FF 100%) !important;
+            border: none !important;
+            border-radius: 50px !important;
+            /* Pill shape */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 12px 24px;
+            color: #fff !important;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(78, 101, 255, 0.4) !important;
+        }
+
+        .form-control,
+        .input-group-text,
+        .input-group {
+            border-radius: 16px !important;
+            border: none !important;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            transition: all 0.3s;
+        }
+
+        .form-control,
+        .input-group-text {
+            background: #f1f5f9 !important;
+            border: 2px solid transparent !important;
+        }
+
+        .form-control:focus {
+            background: #ffffff !important;
+            border-color: #4E65FF !important;
+            box-shadow: 0 0 0 4px rgba(78, 101, 255, 0.15) !important;
+        }
+
+        .input-group-text.cursor-pointer:hover {
+            color: #4E65FF !important;
+            background: #e2e8f0 !important;
+        }
+
+        .app-brand-text {
+            color: #1e293b !important;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4E65FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 
 <body>
@@ -73,11 +189,12 @@
 
                                 </span>
 
-                                <span class="app-brand-text demo text-body fw-bold ms-1">Computer Assisted Test</span>
+
                             </a>
                         </div>
+                        <span class="app-brand-text demo text-body fw-bold ms-1">Computer Assisted Test</span>
                         <!-- /Logo -->
-
+                        <br>
 
                         @if ($errors->any())
                             <center><small class="text-danger">{{ $errors->first() }}</small></center>
@@ -94,7 +211,7 @@
                                     <label class="form-label" for="password">Password</label>
 
                                 </div>
-                                <div class="input-group input-group-merge">
+                                <div class="input-group input-group-merge gap-2">
                                     <input type="password" id="password" class="form-control" name="password"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password" />

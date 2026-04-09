@@ -74,34 +74,19 @@
     </div>
 </div>
 @section('script')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    @include('partials.summernote')
     <script>
         $(document).ready(function() {
-            $('.summernote').summernote({
-                height: 300
-            });
-
-
             $("#optional_jawaban").change(function() {
-
-                var selectedValue = $(this).val(); // Mendapatkan nilai yang dipilih dari select
-
-
-
+                var selectedValue = $(this).val();
                 $('.jawaban').addClass('d-none');
                 $('.poin_benar').addClass('d-none');
 
                 if (selectedValue) {
-                    // Mendapatkan array dari nilai yang dipilih
                     var valuesArray = selectedValue.split(',');
-
-                    // Loop melalui setiap nilai yang dipilih
                     $.each(valuesArray, function(index, value) {
-                        // Menampilkan elemen dengan kelas yang sesuai dengan nilai yang dipilih
                         $('.jawaban_' + value).removeClass('d-none');
                         $('.poin_benar_' + value).removeClass('d-none');
-
                     });
                 }
             })

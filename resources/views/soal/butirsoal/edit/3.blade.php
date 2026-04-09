@@ -70,15 +70,11 @@
     </div>
 </div>
 @section('script')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    @include('partials.summernote')
     <script>
         $(document).ready(function() {
             var j = "{{ implode(',', $optional_jawaban) }}";
             var valuesArray = j.split(',');
-            $('.summernote').summernote({
-                height: 300
-            });
             $('#optional_jawaban').keydown(function(event) {
                 if (event.key === 'Enter') {
                     var jawaban = $(this).val();
@@ -90,17 +86,11 @@
                     }
                     valuesArray = jawaban.split(',');
 
-                    var str = '<tr>' +
-                        '<th style="width: 70%">Pernyataan</th>';
+                    var str = '<tr><th style="width: 70%">Pernyataan</th>';
                     $.each(valuesArray, function(index, value) {
-                        str +=
-                            '<th>' +
-                            value + '</th>';
-
+                        str += '<th>' + value + '</th>';
                     });
-
-                    str += '<th>Aksi</th>' +
-                        '</tr>';
+                    str += '<th>Aksi</th></tr>';
 
                     $('#jawabanTable thead').html('');
                     $('#jawabanTable tbody').html('');
@@ -108,38 +98,26 @@
 
                     $('#jawabanTable').removeClass('d-none');
                     $('#tambahRow').removeClass('d-none');
-
-
                     event.preventDefault();
                 }
 
             });
             $('#tambahRow').click(function() {
-                var str = '<tr>' +
-                    '<td><input type="text" name="pernyataan_soal[]" class="form-control"></td>';
+                var str = '<tr><td><input type="text" name="pernyataan_soal[]" class="form-control"></td>';
 
                 var i = 0;
                 $.each(valuesArray, function(index, value) {
-
-                    str +=
-                        '<td><input type="text" name="poin_benar_' + i +
+                    str += '<td><input type="text" name="poin_benar_' + i +
                         '[]" class="form-control"></td>';
                     i++;
-
-
                 });
 
-                str += '<td><a href="javascript:;" onclick="deleteRow(this)" class="text-body">' +
-                    '<i class="ti ti-trash ti-sm me-2"></i></a></td>' +
-                    '</tr>';
+                str +=
+                    '<td><a href="javascript:;" onclick="deleteRow(this)" class="text-body"><i class="ti ti-trash ti-sm me-2"></i></a></td></tr>';
 
                 $('#jawabanTable tbody').append(str);
                 event.preventDefault();
             });
-
-
-
-
         });
 
         function deleteRow(element) {

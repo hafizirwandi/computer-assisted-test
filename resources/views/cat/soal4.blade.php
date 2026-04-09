@@ -8,12 +8,9 @@
         align-items: center;
         margin-right: 10px;
         font-size: 16px;
-
     }
 
-    /* Teks di dalam lingkaran */
     .circle-text {
-
         text-align: center;
     }
 
@@ -23,12 +20,12 @@
     }
 </style>
 @php $butirsoal = $ps->butirsoal4 @endphp
-<h5 class="card-title">Soal Nomor {{ $ps->nomor }}</h5>
-{!! tipeSoal($ps->ref_butir_soal) !!}
+<h2 class="card-title fw-bold text-dark mb-2">Soal Nomor {{ $ps->nomor }}</h2>
+<div class="mb-3">{!! tipeSoal($ps->ref_butir_soal) !!}</div>
 <hr class="my-4">
-{!! $butirsoal->soal !!}
-
-<div class="mb-4"></div>
+<div class="fs-5 text-dark mb-4">
+    {!! $butirsoal->soal !!}
+</div>
 <span>Jawab : </span>
 <input type="text" data-id="{{ $ps->id }}" id="isian" class="form-control" value="{{ $ps->jawaban }}"
     placeholder="Enter Text">

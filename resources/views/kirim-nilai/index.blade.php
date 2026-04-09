@@ -1,44 +1,65 @@
 @extends('layouts.main-layout.app')
 @section('title', 'Home')
 @section('content')
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h5>Ketentuan untuk sinkronisasi data ke Cloud</h5>
-                    <ol style="text-align:justify">
-                        <li>Pastikan server lokal anda terhubung dengan internet;</li>
-                        <li>Pastikan data sekolah sudah terisi dengan benar;</li>
-                        <li>Kode Sekolah harus berbeda tiap-tiap sekolah, disarankan menggunakan Nomor Kode Sekolah Nasional
-                            agar data yang sedang disinkronisasi tidak menimpa dengan sekolah lainnya;</li>
-                        <li>Pastikan Pada data siswa sudah terisi dengan benar;</li>
-                        <li>Pastikan NIS Siswa juga menggunakan Nomor Induk Siswa Nasional;</li>
-                        <li>Pastikan Ujian sudah selesai terlaksana dengan benar untuk menghindari duplikat entry;</li>
-                        <li>Bagi sekolah yang tidak memiliki jaringan internet silahkan untuk mengeksport data dulu
-                            dengan mengklik tombol <i>Export Nilai</i> untuk kemudian selanjut nya di Import ke Cloud di
-                            modul <i>Import Nilai</i> atau bisa juga mengirim ke Panitia via email atau whatsapp untuk
-                            kemudiandi sinkronkan manual ke sistem;
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-label-primary text-center pb-3 border-bottom">
+                    <i class="ti ti-cloud-upload text-primary" style="font-size: 3rem;"></i>
+                    <h4 class="card-title fw-bold mt-2 mb-0 text-primary">Sinkronisasi Data Ujian ke Cloud</h4>
+                </div>
+                <div class="card-body mt-4">
+                    <div class="alert alert-warning d-flex align-items-center mb-4 text-justify" role="alert">
+                        <span class="alert-icon text-warning me-2">
+                            <i class="ti ti-info-circle ti-md"></i>
+                        </span>
+                        <span>Mohon baca dengan sangat teliti pedoman teknis di bawah ini sebelum Anda mengambil tindakan
+                            pengiriman maupun pengeksporan data nilai ujian.</span>
+                    </div>
+
+                    <ol class="list-group list-group-numbered list-group-flush mb-4">
+                        <li class="list-group-item text-body">Pastikan server lokal anda terhubung dengan jaringan internet
+                            yang stabil.</li>
+                        <li class="list-group-item text-body">Pastikan data sekolah sudah terisi dengan benar.</li>
+                        <li class="list-group-item text-body"><span class="text-danger fw-semibold">Wajib:</span> Kode
+                            Sekolah harus berbeda (menggunakan Nomor Pokok Sekolah Nasional / NPSN) agar data yang terkirim
+                            ke Cloud tidak error/menimpa data sekolah lainnya.</li>
+                        <li class="list-group-item text-body">Pastikan seluruh profil data siswa telah divalidasi
+                            kebenarannya.</li>
+                        <li class="list-group-item text-body">Pastikan kolom NIS Siswa menggunakan format Nomor Induk Siswa
+                            Nasional.</li>
+                        <li class="list-group-item text-body">Proses Sinkronisasi dilakukan <strong>setelah seluruh sesi
+                                Ujian selesai sepenuhnya</strong> guna menghindari <i>duplikat pengiriman entry</i> ke
+                            server pusat.</li>
+                        <li class="list-group-item text-body"><strong>Bagi sekolah tanpa akses internet:</strong> Silakan
+                            klik <i>Kirim Nilai Offline</i> guna mendownload rekap data komputer, file tersebut nantinya
+                            dapat di-import secara manual lewat portal Cloud di lokasi yang berinternet (misal: Disdik).
                         </li>
-                        <li>Silahkan hubungi pihak panitia apabila mengalami kendala dalam hal Sikroniasi Data ke Cloud;
-                        </li>
-                        <li>Apabilah sudah yakin , silahkan klik tombol <i>Sinkornisasi Nilai</i> dibawah ini.</li>
-                        <li>Silahkan klik tombol <i>Check Hasil Sinkornisasi</i> untuk melihat apakah data sudah benar
-                            tersinkron ke server cloud</li>
                     </ol>
-                    @can('sinkronisasi-nilai')
-                        <button class="btn btn-primary" id="syncData">Kirim Nilai Online</button>
-                    @endcan
-                    @can('cek-hasil-sinkronisasi-nilai')
-                        <a href="{{ route('kirim-nilai.checkSyncData') }}" class="btn btn-warning">Check Hasil Sinkronisasi</a>
-                    @endcan
-                    @can('eksport-nilai')
-                        <a href="{{ route('kirim-nilai.export') }}" class="btn btn-success">Kirim Nilai Offline</a>
-                    @endcan
+
+                    <div
+                        class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 mt-4 border-top pt-4">
+                        @can('sinkronisasi-nilai')
+                            <button class="btn btn-primary d-flex align-items-center btn-lg" id="syncData">
+                                <i class="ti ti-cloud-up me-2"></i> Kirim Nilai Online
+                            </button>
+                        @endcan
+                        @can('eksport-nilai')
+                            <a href="{{ route('kirim-nilai.export') }}"
+                                class="btn btn-success d-flex align-items-center btn-lg">
+                                <i class="ti ti-download me-2"></i> Kirim Nilai Offline
+                            </a>
+                        @endcan
+                        @can('cek-hasil-sinkronisasi-nilai')
+                            <a href="{{ route('kirim-nilai.checkSyncData') }}"
+                                class="btn btn-outline-secondary d-flex align-items-center btn-lg">
+                                <i class="ti ti-search me-2"></i> Cek Hasil Pengiriman
+                            </a>
+                        @endcan
+                    </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 @endsection

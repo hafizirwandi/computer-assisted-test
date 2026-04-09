@@ -26,9 +26,7 @@ class MatapelajaranController extends Controller
     public function saveOrUpdate(Request $request, $id = null)
     {
         try {
-          
             if ($id != null) {
-
                 $matapelajaran = Matapelajaran::findOrFail($id);
                 $data = $request->except(['_token', '_method']);
                 $matapelajaran->where('id', $id)->update($data);
@@ -45,13 +43,22 @@ class MatapelajaranController extends Controller
         }
     }
 
-
     public function destroy(Request $request)
     {
         try {
-            Matapelajaran::destroy($request->input('id'));
+            $id = $request->input('id');
+
+            // Cek apakah mata pelajaran sedang dipakai oleh Bank Soal
+            if (\App\Models\Soal::where('matapelajaran_id', $id)->exists()) {
+                return back()->with('error', 'Gagal: Mata Pelajaran tidak bisa dihapus karena masih terpakai oleh Bank Soal. Silakan hapus Bank Soalnya terlebih dulu.');
+            }
+
+            Matapelajaran::destroy($id);
             return back()->with('success', 'Matapelajaran berhasil dihapus');
         } catch (\Exception $e) {
+            if (strpos($e->getMessage(), '1451') !== false) {
+                return back()->with('error', 'Gagal menghapus: Mata Pelajaran ini masih terikat dengan data lain.');
+            }
             return back()->with('error', $e->getMessage());
         }
     }

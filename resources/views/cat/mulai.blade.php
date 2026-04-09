@@ -5,42 +5,52 @@
          .wrap-nomor {
              display: flex;
              flex-wrap: wrap;
-             justify-content: space-between;
+             justify-content: flex-start;
+             gap: 8px;
          }
 
          .btn-nomor {
-             width: calc(20% - 10px);
-             height: 50px;
-             margin: 5px;
-             border: 1px solid #eaeaea;
-             border-radius: 5px;
+             width: calc(20% - 8px);
+             height: 45px;
+             border: 1px solid #d1d5db;
+             /* gray-300 */
+             border-radius: 8px;
+             background-color: #ffffff;
+             color: #374151;
+             font-weight: 600;
+             transition: all 0.2s ease;
          }
 
          .btn-nomor:hover {
-             background-color: lightgray;
+             background-color: #f3f4f6;
+             /* gray-100 */
          }
 
-         /* Mengubah warna tombol saat aktif (ditekan) */
-         .btn-nomor:active {
-             background-color: gray;
-         }
-
-         /* Mengubah warna tombol yang memiliki kelas active */
+         /* Mengubah warna tombol saat aktif (sudah dijawab) */
          .btn-nomor.active {
-             background-color: #7367f0;
-             /* background-color: #ff9f43; */
-             color: #fff;
+             background-color: #3b82f6 !important;
+             /* solid blue */
+             color: #ffffff !important;
+             border-color: #3b82f6 !important;
          }
 
+         /* Mengubah warna tombol yang sedang dilihat (fokus/onlink) */
          .btn-nomor.onlink {
-             background-color: gray;
+             background-color: #f97316 !important;
+             /* solid orange */
+             color: #ffffff !important;
+             border-color: #f97316 !important;
+             transform: scale(1.05);
+             box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3);
          }
 
          #countdown {
              font-size: 18pt;
              font-weight: 700;
              text-align: right;
-             letter-spacing: 1pt
+             letter-spacing: 1pt;
+             color: #3b82f6;
+             /* solid blue */
          }
 
          .box-pointer-soal {
@@ -48,80 +58,139 @@
              flex-wrap: wrap;
              justify-content: space-between;
          }
+
+         /* Mengabaikan batas lebar container khusus untuk halaman ini */
+         .container-xxl {
+             max-width: 100% !important;
+             padding-left: 2rem !important;
+             padding-right: 2rem !important;
+         }
+
+         /* Menghilangkan padding container bawaan dan margin bottom layout */
+         .container-p-y {
+             padding-top: 0 !important;
+         }
+
+         .container-xxl>.mb-5,
+         .container-xxl>.mb-3 {
+             display: none !important;
+         }
+
+         .row-pull-up {
+             margin-top: -60px !important;
+         }
+
+         /* Reset gradient to solid */
+         .btn-primary {
+             background: #3b82f6 !important;
+             border-color: #3b82f6 !important;
+             color: #ffffff !important;
+         }
+
+         .btn-primary:hover {
+             background: #2563eb !important;
+         }
+
+         .btn-outline-primary {
+             color: #3b82f6 !important;
+             border-color: #3b82f6 !important;
+         }
+
+         .btn-outline-primary:hover {
+             background: #3b82f6 !important;
+             color: #ffffff !important;
+         }
+
+         .bg-primary {
+             background-color: #3b82f6 !important;
+         }
+
+         .text-primary {
+             color: #3b82f6 !important;
+         }
+
+         .btn-warning {
+             background: #f97316 !important;
+             border-color: #f97316 !important;
+             color: #ffffff !important;
+         }
+
+         .sticky-sidebar {
+             position: sticky;
+             top: 2rem;
+             z-index: 1020;
+         }
+
+         .card-soal-wrapper {
+             border-radius: 12px;
+             border: none;
+             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+         }
      </style>
  @endsection
  @section('content')
-     <div class="card mb-4">
-         <div class="card-body row g-3">
-             <div class="col-lg-9">
-
-                 <div class="card shadow-none border">
-
-                     <div id="soal" class="card-body">
-
-
-                     </div>
-                 </div>
-
-                 <div class="box-pointer-soal mt-3">
-                     <button id="btn-prev" class="btn btn-warning d-none"><i class="tf-icons ti ti-chevrons-left"></i> Sebelum
-                         nya</button>
-                     <button id="btn-next" class="btn btn-primary d-none">Selanjutnya nya <i
-                             class="tf-icons ti ti-chevrons-right"></i></button>
+     <div class="row g-4 mt-0 pt-0 row-pull-up">
+         <div class="col-lg-9">
+             <div class="card card-soal-wrapper mb-4">
+                 <div id="soal" class="card-body p-4 p-md-5">
                  </div>
              </div>
-             <div class="col-lg-3">
 
-                 <div class="card mb-3">
-                     <div class="card-header header-elements">
-                         <i class="ti ti-clock-hour-3" style="font-size: 18pt; margin-right:10px"></i>
-                         <span id="countdown">00:00:00</span>
-
-                         <div class="card-header-elements ms-auto">
-                             <button type="button" id="btnSelesai"
-                                 class="btn btn-outline-warning waves-effect waves-light">Selesai</button>
+             <div class="box-pointer-soal mt-3 mb-5">
+                 <button id="btn-prev" class="btn btn-outline-primary fw-bold px-4 py-2 d-none rounded-pill">
+                     <i class="tf-icons ti ti-chevrons-left me-2"></i> Sebelumnya
+                 </button>
+                 <button id="btn-next" class="btn btn-primary fw-bold px-4 py-2 d-none rounded-pill">
+                     Selanjutnya <i class="tf-icons ti ti-chevrons-right ms-2"></i>
+                 </button>
+             </div>
+         </div>
+         <div class="col-lg-3">
+             <div class="sticky-sidebar">
+                 <div class="card card-soal-wrapper mb-4 border-top border-2 border-primary">
+                     <div class="card-header bg-white d-flex align-items-center justify-content-between p-3">
+                         <div class="d-flex align-items-center text-primary">
+                             <i class="ti ti-clock-hour-4 fs-3 me-2"></i>
+                             <span id="countdown" class="fs-4">00:00:00</span>
                          </div>
+                         <button type="button" id="btnSelesai"
+                             class="btn btn-warning fw-bold btn-sm rounded-pill px-3">Selesai</button>
                      </div>
-                     <div class="card-body">
-                         <div class="progress">
-                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                     <div class="card-body p-3">
+                         <div class="progress" style="height: 10px; border-radius: 10px;">
+                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
                                  role="progressbar" style="width:{{ $progres }}" aria-valuemin="0" aria-valuemax="100">
                              </div>
                          </div>
                      </div>
                  </div>
-                 <div class="card mb-3 p-2">
-                     <div class="d-flex mb-3 mt-3">
-                         <span>
-                             <svg style="color: #7367f0" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="currentColor"
-                                 class="icon icon-tabler icons-tabler-filled icon-tabler-point">
-                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                 <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" />
-                             </svg>Sudah dijawab
-                         </span>
-                         <span>
-                             <svg style="color:lightgray " xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                 viewBox="0 0 24 24" fill="currentColor"
-                                 class="icon icon-tabler icons-tabler-filled icon-tabler-point">
-                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                 <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z" />
-                             </svg>Belum dijawab
-                         </span>
+
+                 <div class="card card-soal-wrapper p-3">
+                     <div class="d-flex justify-content-between mb-4 mt-2 px-2 text-muted small fw-semibold">
+                         <div class="d-flex align-items-center">
+                             <span class="d-inline-block rounded-circle  me-2"
+                                 style="width: 12px; height: 12px; background-color:#3b82f6"
+                                 style="width: 12px; height: 12px;"></span> Dijawab
+                         </div>
+                         <div class="d-flex align-items-center">
+                             <span class="d-inline-block rounded-circle bg-light border me-2"
+                                 style="width: 12px; height: 12px;"></span> Kosong
+                         </div>
+                         <div class="d-flex align-items-center">
+                             <span class="d-inline-block rounded-circle me-2"
+                                 style="width: 12px; height: 12px; background-color: #f97316;"></span> Saat ini
+                         </div>
                      </div>
                      <div class="wrap-nomor">
                          @foreach ($ps as $s)
-                             <button class="btn-nomor {{ $s->jawaban != null ? 'active' : '' }}" value="{{ $s->nomor }}"
-                                 data-id="{{ $s->id }}">{{ $s->nomor }}</button>
+                             <button class="btn-nomor shadow-sm {{ $s->jawaban != null ? 'active' : '' }}"
+                                 value="{{ $s->nomor }}" data-id="{{ $s->id }}">{{ $s->nomor }}</button>
                          @endforeach
                      </div>
                  </div>
              </div>
          </div>
      </div>
-
-
-
  @endsection
 
  @section('script')
@@ -373,5 +442,10 @@
                  window.location.href = "{{ route('cat.hasil', $ku_en) }}";
              }, 4000);
          }
+
+         // Mematikan hak-klik / klik kanan
+         document.addEventListener('contextmenu', function(e) {
+             e.preventDefault();
+         });
      </script>
  @endsection

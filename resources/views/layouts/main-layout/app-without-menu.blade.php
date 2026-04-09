@@ -15,9 +15,7 @@
 
             <!-- Layout container -->
             <div class="layout-page">
-                <!-- Navbar -->
 
-                @include('layouts.main-layout.navbar')
 
                 <!-- / Navbar -->
 
@@ -25,16 +23,17 @@
                 <div class="content-wrapper">
                     <!-- Content -->
 
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-xxl flex-grow-1 container-p-y" style="max-width: 1200px;">
                         {{-- {{ Breadcrumbs::render() }} --}}
-                        <div class="mb-5"></div>
+                        <div class="mb-3"></div>
                         @yield('content')
+
+
+
                     </div>
                     <!-- / Content -->
 
-                    <!-- Footer -->
-                    @include('layouts.main-layout.footer')
-                    <!-- / Footer -->
+
 
                     <div class="content-backdrop fade"></div>
                 </div>

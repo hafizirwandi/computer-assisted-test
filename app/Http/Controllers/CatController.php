@@ -11,18 +11,14 @@ use App\Models\RefButirSoal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
-
 class CatController extends Controller
 {
-
     public function index()
     {
-
         $ujian = PengaturanUjian::with('soal')->where('status', '1')->get();
         $nis = Auth::guard('siswa')->user()->nis;
         foreach ($ujian as &$r) {
-            $hu = HasilUjian::where('nis', $nis)
-                ->where('kode_ujian', $r->kode_ujian)->first();
+            $hu = HasilUjian::where('nis', $nis)->where('kode_ujian', $r->kode_ujian)->first();
             if ($hu) {
                 $r['hu'] = $hu;
             }
@@ -36,9 +32,7 @@ class CatController extends Controller
             'kode_ujian' => 'required',
         ];
         $request->validate($rules);
-        $pu = PengaturanUjian::where('kode_ujian', $request->input('kode_ujian'))
-            ->where('status', '1')
-            ->first();
+        $pu = PengaturanUjian::where('kode_ujian', $request->input('kode_ujian'))->where('status', '1')->first();
 
         if ($pu) {
             $this->pemetaanSoal($pu);
@@ -52,20 +46,17 @@ class CatController extends Controller
     public function pemetaanSoal($pu)
     {
         $nis = Auth::guard('siswa')->user()->nis;
-        $ps = PemetaanSoal::where('nis', $nis)
-            ->where('kode_ujian', $pu->kode_ujian)
-            ->get();
+        $ps = PemetaanSoal::where('nis', $nis)->where('kode_ujian', $pu->kode_ujian)->get();
 
         if ($ps->isEmpty()) {
-
             if (!$pu->is_random) {
-                $butirSoal  = RefButirSoal::where('soal_id', $pu->soal_id)->limit($pu->jlh_soal)->get();
+                $butirSoal = RefButirSoal::where('soal_id', $pu->soal_id)->limit($pu->jlh_soal)->get();
             } else {
-                $butirSoal  = RefButirSoal::where('soal_id', $pu->soal_id)->inRandomOrder()->limit($pu->jlh_soal)->get();
+                $butirSoal = RefButirSoal::where('soal_id', $pu->soal_id)->inRandomOrder()->limit($pu->jlh_soal)->get();
             }
             $i = 1;
             foreach ($butirSoal as $r) {
-                $data  = [
+                $data = [
                     'nomor' => $i++,
                     'soal_id' => $r->soal_id,
                     'ref_butirsoal_id' => $r->id,
@@ -84,8 +75,7 @@ class CatController extends Controller
             $kode_ujian = Crypt::decryptString($encryptedData);
             $nis = Auth::guard('siswa')->user()->nis;
             //cek apakah sudah ujian
-            $hu = HasilUjian::where('nis', $nis)
-                ->where('kode_ujian', $kode_ujian)->first();
+            $hu = HasilUjian::where('nis', $nis)->where('kode_ujian', $kode_ujian)->first();
 
             if ($hu) {
                 return redirect(route('cat.hasil', $encryptedData));
@@ -94,14 +84,11 @@ class CatController extends Controller
             $data['ku_en'] = $encryptedData;
             $data['pu'] = PengaturanUjian::where('kode_ujian', $kode_ujian)->first();
 
-            $ps = PemetaanSoal::where('nis', $nis)
-                ->where('kode_ujian', $kode_ujian)->get();
-            $ps_jwb = PemetaanSoal::where('nis', $nis)
-                ->where('kode_ujian', $kode_ujian)
-                ->whereNotNull('jawaban')->get();
+            $ps = PemetaanSoal::where('nis', $nis)->where('kode_ujian', $kode_ujian)->get();
+            $ps_jwb = PemetaanSoal::where('nis', $nis)->where('kode_ujian', $kode_ujian)->whereNotNull('jawaban')->get();
 
-            $data['ps']  = $ps;
-            $data['progres'] = (count($ps_jwb) / count($ps) * 100) . '%';
+            $data['ps'] = $ps;
+            $data['progres'] = (count($ps_jwb) / count($ps)) * 100 . '%';
 
             return view('cat.mulai', $data);
         } catch (\Exception $e) {
@@ -115,26 +102,26 @@ class CatController extends Controller
         $ps = PemetaanSoal::with(['butirSoal', 'butirSoal2', 'butirSoal3', 'butirSoal4'])
             ->where('nis', $nis)
             ->where('kode_ujian', $request->input('kode_ujian'))
-            ->where('nomor', $request->input('nomor'))->first();
+            ->where('nomor', $request->input('nomor'))
+            ->first();
 
         $data['ps'] = $ps;
 
         if ($ps->ref_butir_soal == '1') {
             return view('cat.soal', $data);
-        } else if ($ps->ref_butir_soal == '2') {
+        } elseif ($ps->ref_butir_soal == '2') {
             return view('cat.soal2', $data);
-        } else if ($ps->ref_butir_soal == '3') {
+        } elseif ($ps->ref_butir_soal == '3') {
             return view('cat.soal3', $data);
-        } else if ($ps->ref_butir_soal == '4') {
+        } elseif ($ps->ref_butir_soal == '4') {
             return view('cat.soal4', $data);
         }
     }
     public function updateJawaban(Request $request)
     {
-
         $pemetaanSoal = PemetaanSoal::with(['butirSoal', 'butirSoal2', 'butirSoal3', 'butirSoal4'])
-            ->where('id', $request->input('id'))->first();
-
+            ->where('id', $request->input('id'))
+            ->first();
 
         if ($pemetaanSoal->ref_butir_soal == '1') {
             $bs = $pemetaanSoal->butirSoal;
@@ -142,26 +129,26 @@ class CatController extends Controller
             if ($request->input('jwb') == $bs->jawaban_benar) {
                 $poin = $bs->poin_benar;
             }
-        } else if ($pemetaanSoal->ref_butir_soal == '2') {
+        } elseif ($pemetaanSoal->ref_butir_soal == '2') {
             $bs = $pemetaanSoal->butirSoal2;
             $poin = 0;
             $jawaban = json_decode($request->input('jwb'));
             foreach ($jawaban as $r) {
                 if ($r == 'a') {
                     $poin += $bs->poin_benar_a;
-                } else if ($r == 'b') {
+                } elseif ($r == 'b') {
                     $poin += $bs->poin_benar_b;
-                } else if ($r == 'b') {
+                } elseif ($r == 'b') {
                     $poin += $bs->poin_benar_b;
-                } else if ($r == 'c') {
+                } elseif ($r == 'c') {
                     $poin += $bs->poin_benar_c;
-                } else if ($r == 'd') {
+                } elseif ($r == 'd') {
                     $poin += $bs->poin_benar_d;
-                } else if ($r == 'e') {
+                } elseif ($r == 'e') {
                     $poin += $bs->poin_benar_e;
                 }
             }
-        } else if ($pemetaanSoal->ref_butir_soal == '3') {
+        } elseif ($pemetaanSoal->ref_butir_soal == '3') {
             $bs = $pemetaanSoal->butirSoal3;
             $soal = json_decode($bs->pernyataan_soal);
             $jawaban = json_decode($request->input('jwb'));
@@ -176,7 +163,7 @@ class CatController extends Controller
                     }
                 }
             }
-        } else if ($pemetaanSoal->ref_butir_soal == '4') {
+        } elseif ($pemetaanSoal->ref_butir_soal == '4') {
             $bs = $pemetaanSoal->butirSoal4;
 
             $poin = 0;
@@ -188,7 +175,7 @@ class CatController extends Controller
                 similar_text($a, $b, $persentase_kemiripan);
 
                 // Menghitung poin berdasarkan persentase kemiripan
-                $poin = $bs->poin_minimal + (($bs->poin_maksimal - $bs->poin_minimal) * ($persentase_kemiripan / 100));
+                $poin = $bs->poin_minimal + ($bs->poin_maksimal - $bs->poin_minimal) * ($persentase_kemiripan / 100);
             } else {
                 if ($request->input('jwb')) {
                     $poin = $bs->poin_maksimal;
@@ -203,20 +190,18 @@ class CatController extends Controller
     }
     public function hitungHasil(Request $request)
     {
-
         $nis = Auth::guard('siswa')->user()->nis;
-        $ps = PemetaanSoal::where('nis', $nis)
-            ->where('kode_ujian', $request->input('kode_ujian'))
-            ->get();
+        $ps = PemetaanSoal::where('nis', $nis)->where('kode_ujian', $request->input('kode_ujian'))->get();
 
         $jlh_soal = count($ps);
         $jlh_jawab_benar = 0;
         $jlh_jawab_salah = 0;
-        $jlh_tidak_jawab = $ps->filter(function ($item) {
-            return is_null($item->jawaban) || $item->jawaban === '';
-        })->count();
+        $jlh_tidak_jawab = $ps
+            ->filter(function ($item) {
+                return is_null($item->jawaban) || $item->jawaban === '';
+            })
+            ->count();
         $nilai = $ps->sum('poin_benar');
-
 
         $where = ['nis' => $nis, 'kode_ujian' => $request->input('kode_ujian')];
         $data = [
@@ -238,8 +223,7 @@ class CatController extends Controller
             $data['pu'] = PengaturanUjian::where('kode_ujian', $kode_ujian)->first();
             $nis = Auth::guard('siswa')->user()->nis;
 
-            $data['hu'] = HasilUjian::where('nis', $nis)
-                ->where('kode_ujian', $kode_ujian)->first();
+            $data['hu'] = HasilUjian::where('nis', $nis)->where('kode_ujian', $kode_ujian)->first();
             return view('cat.hasil', $data);
         } catch (\Exception $e) {
             $e->getMessage();
@@ -251,5 +235,16 @@ class CatController extends Controller
         $nis = Auth::guard('siswa')->user()->nis;
         $data['data'] = HasilUjian::with('pengaturanUjian.soal')->where('nis', $nis)->get();
         return view('cat.nilai', $data);
+    }
+    public function nilaiDetail($id)
+    {
+        $hu = HasilUjian::findOrFail($id);
+        $ps = PemetaanSoal::with(['butirSoal', 'butirSoal2', 'butirSoal3', 'butirSoal4'])
+            ->where('nis', $hu->nis)
+            ->where('kode_ujian', $hu->kode_ujian)
+            ->get();
+        $data['data'] = $ps;
+
+        return view('cat.nilai-detail', $data);
     }
 }

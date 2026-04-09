@@ -76,45 +76,58 @@
     <script src="{{ asset('vuexy/assets/js/config.js') }}"></script>
     <style>
         .btn-primary {
-            background-color: #045933 !important;
-            border-color: #045933 !important;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4E65FF 100%) !important;
+            border: none !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            color: #fff !important;
         }
 
         .btn-primary:hover {
-            background-color: #067b47 !important;
-            border-color: #067b47 !important;
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(78, 101, 255, 0.4) !important;
         }
 
-        aside.bg-menu-theme {
-            background-color: #AFE1AF !important;
+        .light-style aside.bg-menu-theme {
+            background-color: #ffffff !important;
         }
 
-        a.menu-link {
-            color: #045933 !important;
+        .light-style a.menu-link {
+            color: #475569 !important;
         }
 
-        a.menu-link:hover,
-        a.menu-link:focus,
-        a.menu-link.menu-toggle.active.open {
-            color: #0a0a0a !important;
+        .light-style a.menu-link:hover,
+        .light-style a.menu-link:focus,
+        .light-style a.menu-link.menu-toggle.active.open {
+            color: #4E65FF !important;
         }
 
         .menu-item.open>.menu-link.menu-toggle,
         .menu-item.active>.menu-link.menu-toggle {
-            background: #fd9b01 !important;
-            box-shadow: 0px 2px 6px 0px #fd9b01;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4E65FF 100%) !important;
+            box-shadow: 0px 4px 15px 0px rgba(78, 101, 255, 0.3) !important;
             color: #fff !important;
         }
 
 
         .bg-menu-theme.menu-vertical .menu-item.active>.menu-link:not(.menu-toggle) {
-            background: #fd9b01 !important;
-            box-shadow: 0px 2px 6px 0px #fd9b01;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4E65FF 100%) !important;
+            box-shadow: 0px 4px 15px 0px rgba(78, 101, 255, 0.3) !important;
             color: #fff !important;
         }
 
+        .bg-menu-theme .menu-inner .menu-item.active>.menu-link i,
+        .bg-menu-theme .menu-inner .menu-item.open>.menu-link i {
+            color: #ffffff !important;
+        }
+
         .app-brand-text {
-            color: #045933 !important;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4E65FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 

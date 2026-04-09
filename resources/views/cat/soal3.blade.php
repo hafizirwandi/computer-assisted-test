@@ -8,12 +8,9 @@
         align-items: center;
         margin-right: 10px;
         font-size: 16px;
-
     }
 
-    /* Teks di dalam lingkaran */
     .circle-text {
-
         text-align: center;
     }
 
@@ -26,13 +23,12 @@
     $r = $ps->butirsoal3;
     $jawaban = json_decode($ps->jawaban, true);
 @endphp
-<h5 class="card-title">Soal Nomor {{ $ps->nomor }}</h5>
-
-{!! tipeSoal($ps->ref_butir_soal) !!}
+<h2 class="card-title fw-bold text-dark mb-2">Soal Nomor {{ $ps->nomor }}</h2>
+<div class="mb-3">{!! tipeSoal($ps->ref_butir_soal) !!}</div>
 <hr class="my-4">
-{!! $r->soal !!}
-
-<div class="mb-4"></div>
+<div class="fs-5 text-dark mb-4">
+    {!! $r->soal !!}
+</div>
 <table class="table table-bordered">
     <thead>
         <tr>
