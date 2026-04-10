@@ -22,7 +22,7 @@
                      <tbody>
                          @foreach ($data as $r)
                              <tr>
-                                 <td>{{ ucwords($r->name) }}</td>
+                                 <td>{{ $r->name }}</td>
                                  <td>{{ \Carbon\Carbon::parse($r->created_at)->isoFormat('dddd, D MMM YYYY, HH:mm:ss') }}
                                  </td>
                                  <td>

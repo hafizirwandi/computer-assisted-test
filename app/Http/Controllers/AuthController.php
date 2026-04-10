@@ -10,9 +10,11 @@ class AuthController extends Controller
 {
     public function loginFormSiswa()
     {
-        return view(
-            'layouts.login2025.siswa'
-        );
+        if (env('IS_ADMIN_ONLINE', false)) {
+            abort(404);
+        }
+
+        return view('layouts.login2025.siswa');
         // return view('layouts.login.siswa');
     }
     public function loginFormAdmin()
@@ -25,10 +27,8 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-
         //dd($request->all());
         $credentials = $request->only('username', 'password');
-
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
@@ -38,18 +38,24 @@ class AuthController extends Controller
                 return redirect()->intended('/home');
             } else {
                 Auth::logout(); // Logout jika status pengguna bukan 1
-                return redirect()->back()->withErrors(['username' => 'Your account is not active']);
+                return redirect()
+                    ->back()
+                    ->withErrors(['username' => 'Your account is not active']);
             }
         }
 
-        return redirect()->back()->withInput()->withErrors(['username' => 'Invalid username or password']);
+        return redirect()
+            ->back()
+            ->withInput()
+            ->withErrors(['username' => 'Invalid username or password']);
     }
 
     public function logout(Request $request)
     {
         $guard = 'web';
-        if (Auth::guard('siswa')->check()) $guard = 'siswa';
-
+        if (Auth::guard('siswa')->check()) {
+            $guard = 'siswa';
+        }
 
         Auth::logout();
 
@@ -105,7 +111,6 @@ class AuthController extends Controller
         //dd($request->all());
         $credentials = $request->only('nis', 'password');
 
-
         if (Auth::guard('siswa')->attempt($credentials)) {
             // Authentication passed...
             // Periksa status pengguna
@@ -115,11 +120,16 @@ class AuthController extends Controller
                 return redirect()->intended('/home-siswa');
             } else {
                 Auth::logout(); // Logout jika status pengguna bukan 1
-                return redirect()->back()->withErrors(['username' => 'Your account is not active']);
+                return redirect()
+                    ->back()
+                    ->withErrors(['username' => 'Your account is not active']);
             }
         }
 
-        return redirect()->back()->withInput()->withErrors(['username' => 'Invalid username or password']);
+        return redirect()
+            ->back()
+            ->withInput()
+            ->withErrors(['username' => 'Invalid username or password']);
     }
     public function LoginApi(Request $request)
     {

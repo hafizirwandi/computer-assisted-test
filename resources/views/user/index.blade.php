@@ -34,7 +34,7 @@
 
                                          @foreach ($r->roles as $j)
                                              <a href="{{ route('role.detail', $j->id) }}">
-                                                 <span class="badge bg-label-primary m-1">{{ ucwords($j->name) }}</span>
+                                                 <span class="badge bg-label-primary m-1">{{ $j->name }}</span>
                                              </a>
                                          @endforeach
 

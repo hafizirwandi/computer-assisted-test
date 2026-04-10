@@ -39,18 +39,24 @@
      <div class="card mb-4">
          <div class="card-body">
              @if (request()->input('sekolah'))
-                 <a href="{{ route('rekap-nilai-global.edit-all', request()->input('sekolah')) }}"
-                     class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
-                     <i class="ti ti-pencil ti-sm me-2"></i>Edit Semua
-                 </a>
-                 <a href="{{ route('rekap-nilai-global.delete-all', request()->input('sekolah')) }}"
-                     class="btn btn-danger mb-3 text-nowrap add-new-role waves-effect waves-light">
-                     <i class="ti ti-trash ti-sm me-2"></i>Hapus Semua
-                 </a>
+                 @can('edit-rekap-global')
+                     <a href="{{ route('rekap-nilai-global.edit-all', request()->input('sekolah')) }}"
+                         class="btn btn-warning mb-3 text-nowrap add-new-role waves-effect waves-light">
+                         <i class="ti ti-pencil ti-sm me-2"></i>Edit Semua
+                     </a>
+                 @endcan
+                 @can('delete-rekap-global')
+                     <a href="{{ route('rekap-nilai-global.delete-all', request()->input('sekolah')) }}"
+                         class="btn btn-danger mb-3 text-nowrap add-new-role waves-effect waves-light">
+                         <i class="ti ti-trash ti-sm me-2"></i>Hapus Semua
+                     </a>
+                 @endcan
              @endif
-             <button onclick="add()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
-                 <i class="ti ti-plus ti-sm me-2"></i>Tambah Nilai Cloud
-             </button>
+             @can('create-rekap-global')
+                 <button onclick="add()" class="btn btn-primary mb-3 text-nowrap add-new-role waves-effect waves-light">
+                     <i class="ti ti-plus ti-sm me-2"></i>Tambah Nilai Cloud
+                 </button>
+             @endcan
              <div class="table-responsive">
 
                  <table class="datatable table">
@@ -90,11 +96,13 @@
                                  </td>
                                  <td>
                                      <div class="d-flex align-items-center">
-                                         @can('edit-nilai-siswa-global')
+                                         @can('edit-rekap-global')
                                              <a href="javascript:;" onclick="edit(`{{ $r->id }}`)" class="text-body">
                                                  <i class="ti ti-edit ti-sm me-2"></i>
                                              </a>
+                                         @endcan
 
+                                         @can('delete-rekap-global')
                                              <form method="post" action="{{ route('rekap-nilai-global.destroy') }}">
                                                  @csrf
                                                  @method('delete')
@@ -129,12 +137,14 @@
      </div>
  </div>
  <script>
-     @can('edit-nilai-siswa-global')
+     @can('create-rekap-global')
          function add() {
              $("#myModal .modal-body").load("{{ route('rekap-nilai-global.create') }}");
              $("#myModal").modal("show");
          }
+     @endcan
 
+     @can('edit-rekap-global')
          function edit(id) {
              $("#myModal .modal-body").load("{{ route('rekap-nilai-global.edit', ['id' => ':id']) }}".replace(':id',
                  id));

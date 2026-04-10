@@ -27,7 +27,7 @@
               <option value="">-- Pilih --</option>
               @foreach ($role as $r)
                   <option value="{{ $r->name }}">
-                      {{ ucwords($r->name) }}</option>
+                      {{ $r->name }}</option>
               @endforeach
 
           </select>

@@ -33,7 +33,7 @@
               @foreach ($role as $r)
                   <option value="{{ $r->name }}"
                       {{ $r->name == ($data->roles[0]->name ?? null) ? 'selected' : '' }}>
-                      {{ ucwords($r->name) }}</option>
+                      {{ $r->name }}</option>
               @endforeach
 
           </select>

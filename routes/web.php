@@ -37,6 +37,13 @@ Route::post('/auth-siswa', [AuthController::class, 'authSiswa'])->name('auth.sis
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/', function () {
+    if (env('IS_ADMIN_ONLINE', false)) {
+        if (Auth::guard('web')->check()) {
+            return redirect('/home');
+        }
+        return redirect('/login-admin');
+    }
+
     // Jika login sebagai siswa
     if (Auth::guard('siswa')->check()) {
         $nis = Auth::guard('siswa')->user()->nis;
@@ -323,19 +330,19 @@ Route::middleware('auth:web')->group(function () {
         ->middleware('can:rekap-nilai-global');
     Route::get('/rekap-nilai-global/create', [RekapNilaiGlobalController::class, 'create'])
         ->name('rekap-nilai-global.create')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:create-rekap-global');
     Route::post('/rekap-nilai-global', [RekapNilaiGlobalController::class, 'saveOrUpdate'])
         ->name('rekap-nilai-global.store')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:create-rekap-global');
     Route::get('/rekap-nilai-global/edit/{id}', [RekapNilaiGlobalController::class, 'edit'])
         ->name('rekap-nilai-global.edit')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:edit-rekap-global');
     Route::put('/rekap-nilai-global/{id}', [RekapNilaiGlobalController::class, 'saveOrUpdate'])
         ->name('rekap-nilai-global.update')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:edit-rekap-global');
     Route::delete('/rekap-nilai-global/delete', [RekapNilaiGlobalController::class, 'destroy'])
         ->name('rekap-nilai-global.destroy')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:delete-rekap-global');
     Route::get('/rekap-nilai-global/kumulatif', [RekapNilaiGlobalController::class, 'kumulatif'])
         ->name('rekap-nilai-global.kumulatif')
         ->middleware('can:rekap-nilai-global-kumulatif');
@@ -344,16 +351,16 @@ Route::middleware('auth:web')->group(function () {
         ->middleware('can:rekap-nilai-global-dashboard');
     Route::get('/rekap-nilai-global/edit-all/{sekolah}', [RekapNilaiGlobalController::class, 'editAll'])
         ->name('rekap-nilai-global.edit-all')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:edit-rekap-global');
     Route::put('/rekap-nilai-global/save-edit-all/{id}', [RekapNilaiGlobalController::class, 'saveEditAll'])
         ->name('rekap-nilai-global.save-edit-all')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:edit-rekap-global');
     Route::get('/rekap-nilai-global/delete-all/{sekolah}', [RekapNilaiGlobalController::class, 'deleteAll'])
         ->name('rekap-nilai-global.delete-all')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:delete-rekap-global');
     Route::post('/rekap-nilai-global/destroy-all', [RekapNilaiGlobalController::class, 'destroyAll'])
         ->name('rekap-nilai-global.destroy-all')
-        ->middleware('can:edit-nilai-siswa-global');
+        ->middleware('can:delete-rekap-global');
 
     Route::get('/kirim-nilai', [KirimNilaiController::class, 'index'])
         ->name('kirim-nilai')
