@@ -5,186 +5,225 @@
     <style>
         /* ─── Color Tokens ─────────────────────────────── */
         :root {
-            --c-blue: #4E65FF;
-            --c-teal: #00C6AE;
-            --c-orange: #FF8C42;
-            --c-purple: #8B5CF6;
-            --c-pink: #EC4899;
-            --c-green: #10B981;
+            --c-blue: #2563EB;
+            --c-teal: #0D9488;
+            --c-orange: #EA580C;
+            --c-purple: #7C3AED;
+            --c-pink: #DB2777;
+            --c-green: #059669;
         }
 
         /* ─── Header ───────────────────────────────────── */
         .dashboard-header {
-            background: linear-gradient(135deg, var(--c-blue) 0%, var(--c-teal) 100%);
+            background: linear-gradient(135deg, var(--c-blue) 0%, #14B8A6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 800;
-            font-size: 2rem;
+            font-size: 2.2rem;
             letter-spacing: -0.5px;
         }
 
         /* ─── Stat Cards ────────────────────────────────── */
         .stat-card {
             border: none;
-            border-radius: 20px;
+            border-radius: 24px;
             color: #fff;
             overflow: hidden;
             position: relative;
-            transition: transform .3s cubic-bezier(.4, 0, .2, 1), box-shadow .3s cubic-bezier(.4, 0, .2, 1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+        }
+
+        /* Overlay Glass effect & dynamic shapes */
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 100%);
+            z-index: -1;
         }
 
         .stat-card::after {
             content: '';
             position: absolute;
-            top: -40%;
-            left: -40%;
-            width: 180%;
-            height: 180%;
-            background: radial-gradient(circle, rgba(255, 255, 255, .15) 0%, rgba(255, 255, 255, 0) 65%);
+            bottom: -30%;
+            right: -20%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
             pointer-events: none;
+            z-index: -1;
         }
 
         .stat-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
         }
 
+        /* Premium vibrant gradients */
         .stat-card.c-blue {
-            background: linear-gradient(135deg, #4E65FF 0%, #7B93FF 100%);
+            background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
         }
 
         .stat-card.c-teal {
-            background: linear-gradient(135deg, #00C6AE 0%, #00E5C8 100%);
+            background: linear-gradient(135deg, #14B8A6 0%, #0F766E 100%);
         }
 
         .stat-card.c-orange {
-            background: linear-gradient(135deg, #FF8C42 0%, #FFB347 100%);
+            background: linear-gradient(135deg, #F97316 0%, #C2410C 100%);
         }
 
         .stat-card.c-purple {
-            background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+            background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
         }
 
         .stat-card.c-pink {
-            background: linear-gradient(135deg, #EC4899 0%, #F472B6 100%);
+            background: linear-gradient(135deg, #EC4899 0%, #BE185D 100%);
         }
 
         .stat-card.c-green {
-            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            background: linear-gradient(135deg, #10B981 0%, #047857 100%);
         }
 
         .stat-card.c-dark {
-            background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+            background: linear-gradient(135deg, #334155 0%, #0F172A 100%);
         }
 
+        /* Elegant Drop Shadows */
         .stat-card:hover.c-blue {
-            box-shadow: 0 16px 32px rgba(78, 101, 255, .35);
+            box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.5);
         }
 
         .stat-card:hover.c-teal {
-            box-shadow: 0 16px 32px rgba(0, 198, 174, .35);
+            box-shadow: 0 20px 30px -10px rgba(13, 148, 136, 0.5);
         }
 
         .stat-card:hover.c-orange {
-            box-shadow: 0 16px 32px rgba(255, 140, 66, .35);
+            box-shadow: 0 20px 30px -10px rgba(234, 88, 12, 0.5);
         }
 
         .stat-card:hover.c-purple {
-            box-shadow: 0 16px 32px rgba(139, 92, 246, .35);
+            box-shadow: 0 20px 30px -10px rgba(124, 58, 237, 0.5);
         }
 
         .stat-card:hover.c-pink {
-            box-shadow: 0 16px 32px rgba(236, 72, 153, .35);
+            box-shadow: 0 20px 30px -10px rgba(219, 39, 119, 0.5);
         }
 
         .stat-card:hover.c-green {
-            box-shadow: 0 16px 32px rgba(16, 185, 129, .35);
+            box-shadow: 0 20px 30px -10px rgba(5, 150, 105, 0.5);
         }
 
         .stat-card:hover.c-dark {
-            box-shadow: 0 16px 32px rgba(30, 41, 59, .35);
+            box-shadow: 0 20px 30px -10px rgba(15, 23, 42, 0.5);
         }
 
         .stat-icon {
-            background: rgba(255, 255, 255, .22);
-            backdrop-filter: blur(6px);
-            border-radius: 14px;
-            width: 58px;
-            height: 58px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1) rotate(8deg);
         }
 
         .stat-icon i {
-            font-size: 28px;
+            font-size: 30px;
+            color: #fff;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
         }
 
         /* ─── Section Cards ─────────────────────────────── */
         .section-card {
             border: none;
-            border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, .06);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
         }
 
         .section-card .card-header {
             background: transparent;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 2px solid #f1f5f9;
             font-weight: 700;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             color: #1e293b;
-            padding: 1.2rem 1.5rem;
+            padding: 1.5rem;
         }
 
         /* ─── Table ─────────────────────────────────────── */
+        .table-hover tbody tr {
+            transition: background 0.2s;
+        }
+
         .table-hover tbody tr:hover {
-            background: #f8faff;
+            background: #f8fafc;
         }
 
         .badge-rank {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: .85rem;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .rank-1 {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
+            background: linear-gradient(135deg, #FBBF24, #D97706);
             color: #fff;
         }
 
         .rank-2 {
-            background: linear-gradient(135deg, #C0C0C0, #A8A8A8);
+            background: linear-gradient(135deg, #CBD5E1, #64748B);
             color: #fff;
         }
 
         .rank-3 {
-            background: linear-gradient(135deg, #CD7F32, #A0522D);
+            background: linear-gradient(135deg, #FDBA74, #C2410C);
             color: #fff;
         }
 
         .rank-n {
-            background: #f1f5f9;
-            color: #64748b;
+            background: #F1F5F9;
+            color: #64748B;
+            box-shadow: none;
         }
 
         /* ─── Progress ──────────────────────────────────── */
         .progress {
-            height: 10px;
+            height: 12px;
             border-radius: 999px;
-            background: #f1f5f9;
+            background: #E2E8F0;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
         .progress-bar {
             border-radius: 999px;
+            background: linear-gradient(90deg, var(--c-blue), var(--c-teal));
         }
 
         /* ─── Chart container ───────────────────────────── */
         #distribusiChart {
-            max-height: 260px;
+            max-height: 280px;
         }
     </style>
 @endsection
