@@ -27,11 +27,16 @@
         .stat-card {
             border: none;
             border-radius: 24px;
-            color: #fff;
+            color: #fff !important;
             overflow: hidden;
             position: relative;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 1;
+        }
+
+        .stat-card h2,
+        .stat-card p {
+            color: #fff !important;
         }
 
         /* Overlay Glass effect & dynamic shapes */

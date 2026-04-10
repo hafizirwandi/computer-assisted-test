@@ -36,9 +36,6 @@
              </div>
          </form>
      </div>
-
-     @include('rekap-nilai-global.stat-cards-widget')
-
      <div class="card mb-4">
          <div class="card-body">
              @if (request()->input('sekolah'))
