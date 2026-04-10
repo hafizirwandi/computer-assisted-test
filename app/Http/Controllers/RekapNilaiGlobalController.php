@@ -17,25 +17,39 @@ class RekapNilaiGlobalController extends Controller
     {
         $data['data'] = [];
         $hu = HasilUjian::select('*')->with('pengaturanUjian.soal');
-        if ($request->query('sekolah')) {
+        $data['widget'] = null;
+        $isSearch = false;
+        $query = NilaiCloud::orderByDesc('nilai'); // atau tanpa order by
 
-            $result = NilaiCloud::where('kode_sekolah', $request->input('sekolah'))->get();
-            $data['data'] = $result;
-            // $collection = $this->setRankValue($result);
-            // $data['data'] = $this->setRankValueV2($collection);
+        if ($request->filled('sekolah')) {
+            $query->where('kode_sekolah', $request->input('sekolah'));
+            $isSearch = true;
         }
 
-        if ($request->query('ujian')) {
-            $result = NilaiCloud::where('kode_ujian', $request->input('ujian'))->get();
+        if ($request->filled('ujian')) {
+            $query->where('kode_ujian', $request->input('ujian'));
+            $isSearch = true;
+        }
+
+        if ($isSearch) {
+            $result = $query->get();
             $data['data'] = $result;
 
-            // $collection = $this->setRankValue($result);
-            // $data['data'] = $this->setRankValueV2($collection);
+            if ($result->count() > 0) {
+                $data['widget'] = [
+                    'total_siswa' => $result->unique('nis')->count(),
+                    'total_sekolah' => $result->unique('kode_sekolah')->count(),
+                    'total_ujian' => $result->unique('kode_ujian')->count(),
+                    'total_mapel' => $result->unique('matapelajaran')->count(),
+                    'rata_nilai' => round($result->avg('nilai') ?? 0, 2),
+                    'nilai_tertinggi' => $result->max('nilai') ?? 0,
+                    'nilai_terendah' => $result->min('nilai') ?? 0,
+                ];
+            }
         }
 
         $data['sekolah'] = NilaiCloud::select('nama_sekolah', 'kode_sekolah')->groupBy('kode_sekolah', 'nama_sekolah')->get();
         $data['ujian'] = NilaiCloud::select('matapelajaran', 'kode_ujian')->groupBy('kode_ujian', 'matapelajaran')->get();
-
 
         return view('rekap-nilai-global.index', $data);
     }
@@ -43,27 +57,67 @@ class RekapNilaiGlobalController extends Controller
     {
         $data['data'] = [];
         $data['ujian'] = [];
-        if ($request->query('sekolah')) {
+        $data['widget'] = null;
+
+        if ($request->filled('sekolah')) {
             $siswa = NilaiCloud::select('nama_siswa', 'nis', 'kelas')->where('kode_sekolah', $request->input('sekolah'))->groupBy('nama_siswa', 'nis', 'kelas')->get();
             $ujian = NilaiCloud::select('matapelajaran', 'kode_ujian')->groupBy('kode_ujian', 'matapelajaran')->get();
+
+            $globalMax = 0;
+            $globalMin = 100;
+            $totalSiswa = 0;
+            $sumRataRata = 0;
+
             foreach ($siswa as &$r) {
                 $temp = [];
                 $total = 0;
+                $pembagi = 0;
+
                 foreach ($ujian as $u) {
                     $hu = NilaiCloud::where('nis', $r->nis)->where('kode_ujian', $u->kode_ujian)->first();
                     $temp[] = $hu;
-                    $total += $hu->nilai ?? 0;
+
+                    if ($hu && $hu->nilai > 0) {
+                        $total += $hu->nilai;
+                        $pembagi++;
+                    }
                 }
+
                 $r->ujian = $temp;
                 $r->nilai = $total;
+                $rataSiswa = $pembagi > 0 ? $total / $pembagi : 0;
+                $r->rata_rata = $rataSiswa;
+
+                if ($rataSiswa > 0) {
+                    $totalSiswa++;
+                    $sumRataRata += $rataSiswa;
+                    if ($rataSiswa > $globalMax) {
+                        $globalMax = $rataSiswa;
+                    }
+                    if ($rataSiswa < $globalMin) {
+                        $globalMin = $rataSiswa;
+                    }
+                }
             }
 
             $data['ujian'] = $ujian;
             $data['data'] = $siswa;
+
+            if ($totalSiswa > 0) {
+                // Widget untuk Kumulatif (per sekolah yang di-search)
+                $data['widget'] = [
+                    'total_siswa' => count($siswa), // Menampilkan total siswa di kelas tsb
+                    'total_sekolah' => 1, // Karena search kumulatif hanya by 1 sekolah
+                    'total_ujian' => count($ujian),
+                    'total_mapel' => count($ujian),
+                    'rata_nilai' => round($sumRataRata / $totalSiswa, 2),
+                    'nilai_tertinggi' => round($globalMax, 2),
+                    'nilai_terendah' => round($globalMin, 2),
+                ];
+            }
             // $collection = $this->setRankValue($siswa);
             // $data['data'] = $this->setRankValueV2($collection);
         }
-
 
         $data['sekolah'] = NilaiCloud::select('nama_sekolah', 'kode_sekolah')->groupBy('kode_sekolah', 'nama_sekolah')->get();
 
@@ -86,7 +140,6 @@ class RekapNilaiGlobalController extends Controller
     }
     public function setRankValueV2($result)
     {
-
         $rank = 1;
         $prevNilai = null;
         $rankedCollection = $result->map(function ($item) use (&$rank, &$prevNilai) {
@@ -113,10 +166,8 @@ class RekapNilaiGlobalController extends Controller
     }
     public function saveOrUpdate(Request $request, $id = null)
     {
-
         // dd($request->all());
         try {
-
             $rules = [
                 'kode_sekolah' => 'required',
                 'nama_sekolah' => 'required',
@@ -163,9 +214,7 @@ class RekapNilaiGlobalController extends Controller
     }
     public function saveEditAll(Request $request, $id = null)
     {
-
         try {
-
             $rules = [
                 'kode_sekolah' => 'required',
                 'nama_sekolah' => 'required',
