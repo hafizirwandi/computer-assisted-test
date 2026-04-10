@@ -55,11 +55,16 @@
                                  <td>{{ $r->nama }}</td>
                                  <td>{{ $r->kelas }}</td>
 
+                                 @php
+                                     $validScoreCount = 0;
+                                 @endphp
                                  @foreach ($r->ujian as $ps)
                                      @if ($ps != null)
                                          @php
-                                             $obj = json_decode($ps);
-
+                                             $obj = is_string($ps) ? json_decode($ps) : $ps;
+                                             if (isset($obj->nilai) && $obj->nilai > 0) {
+                                                 $validScoreCount++;
+                                             }
                                          @endphp
                                          <td>{{ $obj->nilai }}</td>
                                      @else
@@ -67,7 +72,10 @@
                                      @endif
                                  @endforeach
                                  <td>{{ $r->nilai }}</td>
-                                 <td>{{ $r->nilai / count($r->ujian) }}</td>
+                                 @php
+                                     $rataRata = $validScoreCount > 0 ? $r->nilai / $validScoreCount : 0;
+                                 @endphp
+                                 <td>{{ number_format($rataRata, 2, '.', '') }}</td>
                                  {{-- <td>{{ $r->rank }}</td>
                                  <td>{{ $r->rank2 }}</td> --}}
                              </tr>
